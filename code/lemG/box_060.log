@@ -1,0 +1,6 @@
+t<=0.0  sup|zeta|(away from pole) 2.8874  sup|1/zeta| 0.53017
+t<=100.0  sup|zeta|(away from pole) 3.9887  sup|1/zeta| 14.565
+t<=200.0  sup|zeta|(away from pole) 5.2186  sup|1/zeta| 14.565
+t<=300.0  sup|zeta|(away from pole) 5.9411  sup|1/zeta| 14.565
+t<=400.0  sup|zeta|(away from pole) 6.3453  sup|1/zeta| 14.565
+FINAL box sigma[0.60,0.70] t[0,450]: sup|zeta| (|s-1|>=0.1) <= 6.34533, sup|1/zeta| <= 14.565
