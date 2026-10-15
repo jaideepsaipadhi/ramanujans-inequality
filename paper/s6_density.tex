@@ -1,0 +1,208 @@
+\section{Zero-density estimates}\label{sec:density}
+
+Let $N(\sigma,T) = \#\{\rho = \beta+i\gamma: \beta > \sigma,\ 0 < \gamma \le T\}$, counted with multiplicity.
+In Proposition~\ref{prop:master}, $N(s,t)$ is replaced by $N^+(s,t)$, the minimum of the following bounds, each valid in its stated range.
+\begin{enumerate}
+\item[(N1)] $N(T) \le \frac T{2\pi}\log\frac T{2\pi e} + \log T + 1$ for $T \ge H_0$; this follows from \cite{HSW}.
+\item[(N2)] For $\sigma \ge \sigma_0 \in\{0.60, 0.65, \dots, 0.99\}$ and $T \ge 3.061\cdot 10^{10}$: Kadiri--Lumley--Ng \cite[Table~1]{KLN}, in the form $N(\sigma,T) \le A(\log T)^{5-2\sigma_0}T^{\frac83(1-\sigma_0)} + B\log^2T$.
+  This is valid because $\sigma \ge \sigma_0$, and the rows with $k < 1$ are used as $k = 1$.
+\item[(N3)] For $\sigma \ge 0.9927$ and $T > H_0$: Bellotti's bounds $N(\sigma,T) \le CT^{B(1-\sigma)}$ \cite[Thm.~1.1, Table~2]{Bellotti}, uniformly and for the ranges $T\in(e^{l-1},e^l]$ ($29\le l\le41$).
+\item[(N4)] For $1-\sigma \le 0.03$ and $28 < \log T \le 40$: Theorem~\ref{thm:density} below.
+  It is this bound that matters in the binding range.
+\end{enumerate}
+
+\subsection{The log-free estimate}
+We follow Bellotti \cite[\S\S3--4]{Bellotti}, with $L = \log T$, $U = T^u$, $V = T^v$ ($v = \tau u$), $W = T^w$ and $X = T^x$.
+\begin{itemize}
+\item The Barban--Vehov weights are $\psi_d$, supported on $d\le V$, with $\Psi(n) = \sum_{d\mid n}\psi_d$, so that $\Psi(1) = 1$ and $\Psi(n) = 0$ for $1 < n \le U$.
+\item The Selberg-type weights are $\theta_d$, supported on $d\le W$, with $\Theta(n) = \sum_{d\mid n}\theta_d$.
+\end{itemize}
+Let $\alpha = 1-\delta$.
+\begin{itemize}
+\item The plane is cut into rectangles of height $h = \kappa_0\delta$.
+\item In each rectangle we choose one representative zero with $\beta \ge \alpha$, if there is one; let $J$ be the number of representatives.
+\item Let $\tilde n$ be an upper bound for the number of zeros with $\beta\ge\alpha$ in one rectangle.
+\end{itemize}
+
+\begin{theorem}\label{thm:density}
+Let $\delta \in ((k-1)10^{-4}, k\,10^{-4}]$ with $k \le 300$, and $\log T \le l$ with $l \in \{29, 29.5, 30, 30.5, 31, 32, \dots, 40\}$.
+Let $(u,\tau,w,x)$ be admissible for the cell $(k,l)$ in the sense of Lemma~\ref{lem:D}.
+Then
+\[
+N(1-\delta, T) \le \tilde n\,\frac{d_4d_5}{w}\cdot\frac{\mathcal C}{c_1^2 - c_5}\cdot\frac{e^{2x\delta l}}{\delta l},
+\]
+where the constants $\tilde n, d_4, d_5, \mathcal C, c_1, c_5$ are those of Lemma~\ref{lem:D}, evaluated at $\delta_k = k\,10^{-4}$ and $L = l$.
+\end{theorem}
+
+The parameters are chosen separately for each cell by minimising the bound numerically.
+Any admissible choice gives a valid bound, so the optimisation needs no certification.
+The constants are evaluated at the worst corner of the cell: the smallest $\alpha$ and the largest $T$.
+Between the cells we use $N(\sigma,T) \le N(\sigma,e^l)$.
+The resulting tables are \code{code/lemmaD\_tableGH0.01\_*.pkl}.
+
+\begin{lemma}\label{lem:D}
+Write $\alpha_k = 1 - \delta_k$ and $\nu = \lambda^*(l)/l$.
+Call $(u,\tau,w,x)$ admissible if
+\[
+0.02 < w < u,\quad \tau > 1.05,\quad xL > uL - 2\log L,\quad uL \ge 40,\quad xL > \tau uL,
+\]
+\[
+\delta_k > \nu,\quad c_1 > 0,\quad c_1^2 - c_5 \ge 0.2 .
+\]
+For admissible parameters the bound of Theorem~\ref{thm:density} holds with the following constants.
+\begin{enumerate}
+\item[(i)] $c_1 = e^{-L^2/U} - B_1 - 3.8\,e^{-L(L-2u)}\dfrac{L^2+1}{w(v-u)L^6}$, where $I_\Gamma = 5.922$ and
+\[
+B_1 = \frac{10.45\cdot 0.618\cdot L\cdot I_\Gamma}{2\pi}\,T^{(v+w)/2 + 1/6 + x(1/2-\alpha_k)} .
+\]
+\item[(ii)] $d_5 = 1.0061\big(1 + (1.333 + 4e^{-wL/2})/(wL)\big)$ \cite[Lemma~4.3]{Bellotti}.
+\item[(iii)] $d_4$ is any upper bound for $\sum_n \Psi(n)^2n^{-1}(e^{-n/X} - e^{-nL^2/U})$; we take the bound of Theorem~\ref{thm:G}.
+\item[(iv)] $c_5 = \dfrac{d_4d_5}{2\pi}\,\dfrac{e^{wL}}{wL}\Big(e^{Lx(3/2-2\alpha_k)} + e^{(Lu-2\log L)(3/2-2\alpha_k)}\Big)\,\mathcal J$, where $\mathcal J = 4.72\cdot 0.618\, e^{L/6}L$.
+\item[(v)] $\mathcal C = \min_{\kappa_0}\Big[1.0067\big(1 + 2\delta_k\,\Lambda_{\mathrm{pair}}(\kappa_0\delta_k)\big)\Big] + 2\sqrt{2\pi}\cdot 2.4\cdot I'(\delta_k,l)$, with $\Lambda_{\mathrm{pair}}$ from Lemma~\ref{lem:pair} and $I'$ from Lemma~\ref{lem:crowd}.
+\item[(vi)] $\tilde n = \max\big(1, \min_\eta\lfloor M(\eta,l)/\mathrm{cost}(h/2)\rfloor\big)$ with $h = \kappa_0\delta_k$, in the notation of Lemma~\ref{lem:pair}.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We indicate only where the argument departs from \cite{Bellotti}.
+The overall structure is \cite[(4.22)--(4.23)]{Bellotti}: $J^2c_1^2 \le J(c_2+c_3+c_4)X^{2-2\alpha}/(\delta\log T) + J^2c_5$, followed by $N(\alpha,T) \le \tilde nJ$.
+Each change below replaces one of her constants by a smaller valid one.
+
+\emph{(i) The term $B_1$.}
+This replaces Bellotti's $44.66\,d_2(v+w)^4T^{(v+w)/2+x(1/2-\alpha_0)+27/164}\log^4T$ in \cite[(3.17)]{Bellotti}.
+Write $a = ga'$ and $b = gb'$ with $(a',b') = 1$, and use $|\psi_a|, |\theta_b| \le 1$ and $\sum_{n\le N}n^{-1/2}\le 2\sqrt N$.
+This gives
+$|M(\tfrac12+it)| \le \sum_g g^{-1/2}\cdot 2(V/g)^{1/2}\cdot 2(W/g)^{1/2} < 4\zeta(3/2)\sqrt{VW} = 10.45\sqrt{VW}$,
+a bound without logarithms.
+We also use $|\zeta(\frac12+iu)| \le 0.618|u|^{1/6}\log|u|$ for $3 \le |u| \le e^{105}$ \cite{HPY}, and $\le 1.461$ for $|u| < 3$ \cite{Hiary}, together with
+$(\gamma+|t|)^{1/6}\log(\gamma+|t|) \le T^{1/6}\log T\,(1+|t|)$.
+Finally $I_\Gamma = \sup_{\sigma\in[-\frac12,\frac12-\alpha]}\int|\Gamma(\sigma+it)|(1+|t|)\,dt \le 5.922$ for $\delta \le 0.03$.
+The last term of $c_1$ is Bellotti's bound for the tail $\sum_{n>U}\Psi\Theta n^{-\rho}e^{-nL^2/U}$ \cite[(3.19)ff.]{Bellotti}.
+
+\emph{(iv) The term $\mathcal J$.}
+This replaces $J_1+J_2+J_3+J_4 \le 0.241 + 5.921 + 286.077\,T^{27/164} + 0.241$ \cite[(4.17)--(4.19)]{Bellotti}.
+We have $c := \frac32 - \beta_r - \beta_s \in [-\frac12, -0.44]$ for $\delta\le0.03$, and $|\zeta(\frac12 + iu)| \le \max(1.461, 0.618|u|^{1/6}\log|u|)$ for all $|u|\ge3$.
+For $|u| > e^{105}$ this holds because Patel and Yang's $66.7|u|^{27/164}$ \cite{PY} is smaller there.
+Moreover $|u| \le T + |t|$.
+Hence the whole integral \cite[(4.16)]{Bellotti} is at most
+\[
+0.618\,T^{1/6}\log T\int_{\mathbb R}|\Gamma(c+it)|\Big(1+\frac{|t|}3\Big)^{1/6}\Big(1 + \frac{\log(1+|t|/3)}{\log3}\Big)dt \le 4.72\cdot 0.618\,T^{1/6}\log T .
+\]
+The integral equals $4.7136$ at $c = -0.44$ and increases with $c$.
+
+\emph{(iii) The diagonal.} $d_4$ is the Barban--Vehov mean square of \cite[Lemma~4.2]{Bellotti}, which we bound by Theorem~\ref{thm:G}.
+Bellotti's own bound \cite[Lemma~3.3, (3.6)]{Bellotti} gives $d_4 \approx 85$--$105$ in the relevant range; Theorem~\ref{thm:G} gives about $1.5$.
+Because Theorem~\ref{thm:G} bounds the whole sum, Bellotti's condition $u+v<x$ is not needed.
+
+\emph{(v) The off-diagonal terms $c_2+c_3$.}
+Bellotti assumes \cite[(4.11)]{Bellotti} that representatives of distinct rectangles are at least $\delta$ apart.
+This need not hold: adjacent rectangles can have representatives arbitrarily close.
+Lemma~\ref{lem:pair} makes no such assumption, and it also uses the repulsion of Theorem~\ref{thm:rep}.
+The far term $c_4$ is replaced using Lemma~\ref{lem:crowd}.
+
+\emph{(vi) The local count.} $\tilde n$ replaces $b_1\delta\log T + b_2$ \cite[Lemma~2.4]{Bellotti}.
+\end{proof}
+
+\subsection{The pair sum}
+For $s_0 = 1 + \eta + i\gamma_r$, the Hadamard product and Stirling's formula give
+\[
+\sum_\rho\Rp\frac{1}{s_0-\rho} \le M(\eta, L) := \min\Big\{\tfrac12\log\tfrac{T}{2\pi} + F(\eta),\ \min_{c\in[0.5,2]}\Big(\tfrac12\log\tfrac T{2\pi} + \tfrac{c^2+1/2}{2c}F(\eta) + \tfrac{\log(T/\pi)}{8c}\Big)\Big\},
+\]
+where $F(\eta) = -\zeta'(1+\eta)/\zeta(1+\eta)$.
+The second expression comes from positivity of $(c + \cos\phi)^2$.
+Every term in the sum is positive.
+A zero with $\beta \ge 1-\delta$ at vertical distance $d$ from $s_0$ contributes at least
+$\mathrm{cost}(d) := \min_{a\in\{\eta, \eta+\delta\}} a/(a^2+d^2)$,
+which is valid because $a\mapsto a/(a^2+d^2)$ is unimodal.
+
+\begin{lemma}\label{lem:pair}
+Fix a representative $r$ and $h = \kappa_0\delta$.
+On each side of $r$, the representative of the $j$-th rectangle away lies at distance $d \in ((j-1)h, (j+1)h)$.
+Its contribution to the Hal\'asz--Montgomery pair sum, relative to the diagonal, is at most
+$b_j = g\big(\max(2\delta, (j-1)h, d^*)\big)/\max\big(2\delta, (j-1)h, d^*\big)$, where
+$g(d) = \min\big(1, |\Gamma(1+2\delta+id)|/\Gamma(1+2\delta)\big)$ and $d^* = d^*(\lceil l\rceil, k)$ is the repulsion distance of Theorem~\ref{thm:rep}.
+Its cost is at least $\mathrm{cost}((j+1)h)$.
+Rectangles with $(j+1)h \le d^*$ contain no representative.
+Then
+\[
+\sum_{s\ne r,\ |\gamma_s - \gamma_r| \le 1}\frac{|\Gamma(2-\rho_r-\bar\rho_s)|X^{2-\beta_r-\beta_s}}{1.0067\,X^{2\delta}} \le 2\delta\,\Lambda_{\mathrm{pair}}(h),
+\]
+where $\Lambda_{\mathrm{pair}}(h) := \min_\eta\max\big\{\sum_j b_jx_j : 0\le x_j\le 1 \ (\text{two per } j),\ \sum_j\mathrm{cost}((j+1)h)x_j \le M(\eta,L) - \mathrm{cost}(0)\big\}$.
+\end{lemma}
+
+\begin{proof}
+We have $|\Gamma(z)| = |\Gamma(1+z)|/|z|$.
+For $0\le\Rp z = s\le2\delta$, $|\Gamma(1+s+id)| \le \Gamma(1+s)|\Gamma(1+2\delta+id)|/\Gamma(1+2\delta)$, since the product $\prod_n(1+d^2/(1+s+n)^2)^{-1}$ is increasing in $s$.
+Also $X^y/y$ is increasing on $[2\nu, 2\delta]$, which gives the factor $1/\max(2\delta, |\Delta|)$.
+The crowding budget at $s_0 = 1+\eta+i\gamma_r$ bounds the total cost of all representatives near $\gamma_r$.
+The maximum of the linear functional under this budget is the fractional knapsack value, computed greedily.
+The repulsion theorem applies because all representatives counted in the cell $(k,l)$ have $1-\beta\le\delta_k$ and height $\le e^l$; for half-integer $l$ we use the integer cell above.
+\end{proof}
+
+\begin{lemma}[crowding]\label{lem:crowd}
+For a window of height $w_0$ centred at $t \le T$ and any $\eta > 0$, the number of representatives in the window is at most
+$n(w_0) = \min\big(\lfloor M'/\min(f(\eta), f(\eta+\delta))\rfloor, \lceil w_0/\delta\rceil + 1\big)$,
+where $f(a) = a/(a^2 + w_0^2/4)$ and $M' = \frac12\log\frac T{2\pi} + \frac1\eta - 0.36$.
+Consequently Bellotti's $c_4$ \cite[(4.13)--(4.14)]{Bellotti} may be computed with
+$I' = \delta\sum_i n(w_0)\max_{[y_i, y_i+w_0]} g$ in place of $I = \int_1^T g$, where $g(y) = e^{y/6}y^{1.5-2\alpha}e^{-\pi y/2}$, $w_0 = 1/4$, and the windows tile $[1,60]$.
+\end{lemma}
+
+\begin{proof}
+This is the crowding argument above applied to $s = 1+\eta+it$.
+For $0 < \eta \le 1.5$ we have $-\zeta'(1+\eta)/\zeta(1+\eta) \le 1/\eta - 0.36$; the minimum of $1/\eta + \zeta'/\zeta(1+\eta)$ on $(0, 1.5]$ is $0.378$.
+Beyond $y = 60$ the function $g$ is below $10^{-30}$.
+The worst case is taken over each $\delta$-bin, and $\eta$ is optimised on a grid.
+\end{proof}
+
+\subsection{The Barban--Vehov mean square}
+Let $\Delta = \log(V/U)$, $Y_1 = \log(X/V)$ and $Y_2 = \log(X/U)$.
+
+\begin{theorem}\label{thm:G}
+Let $\log U \ge 40$, $X > V$, $\tau \in [1.3, 2.5]$ and $\log X/\log V \in [1.1, 2.6]$. Then
+\[
+S := \sum_n\frac{\Psi(n)^2}{n}e^{-n/X} \le e^{-1/X} + D_4 + \mathrm{REM} + 2\sqrt{S_sS_t} + S_t,
+\]
+where
+\[
+D_4 = \Delta^{-2}\Big[\frac{Y_2^2 - Y_1^2}{2} - \gamma_E\Delta + k_1(Y_1+Y_2-2\gamma_E) + 2k_0\Big], \qquad k_1 \le -0.5853,\quad k_0 \le 0.4214 .
+\]
+Here $\mathrm{REM}$ is an explicit sum of exponentially small contour remainders, $S_t$ is an explicit bound for the mean square of the non-smooth part of the weights, and $S_s = e^{-1/X} + D_4 + \mathrm{REM}$.
+\end{theorem}
+
+\begin{proof}[Outline]
+Write $\Psi = (\Lambda_V - \Lambda_U)/\Delta$, where $\Lambda_z(n) = \sum_{d\mid n}\mu(d)\log^+(z/d)$.
+Split each truncation weight $\rho(d)$ as $\rho_s + \rho_t$, where $\rho_s(d) = \mathbb E[\rho(de^{-\eta Z})]$ with $Z\sim N(0,1)$ and $\eta = 0.02$.
+By Minkowski's inequality in $\ell^2(e^{-n/X}/n)$, $S \le (\sqrt{S_s}+\sqrt{S_t})^2$.
+
+For the smooth part, the Mellin transform of $\rho_s$ is $\hat\rho(s)e^{\eta^2s^2/2}$, and
+\begin{multline*}
+S_s = (2\pi i)^{-3}\iiint\Gamma(w)X^w\hat\rho_s(s_1)\hat\rho_s(s_2)\\ \times\frac{\zeta(1+w)\zeta(1+w+s_1+s_2)}{\zeta(1+w+s_1)\zeta(1+w+s_2)}\,\mathcal A(w,s_1,s_2)\,dw\,ds_1\,ds_2,
+\end{multline*}
+where $\mathcal A$ is an Euler product that converges absolutely near $0$ and satisfies $\mathcal A(w,0,s_2) = \mathcal A(w,s_1,0) = 1$.
+
+The Gaussian factor allows every contour to be closed inside the box $|\Ip| \le T_2 = 400$, $\Rp \ge 1-\theta$, $\theta = 0.4$.
+In this box $1/\zeta$ is analytic; this follows from \cite{PlattTrudgianRH} and is in any case confirmed by the computation.
+Beyond the box all lines lie at $\Rp\ge1$, and the Gaussian factor gives $e^{-\eta^2T_2^2/2}$.
+
+The residues produce $e^{-1/X} + D_4$, with $k_1 = H(0)$ and $k_0 = H'(0) + \gamma_EH(0)$, where $H$ is the kernel of the $s$-integral at $w = 0$.
+At leading order this reproduces the asymptotic $\frac32 + (\Theta - \tau)/(\tau-1)$ of the Graham-type mean square.
+
+The certified inputs are:
+\begin{itemize}
+\item rigorous box bounds $|\zeta| \le 11.89$ (for $|s-1|\ge 0.1$) and $|1/\zeta| \le 14.57$ on $\sigma\in[0.6,1.3]$, $|t|\le450$, obtained from Taylor models of $(s-1)\zeta(s)$ in \code{arb} (\code{lemG/box2.py});
+\item enclosures $k_1 = -0.607063\pm0.0217$ and $k_0 = 0.35026\pm0.0711$ (\code{lemG/kcert2.py});
+\item sup bounds for $\mathcal A$, obtained from enclosures over cells of the $3$-torus of phases for $p\le100$, a second-order bound for $p\le10^6$, and a tail estimate beyond (\code{lemG/remainder.py});
+\item $S_t$, for which $|\rho_t(d)| \le (\eta/\Delta)\big[\varpi((\log d - \log U)/\eta) + \varpi((\log d - \log V)/\eta)\big]$ with $\varpi(y) = \phi(y) - |y|\bar\Phi(|y|)$.
+  The resulting block sum uses exact masses for $m\le10^6$ and the bound $|\sum_{m\le x}\mu^2(m)/\varphi(m) - \log x - 1.3326| \le 4/\sqrt x$ \cite{RamareAkhilesh} beyond (\code{lemG/stbound.py}).
+\end{itemize}
+The integrals of explicit majorants are evaluated as rigorous upper sums or in closed form.
+At the binding cell, $\mathrm{REM} = 5.4\cdot10^{-4}$ and $S_t = 9.9\cdot10^{-5}$.
+All cells of the final tables have $\tau\in[1.54,1.78]$, $\log X/\log V\in[1.42,1.55]$ and $\log U\in[56.6,78.6]$, and every one of them takes its $d_4$ from Theorem~\ref{thm:G}.
+Details are in \code{notes/LEMMA\_G.md}, Step~3.
+\end{proof}
+
+\begin{remark}
+In the relevant range Theorem~\ref{thm:G} gives $d_4 \approx 1.48$, whereas Bellotti's \cite[Lemma~3.3]{Bellotti} gives $\approx 5.8$--$90$.
+For comparison, the Ramar\'e--Zuniga Alterman bound \cite{RZA} with an $X^\eps$ majorant gives $\approx 20$.
+Since $\log N$ has elasticity about $1$ in $d_4$, this is the single largest improvement in the density estimate.
+\end{remark}

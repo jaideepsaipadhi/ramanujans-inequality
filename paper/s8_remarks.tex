@@ -1,0 +1,42 @@
+\section{Remarks}\label{sec:remarks}
+
+\subsection{Corrections to inputs}
+For convenience we collect the points found while re-deriving the explicit inputs; none of them changes a published main theorem.
+\begin{enumerate}
+\item In \cite{BTY}:
+  \begin{enumerate}
+  \item the Lemma-10 term in the final inequality should carry the factor $\kappa$ (Remark~\ref{rem:btyf0});
+  \item the misprint in (25) (Remark~\ref{rem:btyf0});
+  \item the value of $m_5$ in Table~1 (Remark~\ref{rem:m5});
+  \item the integral of the digamma majorant (31) (\S\ref{ss:constants});
+  \item the uniform test for (21), which needs $\sigma \ge 0.993464$ (Remark~\ref{rem:L5});
+  \item the numerical verification of $\partial_\sigma G_p < 0$ is unnecessary, since this follows from $P \ge 0$ (Lemma~\ref{lem:L1011});
+  \item the terms with $m > 15$ in Lemma~10 are dropped there without a bound, which is justified by $f\ge0$.
+  \end{enumerate}
+\item In B\"uthe's smoothing estimate the main term is conservative by a factor of $2$ (Remark~\ref{rem:buthe}).
+\item In Bellotti \cite{Bellotti}, the pair-sum accounting \cite[(4.11)]{Bellotti} assumes a spacing of $\delta$ between representatives of different rectangles, which does not appear to be justified as stated; Lemma~\ref{lem:pair} avoids this assumption.
+  Since her constants are much larger than ours elsewhere, her published bounds are not affected in practice.
+\end{enumerate}
+
+\subsection{On two recent preprints}\label{sec:de}
+\begin{enumerate}
+\item \emph{arXiv:2408.02591} \cite{De2} claims \eqref{eq:ram} for $x \ge e^{43.5102147}$.
+  The argument combines $\pi(x) < e\,\pi(x/e)$ with $\pi(x) > x/\log x$ to conclude, in (29), that $\pi(x)^2 - \frac{ex}{\log x}\pi(x/e) < 0$.
+  That conclusion requires $\frac{x}{\log x}e\pi(x/e) \ge \pi(x)^2$.
+  From the first inequality one only obtains $\frac{x}{\log x}e\pi(x/e) > \frac{x}{\log x}\pi(x)$.
+  Passing from there to $\pi(x)^2$ would need $\pi(x) \le x/\log x$, which is the reverse of the second inequality (and is false for $x \ge 17$).
+  The gap is not a slip that can be repaired: the difference of the two sides of \eqref{eq:ram} has size $x^2/\log^6x$, whereas the bounds used have relative accuracy $\approx(\log x)^{-3/2}$.
+\item \emph{arXiv:2407.12052} \cite{De1} claims \eqref{eq:ram} for $x\ge e^{547}$.
+  The argument has four problems.
+  \begin{enumerate}
+  \item The monotonicity argument assumes Sterneck's conjecture $|M(x)| < \frac12\sqrt x$, which is false \cite{Neubauer}.
+  \item It asserts $M(x) = O(\sqrt x)$, which is an open problem (and widely believed false); the proof given yields at most $O(x^{1/2+\eps})$.
+  \item The retained main term is itself only $O(x^2/\log^2x)$, so the sign of $G(x) = \pi(x)^2 - \frac{ex}{\log x}\pi(x/e)$ is not determined.
+  \item The range below $e^{3158.442}$ is "covered" by evaluating at $26$ sample points.
+  \end{enumerate}
+\end{enumerate}
+Neither preprint therefore proves \eqref{eq:ram} in the range considered here.
+
+\subsection*{Acknowledgements}
+The computations and the drafting of this paper were carried out with substantial assistance from an AI system (Claude, Anthropic), which also performed the adversarial audit described in \S\ref{sec:computation}.
+All certificates are reproducible from the public code.

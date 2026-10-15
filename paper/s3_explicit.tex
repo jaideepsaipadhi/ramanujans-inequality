@@ -1,0 +1,159 @@
+\section{The smoothed explicit formula}\label{sec:explicit}
+
+We use the smoothing of B\"uthe \cite{Buthe2016}, with our own proof of the smoothing step (Lemma~\ref{lem:smooth}).
+For $c > 0$ and $0 < \eps \le 10^{-4}$, put
+\[
+\eta_{c,\eps}(\tau) = \frac{c}{\eps\sinh c}\, I_0\!\Big(c\sqrt{1 - (\tau/\eps)^2}\Big)\mathbf 1_{|\tau|\le\eps},
+\qquad
+\ell_{c,\eps}(z) = \frac{c}{\sinh c}\,\frac{\sinh\sqrt{c^2 - (\eps z)^2}}{\sqrt{c^2-(\eps z)^2}} .
+\]
+Here $I_0$ is the modified Bessel function.
+Then $\int\eta_{c,\eps} = 2$, and the Fourier transform satisfies $\int \eta_{c,\eps}(\tau)e^{-i z\tau}d\tau = 2\ell_{c,\eps}(z)$.
+Logan's function $\ell_{c,\eps}$ is entire and even, and $\ell_{c,\eps}(0) = 1$.
+Let $\lambda = \int\eta_{c,\eps}(\tau)e^{\tau/2}d\tau = 2\ell_{c,\eps}(i/2) \ge 2$, and let
+\begin{equation}\label{eq:phi}
+\phi(\tau) = \eta_{c,\eps}(\tau)e^{\tau/2}/\lambda, \qquad \psi_{c,\eps}(x) = \int \psi_0(xe^{-\tau})\,\phi(\tau)\,d\tau,
+\end{equation}
+where $\psi_0$ is the normalised Chebyshev function.
+Thus $\phi$ is a probability density on $[-\eps,\eps]$, and $\psi_{c,\eps}(x)$ is a weighted average of $\psi_0$ over $[xe^{-\eps}, xe^{\eps}]$.
+It coincides with B\"uthe's modified Chebyshev function \cite[(3.2)--(3.4)]{Buthe2018}.
+
+\subsection{Smoothing}
+\begin{lemma}\label{lem:smooth}
+Let $x \ge 10^{18}$, $30 \le c \le 110$, $0 < \eps \le 10^{-4}$, and $\lambda_0 = \log(10\sqrt c/\eps) < \log x - 1$.
+Put $\nu_c := \int_0^1 u\,\eta_{c,1}(u)\,du$. Then
+\begin{multline*}
+|\psi(x) - \psi_{c,\eps}(x)| \le \frac{\log x + \lambda_0}{\log x - \lambda_0}\cdot 2\eps\, e^{\eps/2}\Big(\frac{\nu_c}{2} + \frac{I_0(c)}{200\sinh c}\Big)x \\ + a(x),
+\end{multline*}
+where $a(x) = e^{2\eps}\log(e^{\eps}x)\big(2.01\eps\sqrt x + \tfrac12\log\log(2x^2)\big)$.
+Moreover $2\sqrt c\,e^{\eps/2}\big(\nu_c/2 + I_0(c)/(200\sinh c)\big) \le 0.80319 < 0.7946\cdot 1.02$ for $c \in [30,110]$.
+\end{lemma}
+
+\begin{proof}
+Since $\phi$ is a probability density and $\psi$ is non-decreasing,
+\[
+\psi(x) - \psi_{c,\eps}(x) = \int (\psi(x) - \psi_0(xe^{-\tau}))\phi(\tau)\,d\tau \le \int_0^{\eps}\big(\psi(x) - \psi((xe^{-\tau})^-)\big)\phi(\tau)\,d\tau .
+\]
+For $\tau < 0$ the integrand is $\le 0$, because $\psi_0(y) \ge \psi(x)$ for $y > x$.
+
+For $3 \le Y \le X/2$ the Brun--Titchmarsh inequality of Montgomery and Vaughan, $\pi(X)-\pi(X-Y) \le 2Y/\log Y$ \cite{MV73}, together with the trivial count of prime powers as in \cite[(3.9)]{Buthe2018}, gives
+\[
+\psi(X) - \psi(X - Y) \le \log X\Big(\frac{2Y}{\log Y} + 0.6\frac{Y}{\sqrt X} + \log\log X^2\Big).
+\]
+Put $Y = x(1-e^{-\tau}) \le x\tau$.
+For $\tau \ge \tau_0 := \eps/(10\sqrt c)$ we have $\log Y \ge \log x - \lambda_0$.
+For $\tau < \tau_0$ we bound the integrand by its value at $\tau_0$, using monotonicity.
+
+The mass of $\phi$ below $\tau_0$ is at most $\tau_0\max\phi \le \tau_0 e^{\eps/2}c I_0(c)/(2\eps\sinh c)$.
+Also $\int_0^\eps\tau\phi \le e^{\eps/2}\eps\nu_c/2$, since $\lambda \ge 2$.
+Combining these gives the main term, with $\log x$ in the numerator.
+
+The lower bound $\psi_{c,\eps}(x) - \psi(x) \le \int_{-\eps}^0 (\psi_0(xe^{|\tau|}) - \psi(x))\phi$ is treated in the same way.
+Here the intervals end at $xe^{\eps}$, which produces the factor $\log(e^\eps x) \le \log x + \lambda_0$.
+The prime-power and $\log\log$ terms give $a(x)$.
+
+The final numerical inequality is certified in ball arithmetic by \code{certify/smoothing\_const.py}, using \code{acb.integral} for $\nu_c$.
+The maximum over $c$ is attained at $c = 110$.
+\end{proof}
+
+\begin{remark}\label{rem:buthe}
+\cite[Prop.~4]{Buthe2016} (quoted as \cite[Prop.~1]{Buthe2018}) states the main term as $2\eps x|\nu_c(\alpha)|\log(e^\eps x)/\log B$, with $\nu_c(t) = \int_{-\infty}^t\mu_c$ and $\mu_c(t) = -\int_{-\infty}^t\eta_{c,1}$ for $t<0$.
+With $\eta_{c,1}$ normalised as above ($\int\eta_{c,1} = 2$), one has $|\nu_c(0)| = \nu_c \sim \sqrt{2/(\pi c)}$.
+The asymptotic $|\nu_c(0)|\sim(2\pi c)^{-1/2}$ quoted in \cite[Remark~1]{Buthe2018} corresponds to the density normalised to mass $1$.
+With the stated normalisation, the proposition is therefore conservative by a factor of $2$ in its main term, and Lemma~\ref{lem:smooth} recovers this factor.
+\end{remark}
+
+\subsection{Explicit formula and truncation}
+\begin{proposition}[{\cite[Prop.~2]{Buthe2018}, \cite[Props.~2,3]{Buthe2016}}]\label{prop:explicit}
+Let $x \ge 10$, $0 < \eps \le 10^{-4}$ and $c \ge 3$. Then
+\[
+x - \psi_{c,\eps}(x) = \frac{1}{\ell_{c,\eps}(i/2)}\sum_\rho \ell_{c,\eps}\!\Big(\frac{\rho - 1/2}{i}\Big)\frac{x^\rho}{\rho} + \Theta(2),
+\]
+where $\Theta(2)$ denotes a quantity of absolute value at most $2$, and
+\[
+\sum_{|\Ip\rho| > c/\eps}\Big|\frac{\ell_{c,\eps}((\rho-\frac12)/i)}{\ell_{c,\eps}(i/2)}\frac{x^\rho}{\rho}\Big| \le 0.16\,\frac{x+1}{\sinh c}\,e^{0.71\sqrt{c\eps}}\log(3c)\log\frac c\eps .
+\]
+\end{proposition}
+
+\begin{lemma}\label{lem:logancomplex}
+Let $\rho = \beta + i\gamma$ with $0 < \beta < 1$ and $|\eps\gamma| \le c$. Then
+\[
+\Big|\ell_{c,\eps}\Big(\frac{\rho - 1/2}{i}\Big)\Big| \le e^{\eps(c+1)/6}\,\ell_{c,\eps}(\gamma),
+\qquad \ell_{c,\eps}(i/2) \ge 1 .
+\]
+\end{lemma}
+
+\begin{proof}
+Write $\ell_{c,\eps}(z) = \frac{c}{\sinh c}\,G(c^2 - \eps^2z^2)$ with $G(w) = \sum_{n\ge0}w^n/(2n+1)!$.
+For $z = \gamma - i(\beta-\frac12)$ we have
+$|c^2 - \eps^2 z^2| \le (c^2 - \eps^2\gamma^2) + \eps^2/4 + \eps^2|\gamma| \le (c^2 - \eps^2\gamma^2) + \eps(c+1)$.
+Since the coefficients of $G$ are positive, $|G(w)| \le G(|w|)$.
+The bound $\frac{d}{dw}\log G(w) \le 1/6$ for $w \ge 0$ then gives the first claim.
+The second holds because $G$ is increasing.
+\end{proof}
+
+\begin{lemma}\label{lem:sumrecip}
+For $T \ge 10^4$, $\sum_{0<\gamma\le T} 1/\gamma \le \frac12\log^2 T$, the sum running over zeros with multiplicity.
+\end{lemma}
+
+\begin{proof}
+Write the sum as a Stieltjes integral $\int_{14}^{T} t^{-1}dN(t) = N(T)/T + \int_{14}^T N(t)t^{-2}dt$.
+Insert the explicit Riemann--von Mangoldt bound $|N(t) - \frac t{2\pi}\log\frac t{2\pi e} - \frac78| \le 0.1038\log t + 0.2573\log\log t + 9.3675$ for $t \ge e$ \cite{HSW}.
+This gives $\sum_{0<\gamma\le T}1/\gamma \le \frac1{4\pi}\log^2T + \log T + 2$, which is below $\frac12\log^2T$ for $T \ge 10^4$.
+At $T = H_0$ the bound is $96.5$, against $\frac12\log^2H_0 = 412.7$.
+\end{proof}
+
+\subsection{The bound for $\psi$ on an interval}
+For $s \in [0.6, 1)$, $H = H_0 = 3\cdot 10^{12}$ and $T_1 = c/\eps$, put
+\[
+S(s) := \sum_{\substack{H < \gamma \le T_1\\ \beta > s}} \frac{\ell_{c,\eps}(\gamma)}{\gamma}\,e^{\eps(c+1)/6}.
+\]
+
+\begin{proposition}\label{prop:master}
+Let $43 \le L_1 < L_2$, $c \in [30,110]$ and $\eps \le 10^{-4}$, with $\lambda_0 < L_1 - 1$. Let $T_1 = c/\eps$.
+Assume no zero $\beta+i\gamma$ with $\gamma \le T_1$ has $\beta \ge s_{\max} := 1 - \lambda^*(\log T_1)/\log T_1$, where $\lambda^*$ is as in \S\ref{sec:zfr}.
+Then for every $x$ with $\log x\in[L_1,L_2]$,
+\begin{multline*}
+\frac{|\psi(x)-x|}{x} \le \frac{L_2+\lambda_0}{L_1-\lambda_0}\cdot\frac{0.7946\cdot 1.02\,\eps}{\sqrt c}
++ \frac{0.32\,e^{0.71\sqrt{c\eps}}\log(3c)\log T_1}{\sinh c} + e^{-L_1/2}\log^2 H\\
++ 2\Big(L_2\int_{0.6}^{s_{\max}} e^{(s-1)L_1}S(s)\,ds + e^{-0.4L_1}\big(S(0.6) + \log^2 T_1\big)\Big) + \frac{a(x)+2}{x}.
+\end{multline*}
+\end{proposition}
+
+\begin{proof}
+Combine Lemma~\ref{lem:smooth} with Proposition~\ref{prop:explicit}.
+The zeros with $|\gamma| > T_1$ contribute the second term, since $0.16(x+1) \le 0.32x$.
+
+Zeros with $|\gamma| \le H$ lie on the critical line \cite{PlattTrudgianRH}.
+By Lemmas~\ref{lem:logancomplex} and~\ref{lem:sumrecip} they contribute at most $x^{1/2}\cdot2\cdot\frac12\log^2H$.
+
+Zeros with $H < |\gamma| \le T_1$ come in pairs $\rho,\bar\rho$, which gives the factor $2$.
+For those with $\beta > 0.6$, use the identity
+\[
+\sum_{\beta>0.6} x^{\beta-1}f(\gamma) = x^{-0.4}S(0.6) + \log x\int_{0.6}^1 x^{s-1}S(s)\,ds,
+\]
+together with $x^{s-1} \le e^{(s-1)L_1}$ and $\log x \le L_2$; also $S(s) = 0$ for $s \ge s_{\max}$.
+
+All remaining zeros in this height range have $\beta \le 0.6$.
+These include the reflections $1-\bar\rho$ of zeros off the line, and the zeros on the line.
+They contribute at most $x^{-0.4}\sum_{H<\gamma\le T_1}1/\gamma \le x^{-0.4}\log^2T_1$.
+\end{proof}
+
+\begin{lemma}[Stieltjes bound]\label{lem:stieltjes}
+Let $f(t) = \ell_{c,\eps}(t)/t$, which is decreasing on $(0, T_1]$.
+Let $H = t_0 < t_1 < \dots < t_n = T_1$, and let $N^+(s,t)$ be any upper bound for $N(s,t) := \#\{\rho: \beta > s,\ 0<\gamma\le t\}$.
+Suppose $N^+(s,t_{i+1})$ is replaced by $0$ whenever $s \ge 1 - \lambda^*(\log t_{i+1})/\log t_{i+1}$. Then
+\[
+S(s)e^{-\eps(c+1)/6} \le \sum_{i<n} N^+(s, t_{i+1})(f(t_i) - f(t_{i+1})) + N^+(s, T_1)f(T_1).
+\]
+\end{lemma}
+
+\begin{proof}
+This is summation by parts.
+Zeros with $\gamma \le H$ do not satisfy $\beta > s \ge 0.6$, so they do not contribute.
+The zero-free region is used at the top of each block; this is valid because $\lambda^*(l)/l$ is non-increasing in $l$.
+\end{proof}
+
+In the computation, $\int_{0.6}^{s_{\max}}e^{(s-1)L_1}S(s)\,ds$ is bounded by $\sum_j S(s_j)\int_{s_j}^{s_{j+1}}e^{(s-1)L_1}ds$, which is valid because $S$ is non-increasing.
+The grid consists of $61$ points up to $s_{\max} - 0.02$, followed by steps $1/(40L_1)$.
+The function $N^+$ is the minimum of the density bounds of \S\ref{sec:density}.

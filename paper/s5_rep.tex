@@ -1,0 +1,57 @@
+\section{Repulsion of zeros near the $1$-line}\label{sec:rep}
+
+In \cite[Lemma~6]{BTY} the zero sum $\Rp\sum_\rho F(s_1-\rho)$ is bounded below by the pair $\rho_0, 1-\bar\rho_0$.
+Every other zero $\rho$ is paired with its reflection $1-\bar\rho$, and each such pair contributes $\ge 0$ by (21) (our Lemma~\ref{lem:L5}).
+Instead of discarding one more pair, we keep it.
+
+\begin{lemma}\label{lem:twozero}
+In the situation of \eqref{eq:bty}, suppose $\rho_1 = \beta_1 + i(t+d)$ is a second zero with $\beta_1 > 1/2$.
+Put $\eta_1 = 1-\beta_1$, and assume $\lambda^*$-admissibility, i.e.\ $\sigma - \beta_1 > 0$. Then \eqref{eq:bty} holds with
+\[
+Z \ge a_1\Rp\big(F(\sigma - 1 + \eta_1 - id) + F(\sigma - \eta_1 - id)\big) .
+\]
+\end{lemma}
+
+\begin{proof}
+The pair $\{\rho_1, 1-\bar\rho_1\}$ contributes exactly $\Rp F(s_1 - \rho_1) + \Rp F(s_1 - (1-\bar\rho_1))$ to the zero sum, and this equals the displayed quantity.
+All other pairs are $\ge 0$ by Lemma~\ref{lem:L5}, since $0 \le \Rp(s_1-\rho) \le 2\sigma - 1$ for every zero below height $Kt+T_0$.
+The term $s_1$ enters with the coefficient $a_1$.
+The case $d < 0$ is identical, because $F(\bar z) = \overline{F(z)}$, so only $|d|$ matters.
+\end{proof}
+
+A pair of zeros at heights $t, t+d$ is therefore impossible as soon as
+\[
+\mathcal M_2 := \mathcal M_1(\eta_0) + a_1\Rp\big(F(\sigma-1+\eta_1-id) + F(\sigma-\eta_1-id)\big) > 0
+\]
+for at least one of the two choices of primary zero.
+Here $F$ is formed with the primary $\eta$.
+The reflected term behaves like $\Rp F(\sigma - \eta_1 - id) \approx \eta w_0(\sigma-\eta_1)/((\sigma-\eta_1)^2 + d^2)$, which is of size about $0.04$ for $d \lesssim 0.05$ and $\eta, \eta_1 \approx 0.0075$.
+This is what produces the repulsion.
+
+\begin{theorem}\label{thm:rep}
+For integers $29 \le l_k \le 37$ and $k$ with $\lambda^*(l_k) < k\cdot10^{-4}\cdot l_k \le 0.0125(l_k-1)$, define $d^*(l_k,k)$ by the table \code{rep/dstar2c\_all.json}.
+Its values range from $0.142$ for the cell just above the zero-free edge at $l_k = 29$, through $0.058$ for $l_k = 29$ and $0.056$ for $l_k = 30$, down to $0.045$ for $l_k = 37$.
+Suppose two zeros $\beta_j + i\gamma_j$ ($j = 0,1$) satisfy $H_0 < \gamma_j \le e^{l_k}$ and $1-\beta_j \le k\cdot 10^{-4}$.
+Then $|\gamma_0 - \gamma_1| \ge d^*(l_k, k)$.
+\end{theorem}
+
+\begin{proof}
+For a cell $(l_k,k)$ put $\Lambda = k\cdot10^{-4}l_k$, $e_{\min} = \lambda^*(l_k)/l_k$ and $e_{\max} = k\cdot10^{-4}$.
+By Theorem~\ref{thm:H}, both zeros have $1-\beta_j \ge e_{\min}$, since $\lambda^*(l)/l$ is non-increasing.
+
+Fix a sub-cell $(l-1, l]$ of heights, $l \le l_k$.
+We certify $\mathcal M_2 > 0$ for all $(\log t, \eta_0, \eta_1, |d|) \in [l-1, l + 10^{-12}] \times [e_{\min},e_{\max}]^2 \times [0, d^*]$, in ball arithmetic by adaptive bisection of the box.
+The width $10^{-12}$ covers the height $t+d$ of the second zero.
+On each box we try both orderings of the pair.
+As before, $\sigma$ is taken as a ball, with $A$ at the top of the box, and the constants at $(\eta_0,\sigma_0)$ rounded outward.
+In this way all $k$ on a coarse grid are certified at $97\%$ of the float value of $d^*$ (\code{rep/rep\_cert.py}, \code{rep/repcert\_run.py}).
+Intermediate $k$ inherit the value of the next certified $k$ above, which is valid because enlarging $e_{\max}$ only enlarges the box.
+
+Finally, a zero counted at height $\le e^{l_k}$ may lie in any lower height cell.
+So the table records $\min_{l\le l_k} d^*(l,k)$, over the cells $l$ in which $1-\beta \le k\cdot10^{-4}$ is compatible with Theorem~\ref{thm:H} (\code{rep/min\_fix.py}).
+This minimum changes only the six cells $(l_k, 121)$ with $l_k \ge 32$, which become $0$.
+\end{proof}
+
+The first version of these certificates used a second-order enclosure for $W''$ that clamped $\nu$ from below at $-2$.
+An independent audit found this.
+After the fix, every one of the $131$ certified cells, and the chain of Theorem~\ref{thm:H}, was certified again with identical results.

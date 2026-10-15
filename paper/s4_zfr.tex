@@ -1,0 +1,199 @@
+\section{A height-dependent zero-free region}\label{sec:zfr}
+
+\subsection{The inequality of Bellotti, Trudgian and Yang}
+We recall the set-up of \cite{BTY} and keep its notation.
+\begin{itemize}
+\item $\theta = 1.1338$, and $w$ is Heath-Brown's function \cite[Def.~1]{BTY}, supported on $[0,D]$ with $D = 2\theta\cot\theta$.
+  Its Laplace transform is $W(z) = \int_0^D e^{-zu}w(u)\,du$, and $w_0 = w(0) = 5.672787598\ldots$.
+\item $\kappa_m$ ($0 \le m \le 6$) are the coefficients in \cite[(18)]{BTY}, with $\kappa = \sum\kappa_m = 433/859$.
+\item $P(x) = \sum_{k\le 16}a_k\cos kx \ge 0$ is the trigonometric polynomial of \cite[\S4]{BTY}, with $a_0 = 1$, $a_1 = 865534/497079$ and $a = \sum_{k\ge1}a_k = 2919857/828465$.
+\item $K = 16$ and $T_0 = 10^{10}$.
+\end{itemize}
+For $\eta > 0$ and $\frac12 < \sigma < 1$, put
+\[
+f(u) = \eta w(\eta u)\sum_{m}\kappa_m e^{-(2\sigma-1)mu}, \qquad F(z) = \sum_m \kappa_m W\big((z + (2\sigma-1)m)/\eta\big).
+\]
+In particular $f(0) = \kappa\eta w_0$.
+
+Let $\rho_0 = \beta_0 + it$ be a zero with $t \ge H_0$, and put $\eta = 1-\beta_0$ and $\lambda_0 = \eta\log t$.
+Suppose $\zeta$ has no zeros with $\beta \ge 1 - A/\log\gamma$ for $H_0 \le \gamma \le Kt + T_0$, and put $\sigma = 1 - A/\log(Kt+T_0)$.
+Assume $\eta \le \eta_0 \le 0.0147$ and $\sigma \ge \sigma_0 \ge 0.9930$.
+The argument of \cite[Lemma~15]{BTY} then gives
+\begin{multline}\label{eq:bty}
+c_{10}\,\eta w_0 \le \eta w_0\Big(\frac{a\kappa}2\log t - G\Big) + a_0F(\sigma-1) - a_1\big(F(\sigma-1+\eta) + F(\sigma-\eta)\big) - Z\\ + 10^{-10}\eta + 2\cdot10^{-7} + E_2\lambda_0\eta^2 + E_3\eta^3 .
+\end{multline}
+Here $Z \ge 0$ is the part of the zero sum that is discarded.
+The constants $c_{10}, G, E_2, E_3$ depend on $(\eta_0,\sigma_0)$ and are given in \S\ref{ss:constants}.
+A zero with these parameters is impossible as soon as the following margin is positive:
+\begin{multline}\label{eq:margin1}
+\mathcal M_1 := a_1\big(F(\sigma-1+\eta)+F(\sigma-\eta)\big)\\ - \Big[\eta w_0\big(\tfrac{a\kappa}2\log t - G - c_{10}\big) + a_0F(\sigma-1) + 10^{-10}\eta + 2\cdot 10^{-7} + E_2\lambda_0\eta^2 + E_3\eta^3\Big] .
+\end{multline}
+
+\begin{remark}\label{rem:btyf0}
+In \cite{BTY} the Lemma-10 term enters the final inequality as $-0.1186\,w(0)\eta$, i.e.\ with $f(0) = \eta w(0)$.
+By their Definition~2, $f(0) = \kappa\eta w(0)$ with $\kappa = 0.504$.
+With the correct value, the Lemma-10 gain $0.23545\,\kappa f(0)$ equals $0.0598\,\eta w_0$, not $0.1186\,\eta w_0$.
+Evaluating their inequality exactly at the critical height $t = e^{76.47}$ with this correction still gives $\eta\log t \ge 0.2054 > 1/4.896$.
+So their Theorem~1 is unaffected.
+(We also note the misprint $F(2\sigma-1+\beta_0)$ in their (25), which should read $F(\sigma - 1 + \beta_0)$, as in (47).)
+\end{remark}
+
+\subsection{The constants for general $(\eta_0,\sigma_0)$}\label{ss:constants}
+The constants of \cite{BTY} are computed for $\eta \le 0.0071093$ and $\sigma \ge 0.9935164$.
+We need $\eta$ up to about $0.0125$ and $\sigma$ down to $0.9930$, so we re-derive each $(\eta_0,\sigma_0)$-dependent ingredient.
+
+\begin{lemma}[$W_0$ bound; replaces {\cite[Lemma~4]{BTY}}]\label{lem:W0}
+Put $W_0(z) = W(z) - w_0/z$. For $\Rp z \ge \nu$ and $|z| \ge r > 0$,
+\[
+|W_0(z)| \le C_w(\nu,r)|z|^{-3}, \qquad C_w(\nu,r) = |w''(0)| + \frac{|w'''(0)| + e^{-\nu D}|w'''(D)| + \int_0^D|w''''(u)|e^{-\nu u}du}{r} .
+\]
+Here $|w''(0)| = 50.06970149\ldots$ and $|w'''(0)| = |w'''(D)| = 117.26477652\ldots$.
+\end{lemma}
+
+\begin{proof}
+We have $w(D) = w'(D) = w''(D) = 0$ and $w'(0) = 0$.
+Integrating by parts four times gives
+$W(z) = \frac{w_0}{z} + \frac{w''(0)}{z^3} + \frac{w'''(0) - e^{-zD}w'''(D)}{z^4} + z^{-4}\int_0^De^{-zu}w''''(u)\,du$.
+The derivative values are exact enclosures from Taylor series in \code{arb}.
+The integral is certified on an integer grid of $\nu \in [30,200]$, using that it is decreasing in $\nu$.
+Sign changes of $w''''$ are isolated, and each piece is integrated with \code{acb.integral} (\code{rep/consts\_cert.py}).
+\end{proof}
+
+For comparison, $C_w(69.4, 69.4) = 51.80$, while \cite{BTY} use $C < 52$ at this point.
+
+\begin{lemma}[non-negativity; replaces {\cite[Lemma~5, (21)]{BTY}}]\label{lem:L5}
+Let $\sigma\in[0.993,1)$ and $\eta \le \eta_0 \le 0.0147$. Then $\Rp F(z) + \Rp F(2\sigma - 1 - \bar z) \ge 0$ for $0 \le \Rp z \le 2\sigma-1$.
+\end{lemma}
+
+\begin{proof}
+As in \cite{BTY}, it suffices to treat $\Rp z = 0$.
+For fixed $\sigma$ every $\delta_m$ equals $(2\sigma-1)m$ exactly.
+Rescaling $y \mapsto y/(2\sigma-1)$ reduces the condition to
+\[
+B(y) := \sum_{m=1}^{7} b_m\frac{m - \sgn(b_m)\eps_0/m}{m^2+y^2} > 0 \quad (y\in\mathbb R), \qquad \eps_0 = \frac{C_w\eta_0^2}{w_0(2\sigma-1)^2}.
+\]
+Here $(1+x)\sum\kappa_mx^m = \sum b_mx^m$.
+This reduction is independent of $\sigma$.
+For $\eta_0 \le 0.0147$ we have $\eps_0 \le 1/500$.
+For $\eps_0 = 1/500$, $B$ is a rational function whose numerator has no real roots and whose value at $0$ is positive; this is checked by exact root isolation (\code{rep/lemma5\_cert.py}).
+\end{proof}
+
+\begin{remark}\label{rem:L5}
+\cite{BTY} prove (21) uniformly in $\sigma$, replacing $\delta_m$ by $c_0m$ with $c_0 = 151/153 \le 2\sigma_0-1$.
+This requires $\sigma \ge 0.993464$.
+For $c_0 = 0.9864$, which corresponds to the smaller values of $\sigma$ needed below, their test function $B$ takes negative values, already at $\eps_0 = 1/2000$.
+The per-$\sigma$ version above has no such restriction.
+\end{remark}
+
+\begin{lemma}[error terms; replaces {\cite[Lemmas~8, 9 and (48)]{BTY}}]\label{lem:L89}
+Let $x_0 = \sigma_0 - \frac12 \ge 0.493$, $C_1 = C_w(x_0/\eta_0, x_0/\eta_0)$ and $C_2 = C_w(\sigma_0/\eta_0,\sigma_0/\eta_0)$.
+Let $\Sigma_\kappa = \sum|\kappa_m|$. Then $\sum_k a_k|E_k| \le E_2\lambda_0\eta^2 + E_3\eta^3$, where
+\[
+E_2 = a\,\Sigma_\kappa\frac{C_1}{\pi x_0^2}, \qquad
+E_3 = a_0\Sigma_\kappa\Big(\frac{C_1}{2\pi}\cdot 23.6497 + \frac{C_2}{x_0^3}\Big) + a\,\Sigma_\kappa\frac{C_2}{x_0^3} .
+\]
+\end{lemma}
+
+\begin{proof}
+Follow \cite[Lemma~8]{BTY}, with two changes.
+First, in their (33) the inequality $\eta\log t \le A_0$ is replaced by $\eta\log t = \lambda_0$.
+Second, the integral (32) is evaluated with the true digamma function:
+$\int_{\mathbb R}|\Rp\psi(\frac14 + \frac{iy}2)|(x_0^2+y^2)^{-3/2}dy \le 23.6497$ at $x_0 = 0.4930$, certified (\code{rep/consts\_cert.py}).
+This integral is decreasing in $x_0$.
+\end{proof}
+
+\begin{remark}
+The majorant $U(y)$ of \cite[(31)]{BTY} integrates to $28.3$ against $(x_0^2+y^2)^{-3/2}$, not to less than $24$ as stated in (32).
+The true digamma gives $23.59$, so (32) is correct, but its proof as written does not establish it.
+At $(\eta_0,\sigma_0) = (0.0071093, 0.9935164)$, Lemma~\ref{lem:L89} gives $185.4\eta^2 + 7972\eta^3$, against $187\eta^2 + 8013\eta^3$ in \cite[(48)]{BTY}.
+\end{remark}
+
+\begin{lemma}[{\cite[Lemmas~3, 10, 11]{BTY}}, re-derived]\label{lem:L1011}
+\begin{enumerate}
+\item $f \ge 0$ on $[0,\infty)$.
+\item $f(u) \ge \kappa f(0)$ for $0 \le u \le u_0(\eta_0,\sigma_0)$; for example $u_0 = 59.15$, $49.46$ and $33.61$ at $\eta_0 = 0.0071$, $0.0085$ and $0.0125$.
+\item $\sum_n\Lambda(n)n^{-\sigma}f(\log n)P(t\log n) \ge c_{10}\,\eta w_0$, where $c_{10} = \kappa^2\sum_{p:\ 15\log p\le u_0}m_p\log p$.
+\end{enumerate}
+Here $m_p$ are the certified lower bounds for $\min_x G_p(1,x)$ in \cite[Table~1]{BTY}, except that $m_5 = 0.0073564$ (Remark~\ref{rem:m5}).
+\end{lemma}
+
+\begin{proof}
+(1) $w \ge 0$ on $[0,D]$; this is certified by ball bisection on $[0,D-0.02]$ and by a Taylor bound near $D$, where $w'''(D) < 0$.
+The polynomial $\sum\kappa_mx^m$ has no root in $[0,1]$, by exact root isolation (\code{rep/f\_nonneg\_cert.py}).
+
+(2) We have $g(u) := w(\eta_0u)\sum\kappa_me^{-d_mu} - \kappa w_0 \ge 0$, with $d_m$ as in \cite[Lemma~11]{BTY}.
+This is certified by ball bisection, using $g(0) = 0$ and $g'(0) = -w_0\sum\kappa_md_m \ge 1.19$ near $u = 0$ (\code{rep/lemma11\_cert.py}).
+
+(3) As in \cite[Lemma~10]{BTY}, the terms with $n > e^{u_0}$ are dropped, which is valid by (1) and $P \ge 0$.
+So are all primes with $15\log p > u_0$, and the powers $p^m$ with $m > 15$.
+The bound $G_p(\sigma,x) \ge G_p(1,x)$ needs no computation: $G_p(\sigma,x) = \sum_{m\le15}p^{-m\sigma}P(mx)$, so $\partial_\sigma G_p = -\log p\sum_m m\,p^{-m\sigma}P(mx) \le 0$.
+The values $m_p$ are re-certified by ball bisection with a mean-value enclosure (\code{rep/mp\_cert.py}).
+\end{proof}
+
+\begin{remark}\label{rem:m5}
+For $p = 5$, \cite[Table~1]{BTY} lists $m_5 = 0.00735709$.
+However $G_5(1,x)$ attains $0.0073564919\ldots$ at $x = 1.6495242\ldots$, as confirmed independently in $30$-digit arithmetic.
+All other entries of the table are confirmed.
+The effect on their constant $0.23545$ is $-10^{-6}$.
+\end{remark}
+
+\begin{lemma}[{\cite[Lemma~12]{BTY}}]\label{lem:L12}
+$\sum_k a_k\sum_m\kappa_m\big(-\frac12\log\pi + \frac12\Rp\frac{\Gamma'}{\Gamma}(\frac{s_k+\delta_m}2+1)\big) \le \frac{a\kappa}2\log t - G(\sigma_0)$, where $G(\sigma_0)$ is computed by their formula in ball arithmetic.
+We have $G(0.9930) = 1.56839$ and $G(0.9935164) = 1.56888$; \cite{BTY} give $1.568$.
+\end{lemma}
+
+Lemma~13 of \cite{BTY} ($10^{-10}\eta$) and the tail estimates in their Lemma~6 hold unchanged for $\eta \le 0.015$ and $\log t \le 45$.
+Each tail term in their Lemma~6 is at most $3\cdot 10^{-9}$, so the total stays below $10^{-7}$; we use $2\cdot10^{-7}$.
+
+\subsection{Exact evaluation of $W$}
+Since $w$ is a combination of $u\cos(ku)$, $\cos(ku)$, $\sin(\phi-ku)$, $u$ and $1$ on $[0,D]$ (with $k = \tan\theta$), $W(z)$ has a closed form.
+In terms of $J_0(s) = (1-e^{-sD})/s$ and $J_1(s) = (1 - e^{-sD}(1+sD))/s^2$ it reads
+\[
+W(z) = \sec^2\theta\Big[\sec^2\theta\cdot\tfrac12\sum_\pm\big(\theta\cot\theta\, J_0 - \tfrac12J_1\big)(z\mp ik) + (2\theta\cot\theta-2)J_0(z) - J_1(z) + \frac{\Sigma_{2\theta}(z)}{\sin2\theta} - \frac{2\Sigma_\theta(z)}{\sin\theta}\Big],
+\]
+where $\Sigma_\phi(z) = (e^{i\phi}J_0(z+ik) - e^{-i\phi}J_0(z-ik))/(2i)$.
+It agrees with quadrature to $10^{-15}$ (\code{rep/Wexact.py}).
+In certification we evaluate it in \code{acb}, with the second-order enclosure
+\[
+W(z) \in W(z_c) + W'(z_c)(z - z_c) + B\big(0, \tfrac12 r^2\sup|W''|\big), \qquad r = |z-z_c| .
+\]
+Here $W'$ has the same closed form with $J_0\to-J_1$ and $J_1\to-J_2$.
+Integrating $u^2w$ by parts three times gives $\sup|W''| \le \min\big(\int u^2we^{-\nu u},\ (2w_0 + \int|(u^2w)'''|e^{-\nu u})/|z|^3\big)$.
+Both integrals are bounded by sums of ball suprema over $256$ subintervals.
+
+\subsection{The zero-free region}
+\begin{theorem}\label{thm:H}
+Let $\lambda^*(l)$ be the function given by the table below on the grid $l \in \{28, 28.25, \dots, 43\}$, extended by $\lambda^*(l) := \lambda^*(\lceil l\rceil_{0.25})$ for $l \le 43$ and by $\lambda^*(l) := 1/4.896$ for $l > 43$.
+Then every zero $\beta+i\gamma$ of $\zeta$ with $\gamma \ge 3$ satisfies $(1-\beta)\log\gamma \ge \lambda^*(\log\gamma)$.
+\begin{center}\small
+\begin{tabular}{c|cccccc}
+\toprule
+$l$ & 28 & 29 & 30 & 31 & 32 & 33\\
+$\lambda^*(l)$ & 0.21424 & 0.21384 & 0.21345 & 0.21308 & 0.21272 & 0.21239\\
+\midrule
+$l$ & 34 & 35 & 36 & 37 & 38 & 40\\
+$\lambda^*(l)$ & 0.21206 & 0.21175 & 0.21145 & 0.21117 & 0.21084 & 0.21033\\
+\bottomrule
+\end{tabular}
+\end{center}
+The full table is \code{rep/lamstar2c.json}.
+\end{theorem}
+
+\begin{proof}
+For $\gamma \le H_0$ the statement follows from \cite{PlattTrudgianRH}.
+For $l > 43$ it is \cite[Thm.~1]{BTY}.
+For the remaining range we run a four-step chain, starting from $\lambda_0 \equiv 1/4.896$.
+
+At step $j$ the hypothesis is the conclusion of step $j-1$.
+Since $\lambda_{j-1}(l)/l$ is non-increasing, this hypothesis gives the zero-free input of Lemma~6 of \cite{BTY} with $A = \lambda_{j-1}(\log(Kt+T_0))$.
+In every height cell $(L - 0.25, L]$ we certify $\mathcal M_1 > 0$ in ball arithmetic.
+This is done for all $\log t$ in the cell and all $\lambda_0 = \eta\log t \in [\lambda_{j-1}(L), \lambda_j(L)]$, where $\lambda_j(L)$ is the float threshold minus $2\cdot10^{-5}$, by adaptive bisection of the box.
+On each box we take $\sigma$ as a ball, with $A$ at the top of the box, which is valid because a smaller $A$ is a weaker hypothesis.
+The constants are taken at $\eta_0 = \lceil \lambda_j/l_{\min}\rceil_{10^{-4}} + 10^{-4}$ and at $\sigma_0$ rounded down.
+Then $\lambda_j(L) \ge \lambda_{j-1}(L)$, and a zero with $\lambda_{j-1}(L) \le (1-\beta)\log\gamma < \lambda_j(L)$ would give $\mathcal M_1 > 0$, contradicting \eqref{eq:bty}.
+
+The chain stabilises after three steps, and the fourth step changes no entry by more than $10^{-5}$.
+Program: \code{rep/lamcert.py}.
+\end{proof}
+
+At $\log t = 29$ the theorem amounts to the zero-free region $\sigma > 1 - 1/(4.676\log t)$.

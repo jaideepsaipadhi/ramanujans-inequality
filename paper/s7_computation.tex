@@ -1,0 +1,67 @@
+\section{The computation}\label{sec:computation}
+
+\subsection{The scan}
+For each interval $[L_1, L_2]$ we search for kernel parameters $(c, f)$:
+first over the grid $c\in\{40,50,\dots,100\}$, $f\in\{0.5,\dots,0.9\}$, then locally over $c\pm10$ in steps of $5$ and $f\pm0.1$ in steps of $0.05$.
+Given $(c,f)$, we put $\tau_{12} = \eps_R(L_2+1)/(1 + 2/L_1)$ and choose $\eps$ so that the smoothing term of Proposition~\ref{prop:master} equals $f\tau_{12}$.
+This uses three fixed-point steps; the residual excess is bounded rigorously in \code{certify/transfer\_check.py} and is below $10^{-3}$ relative even at $L_1 = 43$.
+We then evaluate the right-hand side of Proposition~\ref{prop:master} with $N^+$ from \S\ref{sec:density}, $\lambda^*$ from Theorem~\ref{thm:H} and $H = 3\cdot10^{12}$.
+The ratio $q$ is this right-hand side divided by $\tau_{12}$; an interval is certified when $q < 1$.
+
+The scan starts with intervals of width $10$ and bisects any interval that is not certified, down to width $0.5$ (\code{code/interval\_adapt.py}).
+For $[43, 57)$ we only need some bound, since this range enters only through the integral in Lemma~\ref{lem:transfer}; there we use widths $2$ to $0.5$, and $q$ may exceed $1$.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+range of $L$ & worst $q$ & remark\\
+\midrule
+$[43,57)$ & $3.80$ (at $43$), $\le 0.47$ above $48$ & used only through Lemma~\ref{lem:transfer}\\
+$[57,1000)$ & $0.9966$ at $907$ & $[857,907)$ needed width $5$\\
+$[1000,2000)$ & $0.8884$ at $1000$ & \\
+$[2000,2810)$ & $0.4063$ & \\
+$[2800,3159)$ & $0.4001$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The binding range $L\approx 900$ corresponds to bandwidth $T_1 \approx e^{30}$.
+There the zero sum is dominated by $\lambda = (1-\beta)\log T \in [0.20, 0.32]$ and $\log T\in(28.73, 30]$.
+For the interval $[900,910]$ of width $10$, the best kernel gives $0.40$ (smoothing) $+ 0.60$ (zeros above $H_0$) $= 1.002$, plus negligible terms; intervals of width $5$ are certified.
+
+\subsection{Certificates}
+The following list gives, for each ingredient, the program that certifies it.
+All these programs are in the repository; \code{code/rerun\_all.sh} re-runs the whole chain.
+\begin{enumerate}
+\item Lemma~\ref{lem:epsR} ($\eps_R$ on every cell): \code{certify/epsR\_cert.py}.
+\item Lemma~\ref{lem:smooth} (smoothing constant): \code{certify/smoothing\_const.py}.
+\item Proposition~\ref{prop:transfer} (from $\psi$ to $\pi - \li$, both conditions of \eqref{eq:target}): \code{certify/transfer\_check.py}.
+  The worst ratio is $0.99577$, at $\log y = 917$.
+\item Lemmas~\ref{lem:W0}--\ref{lem:L12} (constants of \cite{BTY}): in \code{rep/}, the programs \code{consts\_cert.py}, \code{lemma5\_cert.py}, \code{lemma11\_cert.py}, \code{f\_nonneg\_cert.py}, \code{mp\_cert.py} and \code{misc\_cert.py}.
+\item Theorem~\ref{thm:H}: \code{rep/lamcert.py}, with output \code{rep/lamstar2c.json}.
+\item Theorem~\ref{thm:rep}: \code{rep/repcert\_run.py} and \code{rep/min\_fix.py}; output \code{rep/dstar2c\_all.json}.
+\item Theorem~\ref{thm:G}: in \code{lemG/}, the programs \code{box2.py}, \code{kcert2.py}, \code{remainder.py} and \code{stbound.py}.
+\item Theorem~\ref{thm:density}: the tables \code{lemmaD\_tableGH0.01\_*.pkl}, produced by \code{bt4.py}.
+  Every cell's bound is recomputed exactly from its stored parameters when it is used.
+\item The scan: \code{interval\_adapt.py}, with logs in \code{logs/}.
+\end{enumerate}
+
+The scan itself runs in double precision.
+Every summand is a non-negative explicit majorant, evaluated with a relative rounding error far below the margin.
+The smallest margins are $1 - q = 3.4\cdot10^{-3}$ in the scan and $4.2\cdot10^{-3}$ in Proposition~\ref{prop:transfer}.
+The double-precision evaluation of the scan (as opposed to the certificates of items 1--7, which use ball arithmetic) is the one place where a referee has to accept a floating-point argument.
+It is a sum of a few thousand positive terms, each computed with a relative error of order $10^{-14}$.
+
+\subsection{Independent audit}
+An independent adversarial audit of the new ingredients (\S\S\ref{sec:zfr}--\ref{sec:density}) checked the following points and confirmed them:
+\begin{itemize}
+\item the legitimacy of keeping the second pair in Lemma~6 of \cite{BTY};
+\item the per-$\sigma$ form of Lemma~5;
+\item the induction in Theorem~\ref{thm:H};
+\item the use of $d^*$ in the pair sum;
+\item the error constants;
+\item the replacement of $\mathcal J$.
+\end{itemize}
+It found one genuine defect: the clamp on $\nu$ described at the end of \S\ref{sec:rep}.
+It also found three minor gaps: a missing non-negativity certificate for the dropped Lemma-10 terms, the unrounded $w$-derivative values, and the range of the Hiary--Patel--Yang bound.
+All four were fixed, and the full chain was re-run with identical results.

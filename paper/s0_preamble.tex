@@ -1,0 +1,49 @@
+\documentclass[11pt]{amsart}
+\usepackage[margin=1.1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black}
+\usepackage[dvipsnames]{xcolor}
+\numberwithin{equation}{section}
+\emergencystretch=4em
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\li}{\operatorname{li}}
+\newcommand{\Rp}{\operatorname{Re}}
+\newcommand{\Ip}{\operatorname{Im}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\code}[1]{\texttt{#1}}
+\DeclareMathOperator{\sgn}{sgn}
+
+\title[Ramanujan's prime-counting inequality]{Ramanujan's prime-counting inequality holds for all $x \geq 38\,358\,837\,683$}
+\author{Jaideep Sai Padhi}
+\address{Purdue University, West Lafayette, IN, USA}
+\email{jpadhi@purdue.edu}
+\date{\today}
+\subjclass[2020]{Primary 11N05; Secondary 11M26, 11Y35}
+\keywords{Ramanujan's inequality, prime-counting function, zero-density estimates, zero-free regions, explicit formula, interval arithmetic}
+
+\begin{document}
+\begin{abstract}
+Ramanujan observed that $\pi(x)^2 < \frac{e x}{\log x}\,\pi\!\left(\frac{x}{e}\right)$ for all sufficiently large $x$.
+Dudek and Platt showed, assuming the Riemann hypothesis, that the last counterexample is $x = 38\,358\,837\,682$.
+Unconditionally the inequality was known for $38\,358\,837\,683 \le x \le e^{103}$ (Johnston) and for $x \ge e^{3158.442}$ (Axler).
+We close the gap: the inequality holds unconditionally for every $x \ge 38\,358\,837\,683$.
+The proof uses no verification of the Riemann hypothesis beyond the height $3\cdot 10^{12}$ established by Platt and Trudgian.
+It combines a smoothed explicit formula of B\"uthe's type with three new explicit inputs:
+\begin{itemize}
+\item a log-free zero-density estimate near the $1$-line, obtained by reworking Bellotti's argument with a sharp asymptotic evaluation of the Barban--Vehov mean square;
+\item a height-dependent zero-free region, obtained by evaluating the inequality of Bellotti, Trudgian and Yang exactly;
+\item a repulsion lemma showing that two hypothetical zeros close to the $1$-line cannot lie close to each other in height.
+\end{itemize}
+Every numerical step is certified in rigorous interval (ball) arithmetic.
+Along the way we record several corrections to the explicit inputs we use, none of which affects the published main results.
+\end{abstract}
+\maketitle
+\tableofcontents

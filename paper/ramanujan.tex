@@ -1,0 +1,1031 @@
+\documentclass[11pt]{amsart}
+\usepackage[margin=1.1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black}
+\usepackage[dvipsnames]{xcolor}
+\numberwithin{equation}{section}
+\emergencystretch=4em
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\li}{\operatorname{li}}
+\newcommand{\Rp}{\operatorname{Re}}
+\newcommand{\Ip}{\operatorname{Im}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\code}[1]{\texttt{#1}}
+\DeclareMathOperator{\sgn}{sgn}
+
+\title[Ramanujan's prime-counting inequality]{Ramanujan's prime-counting inequality holds for all $x \geq 38\,358\,837\,683$}
+\author{Jaideep Sai Padhi}
+\address{Purdue University, West Lafayette, IN, USA}
+\email{jpadhi@purdue.edu}
+\date{\today}
+\subjclass[2020]{Primary 11N05; Secondary 11M26, 11Y35}
+\keywords{Ramanujan's inequality, prime-counting function, zero-density estimates, zero-free regions, explicit formula, interval arithmetic}
+
+\begin{document}
+\begin{abstract}
+Ramanujan observed that $\pi(x)^2 < \frac{e x}{\log x}\,\pi\!\left(\frac{x}{e}\right)$ for all sufficiently large $x$.
+Dudek and Platt showed, assuming the Riemann hypothesis, that the last counterexample is $x = 38\,358\,837\,682$.
+Unconditionally the inequality was known for $38\,358\,837\,683 \le x \le e^{103}$ (Johnston) and for $x \ge e^{3158.442}$ (Axler).
+We close the gap: the inequality holds unconditionally for every $x \ge 38\,358\,837\,683$.
+The proof uses no verification of the Riemann hypothesis beyond the height $3\cdot 10^{12}$ established by Platt and Trudgian.
+It combines a smoothed explicit formula of B\"uthe's type with three new explicit inputs:
+\begin{itemize}
+\item a log-free zero-density estimate near the $1$-line, obtained by reworking Bellotti's argument with a sharp asymptotic evaluation of the Barban--Vehov mean square;
+\item a height-dependent zero-free region, obtained by evaluating the inequality of Bellotti, Trudgian and Yang exactly;
+\item a repulsion lemma showing that two hypothetical zeros close to the $1$-line cannot lie close to each other in height.
+\end{itemize}
+Every numerical step is certified in rigorous interval (ball) arithmetic.
+Along the way we record several corrections to the explicit inputs we use, none of which affects the published main results.
+\end{abstract}
+\maketitle
+\tableofcontents
+\section{Introduction}
+
+In his second notebook (see \cite{BerndtIV}, p.~112) Ramanujan stated that
+\begin{equation}\label{eq:ram}
+\pi(x)^2 < \frac{e x}{\log x}\, \pi\!\left(\frac{x}{e}\right)
+\end{equation}
+holds for all sufficiently large $x$, where $\pi(x)$ is the number of primes up to $x$.
+Expanding $\pi$ by the prime number theorem with the error term $O(x\log^{-6}x)$ shows that the two sides differ by
+$\frac{x^2}{\log^6 x}\,(1+o(1))$, so \eqref{eq:ram} is a statement about the sixth term of the asymptotic expansion.
+It requires the relative error $|\pi(x)-\li(x)|\log x/x$ to be smaller than roughly $1/(3\log^4 x)$.
+Let $N_R$ denote the smallest real number such that \eqref{eq:ram} holds for every $x \ge N_R$.
+
+\subsection*{What was known}
+\begin{itemize}
+\item Under the Riemann hypothesis, Dudek and Platt \cite{DudekPlatt} showed $N_R = 38\,358\,837\,683$.
+  They combined Hassani's conditional bound \cite{Hassani} with a computation for $x \le 1.15\cdot 10^{16}$.
+  The largest prime counterexample, $38\,358\,837\,677$, had been found by Galway (see \cite{DudekPlatt}).
+\item Unconditionally, the inequality is known in two ranges:
+  \begin{itemize}
+  \item for $38\,358\,837\,683 \le x \le e^{58}$ (Platt and Trudgian \cite{PlattTrudgian}), extended to $x \le e^{103}$ by Johnston \cite[Thm.~5.1]{Johnston};
+  \item for $x \ge e^{X_0}$, where $X_0$ fell successively as follows (see \cite{Axler} for the history):
+  \[
+  9658 \to 9032\ \text{\cite{Axler2}} \to 3915\ \text{\cite{PlattTrudgian}} \to 3604\ \text{\cite{CullyHugillJohnston}} \to 3361\ \text{\cite{JohnstonYang}} \to 3158.442\ \text{\cite{Axler}}.
+  \]
+  \end{itemize}
+\end{itemize}
+The range $e^{103} < x < e^{3158.442}$ remained open.
+Two recent preprints \cite{De1,De2} claim to settle it; we explain in \S\ref{sec:de} why their arguments are not proofs.
+
+\subsection*{Result}
+\begin{theorem}\label{thm:main}
+Inequality \eqref{eq:ram} holds for every real $x$ with $e^{58} \le x \le e^{3159}$.
+Consequently it holds for every $x \ge 38\,358\,837\,683$, and $N_R = 38\,358\,837\,683$ unconditionally.
+\end{theorem}
+
+The second statement follows from the first together with \cite[Thm.~5.1]{Johnston} and \cite[Thm.~1.1]{Axler}.
+The value of $N_R$ also uses the computations of Galway and of Dudek--Platt \cite{DudekPlatt} for $x \le 10^{11}$.
+
+The only information about zeros of $\zeta$ that we take from a large-scale computation is the theorem of Platt and Trudgian \cite{PlattTrudgianRH}:
+every non-trivial zero $\rho$ of $\zeta$ with $0 < \Ip\rho \le H_0 := 3\cdot 10^{12}$ satisfies $\Rp \rho = 1/2$.
+All remaining information about zeros comes from explicit theorems, and our own computations are certified with rigorous ball arithmetic \cite{arb}.
+
+\subsection*{Method}
+Write $L = \log x$.
+\begin{enumerate}
+\item By an elementary argument (\S\ref{sec:reduction}), \eqref{eq:ram} at $x$ follows from
+  $|\pi(y)-\li(y)| \le \eps_R(\log y + 1)\, y/\log y$ for $y \in \{x, x/e\}$.
+  Here $\eps_R(L) \approx 1/(3L^4)$ is an explicit function (Definition~\ref{def:epsR}).
+  This in turn follows from relative bounds for $\psi(t)-t$ on $[e^{43}, x]$ (Lemma~\ref{lem:transfer}).
+\item The bound for $\psi$ comes from a smoothed explicit formula with Logan's kernel, as in B\"uthe \cite{Buthe2016,Buthe2018} (\S\ref{sec:explicit}).
+  The zeros with $|\gamma| \le H_0$ lie on the critical line.
+  Zeros above $H_0$ are controlled by three ingredients:
+  \begin{enumerate}
+  \item[(a)] a zero-free region $\sigma > 1 - \lambda^*(\log t)/\log t$ (\S\ref{sec:zfr});
+  \item[(b)] explicit zero-density estimates $N(\sigma,T)$ (\S\ref{sec:density});
+  \item[(c)] a repulsion lemma for pairs of zeros close to the $1$-line (\S\ref{sec:rep}), which feeds into (b).
+  \end{enumerate}
+\item The binding range is $L \approx 900$, where the kernel has bandwidth $T_1 \approx e^{30}$.
+  There the decisive zeros are those with $1-\beta \approx 0.21/\log\gamma$, at heights just above $H_0$.
+  Without (a)--(c) and the improved density estimate, the same argument needs the Riemann hypothesis up to height $8\cdot 10^{12}$ (or more, with the published density constants).
+\end{enumerate}
+
+\subsection*{New ingredients}
+\begin{enumerate}
+\item \textbf{Zero density} (Theorem~\ref{thm:density}).
+  We rework Bellotti's log-free zero-density estimate \cite{Bellotti} for $\sigma$ near $1$ and $3\cdot 10^{12} < T \le e^{40}$.
+  The main gain comes from an asymptotically sharp, fully explicit evaluation of the Barban--Vehov mean square $\sum_n \Psi(n)^2 e^{-n/X}/n$ (Theorem~\ref{thm:G}).
+  This is the quantity Bellotti calls $d_4$, and our bound improves it by a factor of about $4$.
+  The bound uses a smoothed contour argument with a certified enclosure of $1/\zeta$ in a box.
+  Further, smaller improvements:
+  \begin{itemize}
+  \item a corrected and sharpened bound for the off-diagonal pair sum, using a crowding argument;
+  \item a log-free pointwise bound for the mollifier;
+  \item a sharper treatment of the contour integral of $\zeta(1/2+it)$;
+  \item parameters optimised separately for each $(\sigma,T)$-cell.
+  \end{itemize}
+\item \textbf{A height-dependent zero-free region} (Theorem~\ref{thm:H}).
+  Bellotti, Trudgian and Yang \cite{BTY} proved $\zeta(\sigma+it)\neq 0$ for $\sigma > 1 - 1/(4.896\log t)$.
+  We evaluate their basic inequality exactly at every height and iterate.
+  This gives $(1-\beta)\log\gamma \ge 0.21384$ for $\log\gamma \le 29$, which is $R = 4.676$ in place of $4.896$.
+  Several of their constants are tied to $\sigma \ge 0.99346$, so we re-derive all of them for the smaller $\sigma$ and the larger $\eta$ we need.
+\item \textbf{Repulsion} (Theorem~\ref{thm:rep}).
+  Keeping a second zero, together with its reflection, in the zero sum of the same inequality shows the following.
+  Two zeros $\beta_j+i\gamma_j$ with $(1-\beta_j)\log\gamma_j \le 0.35$ at heights near $e^{29}$ satisfy $|\gamma_0-\gamma_1| \ge 0.058$.
+  This removes the near-diagonal part of the pair sum in the density estimate.
+\end{enumerate}
+
+\subsection*{Certification}
+Every quantity that enters the final inequalities is either an explicit closed form or is bounded with interval arithmetic (\code{python-flint}/Arb \cite{arb}).
+This covers the zero-free and repulsion certificates, the constants of \cite{BTY} that we re-derive, the box enclosure of $1/\zeta$, and the final sum over zeros.
+In the scan over $L$, every interval is certified by explicit upper sums of monotone majorants.
+The code, tables and logs are available at \url{https://github.com/jaideepsaipadhi/ramanujans-inequality}.
+Section~\ref{sec:computation} lists the certificate for each lemma.
+
+\subsection*{Corrections to the literature}
+We found the following points while re-deriving the explicit inputs we use; none of them affects the main published results.
+\begin{itemize}
+\item In \cite{BTY}:
+  \begin{itemize}
+  \item a normalisation slip in the final inequality: the Lemma-10 term should be multiplied by $\kappa = 433/859$;
+  \item an incorrect value in their Table~1, at $p = 5$;
+  \item a digamma majorant whose integral is larger than stated;
+  \item a positivity test that is valid only for $\sigma \ge 0.99346$.
+  \end{itemize}
+\item B\"uthe's smoothing estimate \cite[Prop.~4]{Buthe2016} (quoted as Prop.~1 in \cite{Buthe2018}) is conservative by a factor of $2$ in its main term, under the normalisation stated there.
+\end{itemize}
+Details are in \S\ref{sec:remarks}.
+\section{Reduction to bounds for $\psi$}\label{sec:reduction}
+
+\begin{definition}\label{def:epsR}
+For $L > 1$ and $x = e^L$, put
+\[
+g(L) = \frac{\li(x)^2 - \frac{e x}{L}\li(x/e)}{(x/L)^2}, \qquad b(L) = \frac{2\li(x)}{x/L} + \frac{L}{L-1}.
+\]
+Define $\eps_R(L) := \big(-b + \sqrt{b^2 - 4g}\big)/2$ whenever $g(L) < 0$.
+\end{definition}
+
+Asymptotically $\eps_R(L) = \frac{1}{3L^4}\big(1+O(L^{-1})\big)$; for example $\eps_R(L)\cdot 3L^4$ equals $1.2706$ at $L = 58$, $1.0145$ at $L = 907$ and $1.0041$ at $L = 3159$.
+Computing $\eps_R$ directly is delicate, because $g$ is the difference of two quantities of size $1$ that agree to within $L^{-4}$.
+
+\begin{lemma}\label{lem:epsR}
+Put $A(L) = L e^{-L}\li(e^L)$, $u = 1/L$ and $P(u) = \sum_{k<16} k!\,u^k$.
+Then $g = A(L)^2 - \frac{L}{L-1}A(L-1)$, $b = 2A(L) + \frac{L}{L-1}$, and $\eps_R = -2g/(b + \sqrt{b^2-4g})$.
+Moreover $A(L) = P(u) + R(L)$, where
+\[
+-6e^{-L/2} \le R(L) \le \frac{16!\,u^{16}}{1 - 34u} + 6e^{-L/2} \qquad (L \ge 57).
+\]
+For every cell $[a, a+0.05] \subset [57.9, 3160.1]$ we have $g < 0$ on the cell, and $\eps_R$ admits an explicit certified lower bound there.
+\end{lemma}
+
+\begin{proof}
+The formulas for $g$ and $b$ follow by dividing the definitions by $(x/L)^2$ and $x/L$.
+For $R$, integrate $\int_a^x dt/\log t$ by parts $16$ times with $a = \sqrt x$.
+The boundary term at $a$ is $\li(a) - aP(2/L)/(L/2)$, which has absolute value at most $3a/(L/2)$ because $A$ and $P$ are both at most $1.1$ for arguments $\ge 28.5$.
+The integral remainder satisfies $0 \le (L/x)\,16!\int_a^x dt/\log^{17}t \le 16!\,u^{16}/(1-34u)$.
+To see this, note that the logarithmic derivative of $e^s s^{-17}$ is at least $1 - 34/L$ on $[L/2, L]$.
+
+The cancelling part $S(u) = P(u)^2 - P\big(\tfrac{u}{1-u}\big)/(1-u)$ is a power series in $u$ with integer coefficients.
+These are computed exactly up to order $70$, and $s_0 = \dots = s_3 = 0$, $s_4 = -1$, $s_5 = -14$.
+The tail is bounded by $\big(\sum_{k<16}k!\big)(2u)^{71}/(1-2u)$.
+Evaluating $S$ as $u^4\cdot(S/u^4)$ in ball arithmetic on each cell avoids the cancellation, and the remaining terms involve $R$ only.
+This is carried out by \code{certify/epsR\_cert.py} at $200$ bits.
+Point values agree with a $60$-digit direct evaluation; the enclosures have relative width at most $1.9\cdot 10^{-3}$, which is the variation of $\eps_R$ across a cell.
+\end{proof}
+
+\begin{lemma}\label{lem:reduce}
+Let $L = \log x \ge 58$ and $\eps = \eps_R(L)$.
+Assume $g(L) < 0$ and
+\begin{equation}\label{eq:pibounds}
+|\pi(x) - \li(x)| \le \eps\, \frac{x}{L}, \qquad \Big|\pi\Big(\frac xe\Big) - \li\Big(\frac xe\Big)\Big| \le \eps\, \frac{x/e}{L-1},
+\end{equation}
+with at least one of the two inequalities strict.
+Then \eqref{eq:ram} holds at $x$.
+\end{lemma}
+
+\begin{proof}
+Since $\li(x) > \eps x/L$, \eqref{eq:pibounds} gives $0 < \pi(x) \le \li(x) + \eps x/L$ and $\pi(x/e) \ge \li(x/e) - \eps x/(e(L-1))$.
+It therefore suffices to show
+$(\li(x) + \eps x/L)^2 < \frac{ex}{L}\big(\li(x/e) - \eps\frac{x}{e(L-1)}\big)$.
+After dividing by $(x/L)^2$ this reads $g + b\eps + \eps^2 < 0$, and with $\eps = \eps_R(L)$ the left side equals $0$.
+Strictness in \eqref{eq:pibounds} makes the inequality strict.
+\end{proof}
+
+Writing $y = x/e$, so that $\log y = L - 1$, the hypotheses \eqref{eq:pibounds} for all $x$ with $\log x \in [58, 3159]$ become the following two conditions:
+\begin{equation}\label{eq:target}
+\begin{aligned}
+|\pi(y) - \li(y)| &< \eps_R(\log y + 1)\,\frac{y}{\log y} &&(57 \le \log y \le 3158),\\
+|\pi(y) - \li(y)| &< \eps_R(\log y)\,\frac{y}{\log y} &&(58 \le \log y \le 3159).
+\end{aligned}
+\end{equation}
+No monotonicity of $\eps_R$ is needed: both conditions are checked directly, cell by cell (Proposition~\ref{prop:transfer}).
+
+\begin{lemma}[transfer]\label{lem:transfer}
+Let $y \ge 2$.
+Then
+\[
+\pi(y) - \li(y) = \frac{\vartheta(y) - y}{\log y} + \int_2^y \frac{\vartheta(t) - t}{t\log^2 t}\,dt + \frac{2}{\log 2} - \li(2),
+\qquad \Big|\frac{2}{\log 2} - \li(2)\Big| < 1.84.
+\]
+Moreover $0 \le \psi(t) - \vartheta(t) \le 1.4262\sqrt t$ for $t > 0$ \cite[Thm.~13]{RS62}.
+\end{lemma}
+
+\begin{proof}
+Partial summation gives $\pi(y) = \vartheta(y)/\log y + \int_2^y \vartheta(t)\,dt/(t\log^2 t)$.
+Integration by parts gives $\li(y) = y/\log y + \int_2^y dt/\log^2 t + \li(2) - 2/\log 2$.
+Subtracting the two identities proves the formula.
+\end{proof}
+
+\begin{proposition}\label{prop:transfer}
+Suppose that for every certified interval $[L_1, L_2] \subset [43, 3159]$ of the final scan (\S\ref{sec:computation})
+\begin{equation}\label{eq:psicert}
+|\psi(t) - t| \le q_{[L_1,L_2]}\,\frac{\eps_R(L_2+1)}{1 + 2/L_1}\, t + a(t) \qquad (\log t \in [L_1, L_2]).
+\end{equation}
+Here $q_{[L_1,L_2]}$ is the certified ratio of that interval, and $a(t) = 2 + e^{2\cdot 10^{-4}}(\log t + 10^{-4})\big(2.01\cdot 10^{-4}\sqrt t + \tfrac12\log\log(2t^2)\big)$ collects the additive terms of Lemma~\ref{lem:smooth} and Proposition~\ref{prop:explicit}.
+Suppose also that $|\psi(t) - t| \le 0.94\sqrt t$ for $11 < t \le 10^{19}$ \cite[Thm.~2]{Buthe2018}.
+Then \eqref{eq:target} holds.
+\end{proposition}
+
+\begin{proof}
+Combine Lemma~\ref{lem:transfer} with \eqref{eq:psicert}, the bound $|\vartheta - t| \le |\psi - t| + 1.4262\sqrt t$, and the trivial bound $|\vartheta(t) - t| \le 11$ for $t \le 11$.
+The integral over $[2, e^{43}]$ is at most
+$\big((0.94 + 1.4262)\cdot 2 e^{21.5}/\log^2 2\big) + 121$.
+
+On $[e^{43}, y]$ we use upper Riemann sums in $u = \log t$ with step $h = 0.05$.
+On each cell we use the largest certified bound meeting it, and the inequality $\int_a^b e^u u^{-2}du \le (e^b - e^a)/a^2$.
+For $y$ in a cell $[a, a+h]$ with $a \ge 57$, the numerator is bounded over the whole cell.
+It is compared with the certified lower bounds of Lemma~\ref{lem:epsR} for $\eps_R$ on $[a+1, a+1+h]$ and on $[a, a+h]$; the latter comparison is needed only when $a \ge 58$.
+The script \code{certify/transfer\_check.py} carries this out in $40$-digit arithmetic for every cell of $[57, 3159)$.
+The largest value of
+\[
+\frac{\text{bound for } |\pi(y) - \li(y)|}{\min(\eps_R(\log y+1),\,\eps_R(\log y))\cdot y/\log y}
+\]
+that it finds is $0.99577$, attained at $\log y = 917$.
+\end{proof}
+
+\begin{remark}
+The factor $(1+2/L_1)^{-1}$ in \eqref{eq:psicert} is what the integral term costs.
+Heuristically, $\int^{y}\eps_R(\log t+1)\,dt/\log^2 t \approx \eps_R(\log y+1)\frac{y}{\log^2 y}(1 + 6/\log y)$, so the total is $\approx(1 + 1/L + 6/L^2) \le 1 + 2/L$.
+Proposition~\ref{prop:transfer} does not rely on this heuristic; it verifies the inequality numerically, cell by cell.
+\end{remark}
+\section{The smoothed explicit formula}\label{sec:explicit}
+
+We use the smoothing of B\"uthe \cite{Buthe2016}, with our own proof of the smoothing step (Lemma~\ref{lem:smooth}).
+For $c > 0$ and $0 < \eps \le 10^{-4}$, put
+\[
+\eta_{c,\eps}(\tau) = \frac{c}{\eps\sinh c}\, I_0\!\Big(c\sqrt{1 - (\tau/\eps)^2}\Big)\mathbf 1_{|\tau|\le\eps},
+\qquad
+\ell_{c,\eps}(z) = \frac{c}{\sinh c}\,\frac{\sinh\sqrt{c^2 - (\eps z)^2}}{\sqrt{c^2-(\eps z)^2}} .
+\]
+Here $I_0$ is the modified Bessel function.
+Then $\int\eta_{c,\eps} = 2$, and the Fourier transform satisfies $\int \eta_{c,\eps}(\tau)e^{-i z\tau}d\tau = 2\ell_{c,\eps}(z)$.
+Logan's function $\ell_{c,\eps}$ is entire and even, and $\ell_{c,\eps}(0) = 1$.
+Let $\lambda = \int\eta_{c,\eps}(\tau)e^{\tau/2}d\tau = 2\ell_{c,\eps}(i/2) \ge 2$, and let
+\begin{equation}\label{eq:phi}
+\phi(\tau) = \eta_{c,\eps}(\tau)e^{\tau/2}/\lambda, \qquad \psi_{c,\eps}(x) = \int \psi_0(xe^{-\tau})\,\phi(\tau)\,d\tau,
+\end{equation}
+where $\psi_0$ is the normalised Chebyshev function.
+Thus $\phi$ is a probability density on $[-\eps,\eps]$, and $\psi_{c,\eps}(x)$ is a weighted average of $\psi_0$ over $[xe^{-\eps}, xe^{\eps}]$.
+It coincides with B\"uthe's modified Chebyshev function \cite[(3.2)--(3.4)]{Buthe2018}.
+
+\subsection{Smoothing}
+\begin{lemma}\label{lem:smooth}
+Let $x \ge 10^{18}$, $30 \le c \le 110$, $0 < \eps \le 10^{-4}$, and $\lambda_0 = \log(10\sqrt c/\eps) < \log x - 1$.
+Put $\nu_c := \int_0^1 u\,\eta_{c,1}(u)\,du$. Then
+\begin{multline*}
+|\psi(x) - \psi_{c,\eps}(x)| \le \frac{\log x + \lambda_0}{\log x - \lambda_0}\cdot 2\eps\, e^{\eps/2}\Big(\frac{\nu_c}{2} + \frac{I_0(c)}{200\sinh c}\Big)x \\ + a(x),
+\end{multline*}
+where $a(x) = e^{2\eps}\log(e^{\eps}x)\big(2.01\eps\sqrt x + \tfrac12\log\log(2x^2)\big)$.
+Moreover $2\sqrt c\,e^{\eps/2}\big(\nu_c/2 + I_0(c)/(200\sinh c)\big) \le 0.80319 < 0.7946\cdot 1.02$ for $c \in [30,110]$.
+\end{lemma}
+
+\begin{proof}
+Since $\phi$ is a probability density and $\psi$ is non-decreasing,
+\[
+\psi(x) - \psi_{c,\eps}(x) = \int (\psi(x) - \psi_0(xe^{-\tau}))\phi(\tau)\,d\tau \le \int_0^{\eps}\big(\psi(x) - \psi((xe^{-\tau})^-)\big)\phi(\tau)\,d\tau .
+\]
+For $\tau < 0$ the integrand is $\le 0$, because $\psi_0(y) \ge \psi(x)$ for $y > x$.
+
+For $3 \le Y \le X/2$ the Brun--Titchmarsh inequality of Montgomery and Vaughan, $\pi(X)-\pi(X-Y) \le 2Y/\log Y$ \cite{MV73}, together with the trivial count of prime powers as in \cite[(3.9)]{Buthe2018}, gives
+\[
+\psi(X) - \psi(X - Y) \le \log X\Big(\frac{2Y}{\log Y} + 0.6\frac{Y}{\sqrt X} + \log\log X^2\Big).
+\]
+Put $Y = x(1-e^{-\tau}) \le x\tau$.
+For $\tau \ge \tau_0 := \eps/(10\sqrt c)$ we have $\log Y \ge \log x - \lambda_0$.
+For $\tau < \tau_0$ we bound the integrand by its value at $\tau_0$, using monotonicity.
+
+The mass of $\phi$ below $\tau_0$ is at most $\tau_0\max\phi \le \tau_0 e^{\eps/2}c I_0(c)/(2\eps\sinh c)$.
+Also $\int_0^\eps\tau\phi \le e^{\eps/2}\eps\nu_c/2$, since $\lambda \ge 2$.
+Combining these gives the main term, with $\log x$ in the numerator.
+
+The lower bound $\psi_{c,\eps}(x) - \psi(x) \le \int_{-\eps}^0 (\psi_0(xe^{|\tau|}) - \psi(x))\phi$ is treated in the same way.
+Here the intervals end at $xe^{\eps}$, which produces the factor $\log(e^\eps x) \le \log x + \lambda_0$.
+The prime-power and $\log\log$ terms give $a(x)$.
+
+The final numerical inequality is certified in ball arithmetic by \code{certify/smoothing\_const.py}, using \code{acb.integral} for $\nu_c$.
+The maximum over $c$ is attained at $c = 110$.
+\end{proof}
+
+\begin{remark}\label{rem:buthe}
+\cite[Prop.~4]{Buthe2016} (quoted as \cite[Prop.~1]{Buthe2018}) states the main term as $2\eps x|\nu_c(\alpha)|\log(e^\eps x)/\log B$, with $\nu_c(t) = \int_{-\infty}^t\mu_c$ and $\mu_c(t) = -\int_{-\infty}^t\eta_{c,1}$ for $t<0$.
+With $\eta_{c,1}$ normalised as above ($\int\eta_{c,1} = 2$), one has $|\nu_c(0)| = \nu_c \sim \sqrt{2/(\pi c)}$.
+The asymptotic $|\nu_c(0)|\sim(2\pi c)^{-1/2}$ quoted in \cite[Remark~1]{Buthe2018} corresponds to the density normalised to mass $1$.
+With the stated normalisation, the proposition is therefore conservative by a factor of $2$ in its main term, and Lemma~\ref{lem:smooth} recovers this factor.
+\end{remark}
+
+\subsection{Explicit formula and truncation}
+\begin{proposition}[{\cite[Prop.~2]{Buthe2018}, \cite[Props.~2,3]{Buthe2016}}]\label{prop:explicit}
+Let $x \ge 10$, $0 < \eps \le 10^{-4}$ and $c \ge 3$. Then
+\[
+x - \psi_{c,\eps}(x) = \frac{1}{\ell_{c,\eps}(i/2)}\sum_\rho \ell_{c,\eps}\!\Big(\frac{\rho - 1/2}{i}\Big)\frac{x^\rho}{\rho} + \Theta(2),
+\]
+where $\Theta(2)$ denotes a quantity of absolute value at most $2$, and
+\[
+\sum_{|\Ip\rho| > c/\eps}\Big|\frac{\ell_{c,\eps}((\rho-\frac12)/i)}{\ell_{c,\eps}(i/2)}\frac{x^\rho}{\rho}\Big| \le 0.16\,\frac{x+1}{\sinh c}\,e^{0.71\sqrt{c\eps}}\log(3c)\log\frac c\eps .
+\]
+\end{proposition}
+
+\begin{lemma}\label{lem:logancomplex}
+Let $\rho = \beta + i\gamma$ with $0 < \beta < 1$ and $|\eps\gamma| \le c$. Then
+\[
+\Big|\ell_{c,\eps}\Big(\frac{\rho - 1/2}{i}\Big)\Big| \le e^{\eps(c+1)/6}\,\ell_{c,\eps}(\gamma),
+\qquad \ell_{c,\eps}(i/2) \ge 1 .
+\]
+\end{lemma}
+
+\begin{proof}
+Write $\ell_{c,\eps}(z) = \frac{c}{\sinh c}\,G(c^2 - \eps^2z^2)$ with $G(w) = \sum_{n\ge0}w^n/(2n+1)!$.
+For $z = \gamma - i(\beta-\frac12)$ we have
+$|c^2 - \eps^2 z^2| \le (c^2 - \eps^2\gamma^2) + \eps^2/4 + \eps^2|\gamma| \le (c^2 - \eps^2\gamma^2) + \eps(c+1)$.
+Since the coefficients of $G$ are positive, $|G(w)| \le G(|w|)$.
+The bound $\frac{d}{dw}\log G(w) \le 1/6$ for $w \ge 0$ then gives the first claim.
+The second holds because $G$ is increasing.
+\end{proof}
+
+\begin{lemma}\label{lem:sumrecip}
+For $T \ge 10^4$, $\sum_{0<\gamma\le T} 1/\gamma \le \frac12\log^2 T$, the sum running over zeros with multiplicity.
+\end{lemma}
+
+\begin{proof}
+Write the sum as a Stieltjes integral $\int_{14}^{T} t^{-1}dN(t) = N(T)/T + \int_{14}^T N(t)t^{-2}dt$.
+Insert the explicit Riemann--von Mangoldt bound $|N(t) - \frac t{2\pi}\log\frac t{2\pi e} - \frac78| \le 0.1038\log t + 0.2573\log\log t + 9.3675$ for $t \ge e$ \cite{HSW}.
+This gives $\sum_{0<\gamma\le T}1/\gamma \le \frac1{4\pi}\log^2T + \log T + 2$, which is below $\frac12\log^2T$ for $T \ge 10^4$.
+At $T = H_0$ the bound is $96.5$, against $\frac12\log^2H_0 = 412.7$.
+\end{proof}
+
+\subsection{The bound for $\psi$ on an interval}
+For $s \in [0.6, 1)$, $H = H_0 = 3\cdot 10^{12}$ and $T_1 = c/\eps$, put
+\[
+S(s) := \sum_{\substack{H < \gamma \le T_1\\ \beta > s}} \frac{\ell_{c,\eps}(\gamma)}{\gamma}\,e^{\eps(c+1)/6}.
+\]
+
+\begin{proposition}\label{prop:master}
+Let $43 \le L_1 < L_2$, $c \in [30,110]$ and $\eps \le 10^{-4}$, with $\lambda_0 < L_1 - 1$. Let $T_1 = c/\eps$.
+Assume no zero $\beta+i\gamma$ with $\gamma \le T_1$ has $\beta \ge s_{\max} := 1 - \lambda^*(\log T_1)/\log T_1$, where $\lambda^*$ is as in \S\ref{sec:zfr}.
+Then for every $x$ with $\log x\in[L_1,L_2]$,
+\begin{multline*}
+\frac{|\psi(x)-x|}{x} \le \frac{L_2+\lambda_0}{L_1-\lambda_0}\cdot\frac{0.7946\cdot 1.02\,\eps}{\sqrt c}
++ \frac{0.32\,e^{0.71\sqrt{c\eps}}\log(3c)\log T_1}{\sinh c} + e^{-L_1/2}\log^2 H\\
++ 2\Big(L_2\int_{0.6}^{s_{\max}} e^{(s-1)L_1}S(s)\,ds + e^{-0.4L_1}\big(S(0.6) + \log^2 T_1\big)\Big) + \frac{a(x)+2}{x}.
+\end{multline*}
+\end{proposition}
+
+\begin{proof}
+Combine Lemma~\ref{lem:smooth} with Proposition~\ref{prop:explicit}.
+The zeros with $|\gamma| > T_1$ contribute the second term, since $0.16(x+1) \le 0.32x$.
+
+Zeros with $|\gamma| \le H$ lie on the critical line \cite{PlattTrudgianRH}.
+By Lemmas~\ref{lem:logancomplex} and~\ref{lem:sumrecip} they contribute at most $x^{1/2}\cdot2\cdot\frac12\log^2H$.
+
+Zeros with $H < |\gamma| \le T_1$ come in pairs $\rho,\bar\rho$, which gives the factor $2$.
+For those with $\beta > 0.6$, use the identity
+\[
+\sum_{\beta>0.6} x^{\beta-1}f(\gamma) = x^{-0.4}S(0.6) + \log x\int_{0.6}^1 x^{s-1}S(s)\,ds,
+\]
+together with $x^{s-1} \le e^{(s-1)L_1}$ and $\log x \le L_2$; also $S(s) = 0$ for $s \ge s_{\max}$.
+
+All remaining zeros in this height range have $\beta \le 0.6$.
+These include the reflections $1-\bar\rho$ of zeros off the line, and the zeros on the line.
+They contribute at most $x^{-0.4}\sum_{H<\gamma\le T_1}1/\gamma \le x^{-0.4}\log^2T_1$.
+\end{proof}
+
+\begin{lemma}[Stieltjes bound]\label{lem:stieltjes}
+Let $f(t) = \ell_{c,\eps}(t)/t$, which is decreasing on $(0, T_1]$.
+Let $H = t_0 < t_1 < \dots < t_n = T_1$, and let $N^+(s,t)$ be any upper bound for $N(s,t) := \#\{\rho: \beta > s,\ 0<\gamma\le t\}$.
+Suppose $N^+(s,t_{i+1})$ is replaced by $0$ whenever $s \ge 1 - \lambda^*(\log t_{i+1})/\log t_{i+1}$. Then
+\[
+S(s)e^{-\eps(c+1)/6} \le \sum_{i<n} N^+(s, t_{i+1})(f(t_i) - f(t_{i+1})) + N^+(s, T_1)f(T_1).
+\]
+\end{lemma}
+
+\begin{proof}
+This is summation by parts.
+Zeros with $\gamma \le H$ do not satisfy $\beta > s \ge 0.6$, so they do not contribute.
+The zero-free region is used at the top of each block; this is valid because $\lambda^*(l)/l$ is non-increasing in $l$.
+\end{proof}
+
+In the computation, $\int_{0.6}^{s_{\max}}e^{(s-1)L_1}S(s)\,ds$ is bounded by $\sum_j S(s_j)\int_{s_j}^{s_{j+1}}e^{(s-1)L_1}ds$, which is valid because $S$ is non-increasing.
+The grid consists of $61$ points up to $s_{\max} - 0.02$, followed by steps $1/(40L_1)$.
+The function $N^+$ is the minimum of the density bounds of \S\ref{sec:density}.
+\section{A height-dependent zero-free region}\label{sec:zfr}
+
+\subsection{The inequality of Bellotti, Trudgian and Yang}
+We recall the set-up of \cite{BTY} and keep its notation.
+\begin{itemize}
+\item $\theta = 1.1338$, and $w$ is Heath-Brown's function \cite[Def.~1]{BTY}, supported on $[0,D]$ with $D = 2\theta\cot\theta$.
+  Its Laplace transform is $W(z) = \int_0^D e^{-zu}w(u)\,du$, and $w_0 = w(0) = 5.672787598\ldots$.
+\item $\kappa_m$ ($0 \le m \le 6$) are the coefficients in \cite[(18)]{BTY}, with $\kappa = \sum\kappa_m = 433/859$.
+\item $P(x) = \sum_{k\le 16}a_k\cos kx \ge 0$ is the trigonometric polynomial of \cite[\S4]{BTY}, with $a_0 = 1$, $a_1 = 865534/497079$ and $a = \sum_{k\ge1}a_k = 2919857/828465$.
+\item $K = 16$ and $T_0 = 10^{10}$.
+\end{itemize}
+For $\eta > 0$ and $\frac12 < \sigma < 1$, put
+\[
+f(u) = \eta w(\eta u)\sum_{m}\kappa_m e^{-(2\sigma-1)mu}, \qquad F(z) = \sum_m \kappa_m W\big((z + (2\sigma-1)m)/\eta\big).
+\]
+In particular $f(0) = \kappa\eta w_0$.
+
+Let $\rho_0 = \beta_0 + it$ be a zero with $t \ge H_0$, and put $\eta = 1-\beta_0$ and $\lambda_0 = \eta\log t$.
+Suppose $\zeta$ has no zeros with $\beta \ge 1 - A/\log\gamma$ for $H_0 \le \gamma \le Kt + T_0$, and put $\sigma = 1 - A/\log(Kt+T_0)$.
+Assume $\eta \le \eta_0 \le 0.0147$ and $\sigma \ge \sigma_0 \ge 0.9930$.
+The argument of \cite[Lemma~15]{BTY} then gives
+\begin{multline}\label{eq:bty}
+c_{10}\,\eta w_0 \le \eta w_0\Big(\frac{a\kappa}2\log t - G\Big) + a_0F(\sigma-1) - a_1\big(F(\sigma-1+\eta) + F(\sigma-\eta)\big) - Z\\ + 10^{-10}\eta + 2\cdot10^{-7} + E_2\lambda_0\eta^2 + E_3\eta^3 .
+\end{multline}
+Here $Z \ge 0$ is the part of the zero sum that is discarded.
+The constants $c_{10}, G, E_2, E_3$ depend on $(\eta_0,\sigma_0)$ and are given in \S\ref{ss:constants}.
+A zero with these parameters is impossible as soon as the following margin is positive:
+\begin{multline}\label{eq:margin1}
+\mathcal M_1 := a_1\big(F(\sigma-1+\eta)+F(\sigma-\eta)\big)\\ - \Big[\eta w_0\big(\tfrac{a\kappa}2\log t - G - c_{10}\big) + a_0F(\sigma-1) + 10^{-10}\eta + 2\cdot 10^{-7} + E_2\lambda_0\eta^2 + E_3\eta^3\Big] .
+\end{multline}
+
+\begin{remark}\label{rem:btyf0}
+In \cite{BTY} the Lemma-10 term enters the final inequality as $-0.1186\,w(0)\eta$, i.e.\ with $f(0) = \eta w(0)$.
+By their Definition~2, $f(0) = \kappa\eta w(0)$ with $\kappa = 0.504$.
+With the correct value, the Lemma-10 gain $0.23545\,\kappa f(0)$ equals $0.0598\,\eta w_0$, not $0.1186\,\eta w_0$.
+Evaluating their inequality exactly at the critical height $t = e^{76.47}$ with this correction still gives $\eta\log t \ge 0.2054 > 1/4.896$.
+So their Theorem~1 is unaffected.
+(We also note the misprint $F(2\sigma-1+\beta_0)$ in their (25), which should read $F(\sigma - 1 + \beta_0)$, as in (47).)
+\end{remark}
+
+\subsection{The constants for general $(\eta_0,\sigma_0)$}\label{ss:constants}
+The constants of \cite{BTY} are computed for $\eta \le 0.0071093$ and $\sigma \ge 0.9935164$.
+We need $\eta$ up to about $0.0125$ and $\sigma$ down to $0.9930$, so we re-derive each $(\eta_0,\sigma_0)$-dependent ingredient.
+
+\begin{lemma}[$W_0$ bound; replaces {\cite[Lemma~4]{BTY}}]\label{lem:W0}
+Put $W_0(z) = W(z) - w_0/z$. For $\Rp z \ge \nu$ and $|z| \ge r > 0$,
+\[
+|W_0(z)| \le C_w(\nu,r)|z|^{-3}, \qquad C_w(\nu,r) = |w''(0)| + \frac{|w'''(0)| + e^{-\nu D}|w'''(D)| + \int_0^D|w''''(u)|e^{-\nu u}du}{r} .
+\]
+Here $|w''(0)| = 50.06970149\ldots$ and $|w'''(0)| = |w'''(D)| = 117.26477652\ldots$.
+\end{lemma}
+
+\begin{proof}
+We have $w(D) = w'(D) = w''(D) = 0$ and $w'(0) = 0$.
+Integrating by parts four times gives
+$W(z) = \frac{w_0}{z} + \frac{w''(0)}{z^3} + \frac{w'''(0) - e^{-zD}w'''(D)}{z^4} + z^{-4}\int_0^De^{-zu}w''''(u)\,du$.
+The derivative values are exact enclosures from Taylor series in \code{arb}.
+The integral is certified on an integer grid of $\nu \in [30,200]$, using that it is decreasing in $\nu$.
+Sign changes of $w''''$ are isolated, and each piece is integrated with \code{acb.integral} (\code{rep/consts\_cert.py}).
+\end{proof}
+
+For comparison, $C_w(69.4, 69.4) = 51.80$, while \cite{BTY} use $C < 52$ at this point.
+
+\begin{lemma}[non-negativity; replaces {\cite[Lemma~5, (21)]{BTY}}]\label{lem:L5}
+Let $\sigma\in[0.993,1)$ and $\eta \le \eta_0 \le 0.0147$. Then $\Rp F(z) + \Rp F(2\sigma - 1 - \bar z) \ge 0$ for $0 \le \Rp z \le 2\sigma-1$.
+\end{lemma}
+
+\begin{proof}
+As in \cite{BTY}, it suffices to treat $\Rp z = 0$.
+For fixed $\sigma$ every $\delta_m$ equals $(2\sigma-1)m$ exactly.
+Rescaling $y \mapsto y/(2\sigma-1)$ reduces the condition to
+\[
+B(y) := \sum_{m=1}^{7} b_m\frac{m - \sgn(b_m)\eps_0/m}{m^2+y^2} > 0 \quad (y\in\mathbb R), \qquad \eps_0 = \frac{C_w\eta_0^2}{w_0(2\sigma-1)^2}.
+\]
+Here $(1+x)\sum\kappa_mx^m = \sum b_mx^m$.
+This reduction is independent of $\sigma$.
+For $\eta_0 \le 0.0147$ we have $\eps_0 \le 1/500$.
+For $\eps_0 = 1/500$, $B$ is a rational function whose numerator has no real roots and whose value at $0$ is positive; this is checked by exact root isolation (\code{rep/lemma5\_cert.py}).
+\end{proof}
+
+\begin{remark}\label{rem:L5}
+\cite{BTY} prove (21) uniformly in $\sigma$, replacing $\delta_m$ by $c_0m$ with $c_0 = 151/153 \le 2\sigma_0-1$.
+This requires $\sigma \ge 0.993464$.
+For $c_0 = 0.9864$, which corresponds to the smaller values of $\sigma$ needed below, their test function $B$ takes negative values, already at $\eps_0 = 1/2000$.
+The per-$\sigma$ version above has no such restriction.
+\end{remark}
+
+\begin{lemma}[error terms; replaces {\cite[Lemmas~8, 9 and (48)]{BTY}}]\label{lem:L89}
+Let $x_0 = \sigma_0 - \frac12 \ge 0.493$, $C_1 = C_w(x_0/\eta_0, x_0/\eta_0)$ and $C_2 = C_w(\sigma_0/\eta_0,\sigma_0/\eta_0)$.
+Let $\Sigma_\kappa = \sum|\kappa_m|$. Then $\sum_k a_k|E_k| \le E_2\lambda_0\eta^2 + E_3\eta^3$, where
+\[
+E_2 = a\,\Sigma_\kappa\frac{C_1}{\pi x_0^2}, \qquad
+E_3 = a_0\Sigma_\kappa\Big(\frac{C_1}{2\pi}\cdot 23.6497 + \frac{C_2}{x_0^3}\Big) + a\,\Sigma_\kappa\frac{C_2}{x_0^3} .
+\]
+\end{lemma}
+
+\begin{proof}
+Follow \cite[Lemma~8]{BTY}, with two changes.
+First, in their (33) the inequality $\eta\log t \le A_0$ is replaced by $\eta\log t = \lambda_0$.
+Second, the integral (32) is evaluated with the true digamma function:
+$\int_{\mathbb R}|\Rp\psi(\frac14 + \frac{iy}2)|(x_0^2+y^2)^{-3/2}dy \le 23.6497$ at $x_0 = 0.4930$, certified (\code{rep/consts\_cert.py}).
+This integral is decreasing in $x_0$.
+\end{proof}
+
+\begin{remark}
+The majorant $U(y)$ of \cite[(31)]{BTY} integrates to $28.3$ against $(x_0^2+y^2)^{-3/2}$, not to less than $24$ as stated in (32).
+The true digamma gives $23.59$, so (32) is correct, but its proof as written does not establish it.
+At $(\eta_0,\sigma_0) = (0.0071093, 0.9935164)$, Lemma~\ref{lem:L89} gives $185.4\eta^2 + 7972\eta^3$, against $187\eta^2 + 8013\eta^3$ in \cite[(48)]{BTY}.
+\end{remark}
+
+\begin{lemma}[{\cite[Lemmas~3, 10, 11]{BTY}}, re-derived]\label{lem:L1011}
+\begin{enumerate}
+\item $f \ge 0$ on $[0,\infty)$.
+\item $f(u) \ge \kappa f(0)$ for $0 \le u \le u_0(\eta_0,\sigma_0)$; for example $u_0 = 59.15$, $49.46$ and $33.61$ at $\eta_0 = 0.0071$, $0.0085$ and $0.0125$.
+\item $\sum_n\Lambda(n)n^{-\sigma}f(\log n)P(t\log n) \ge c_{10}\,\eta w_0$, where $c_{10} = \kappa^2\sum_{p:\ 15\log p\le u_0}m_p\log p$.
+\end{enumerate}
+Here $m_p$ are the certified lower bounds for $\min_x G_p(1,x)$ in \cite[Table~1]{BTY}, except that $m_5 = 0.0073564$ (Remark~\ref{rem:m5}).
+\end{lemma}
+
+\begin{proof}
+(1) $w \ge 0$ on $[0,D]$; this is certified by ball bisection on $[0,D-0.02]$ and by a Taylor bound near $D$, where $w'''(D) < 0$.
+The polynomial $\sum\kappa_mx^m$ has no root in $[0,1]$, by exact root isolation (\code{rep/f\_nonneg\_cert.py}).
+
+(2) We have $g(u) := w(\eta_0u)\sum\kappa_me^{-d_mu} - \kappa w_0 \ge 0$, with $d_m$ as in \cite[Lemma~11]{BTY}.
+This is certified by ball bisection, using $g(0) = 0$ and $g'(0) = -w_0\sum\kappa_md_m \ge 1.19$ near $u = 0$ (\code{rep/lemma11\_cert.py}).
+
+(3) As in \cite[Lemma~10]{BTY}, the terms with $n > e^{u_0}$ are dropped, which is valid by (1) and $P \ge 0$.
+So are all primes with $15\log p > u_0$, and the powers $p^m$ with $m > 15$.
+The bound $G_p(\sigma,x) \ge G_p(1,x)$ needs no computation: $G_p(\sigma,x) = \sum_{m\le15}p^{-m\sigma}P(mx)$, so $\partial_\sigma G_p = -\log p\sum_m m\,p^{-m\sigma}P(mx) \le 0$.
+The values $m_p$ are re-certified by ball bisection with a mean-value enclosure (\code{rep/mp\_cert.py}).
+\end{proof}
+
+\begin{remark}\label{rem:m5}
+For $p = 5$, \cite[Table~1]{BTY} lists $m_5 = 0.00735709$.
+However $G_5(1,x)$ attains $0.0073564919\ldots$ at $x = 1.6495242\ldots$, as confirmed independently in $30$-digit arithmetic.
+All other entries of the table are confirmed.
+The effect on their constant $0.23545$ is $-10^{-6}$.
+\end{remark}
+
+\begin{lemma}[{\cite[Lemma~12]{BTY}}]\label{lem:L12}
+$\sum_k a_k\sum_m\kappa_m\big(-\frac12\log\pi + \frac12\Rp\frac{\Gamma'}{\Gamma}(\frac{s_k+\delta_m}2+1)\big) \le \frac{a\kappa}2\log t - G(\sigma_0)$, where $G(\sigma_0)$ is computed by their formula in ball arithmetic.
+We have $G(0.9930) = 1.56839$ and $G(0.9935164) = 1.56888$; \cite{BTY} give $1.568$.
+\end{lemma}
+
+Lemma~13 of \cite{BTY} ($10^{-10}\eta$) and the tail estimates in their Lemma~6 hold unchanged for $\eta \le 0.015$ and $\log t \le 45$.
+Each tail term in their Lemma~6 is at most $3\cdot 10^{-9}$, so the total stays below $10^{-7}$; we use $2\cdot10^{-7}$.
+
+\subsection{Exact evaluation of $W$}
+Since $w$ is a combination of $u\cos(ku)$, $\cos(ku)$, $\sin(\phi-ku)$, $u$ and $1$ on $[0,D]$ (with $k = \tan\theta$), $W(z)$ has a closed form.
+In terms of $J_0(s) = (1-e^{-sD})/s$ and $J_1(s) = (1 - e^{-sD}(1+sD))/s^2$ it reads
+\[
+W(z) = \sec^2\theta\Big[\sec^2\theta\cdot\tfrac12\sum_\pm\big(\theta\cot\theta\, J_0 - \tfrac12J_1\big)(z\mp ik) + (2\theta\cot\theta-2)J_0(z) - J_1(z) + \frac{\Sigma_{2\theta}(z)}{\sin2\theta} - \frac{2\Sigma_\theta(z)}{\sin\theta}\Big],
+\]
+where $\Sigma_\phi(z) = (e^{i\phi}J_0(z+ik) - e^{-i\phi}J_0(z-ik))/(2i)$.
+It agrees with quadrature to $10^{-15}$ (\code{rep/Wexact.py}).
+In certification we evaluate it in \code{acb}, with the second-order enclosure
+\[
+W(z) \in W(z_c) + W'(z_c)(z - z_c) + B\big(0, \tfrac12 r^2\sup|W''|\big), \qquad r = |z-z_c| .
+\]
+Here $W'$ has the same closed form with $J_0\to-J_1$ and $J_1\to-J_2$.
+Integrating $u^2w$ by parts three times gives $\sup|W''| \le \min\big(\int u^2we^{-\nu u},\ (2w_0 + \int|(u^2w)'''|e^{-\nu u})/|z|^3\big)$.
+Both integrals are bounded by sums of ball suprema over $256$ subintervals.
+
+\subsection{The zero-free region}
+\begin{theorem}\label{thm:H}
+Let $\lambda^*(l)$ be the function given by the table below on the grid $l \in \{28, 28.25, \dots, 43\}$, extended by $\lambda^*(l) := \lambda^*(\lceil l\rceil_{0.25})$ for $l \le 43$ and by $\lambda^*(l) := 1/4.896$ for $l > 43$.
+Then every zero $\beta+i\gamma$ of $\zeta$ with $\gamma \ge 3$ satisfies $(1-\beta)\log\gamma \ge \lambda^*(\log\gamma)$.
+\begin{center}\small
+\begin{tabular}{c|cccccc}
+\toprule
+$l$ & 28 & 29 & 30 & 31 & 32 & 33\\
+$\lambda^*(l)$ & 0.21424 & 0.21384 & 0.21345 & 0.21308 & 0.21272 & 0.21239\\
+\midrule
+$l$ & 34 & 35 & 36 & 37 & 38 & 40\\
+$\lambda^*(l)$ & 0.21206 & 0.21175 & 0.21145 & 0.21117 & 0.21084 & 0.21033\\
+\bottomrule
+\end{tabular}
+\end{center}
+The full table is \code{rep/lamstar2c.json}.
+\end{theorem}
+
+\begin{proof}
+For $\gamma \le H_0$ the statement follows from \cite{PlattTrudgianRH}.
+For $l > 43$ it is \cite[Thm.~1]{BTY}.
+For the remaining range we run a four-step chain, starting from $\lambda_0 \equiv 1/4.896$.
+
+At step $j$ the hypothesis is the conclusion of step $j-1$.
+Since $\lambda_{j-1}(l)/l$ is non-increasing, this hypothesis gives the zero-free input of Lemma~6 of \cite{BTY} with $A = \lambda_{j-1}(\log(Kt+T_0))$.
+In every height cell $(L - 0.25, L]$ we certify $\mathcal M_1 > 0$ in ball arithmetic.
+This is done for all $\log t$ in the cell and all $\lambda_0 = \eta\log t \in [\lambda_{j-1}(L), \lambda_j(L)]$, where $\lambda_j(L)$ is the float threshold minus $2\cdot10^{-5}$, by adaptive bisection of the box.
+On each box we take $\sigma$ as a ball, with $A$ at the top of the box, which is valid because a smaller $A$ is a weaker hypothesis.
+The constants are taken at $\eta_0 = \lceil \lambda_j/l_{\min}\rceil_{10^{-4}} + 10^{-4}$ and at $\sigma_0$ rounded down.
+Then $\lambda_j(L) \ge \lambda_{j-1}(L)$, and a zero with $\lambda_{j-1}(L) \le (1-\beta)\log\gamma < \lambda_j(L)$ would give $\mathcal M_1 > 0$, contradicting \eqref{eq:bty}.
+
+The chain stabilises after three steps, and the fourth step changes no entry by more than $10^{-5}$.
+Program: \code{rep/lamcert.py}.
+\end{proof}
+
+At $\log t = 29$ the theorem amounts to the zero-free region $\sigma > 1 - 1/(4.676\log t)$.
+\section{Repulsion of zeros near the $1$-line}\label{sec:rep}
+
+In \cite[Lemma~6]{BTY} the zero sum $\Rp\sum_\rho F(s_1-\rho)$ is bounded below by the pair $\rho_0, 1-\bar\rho_0$.
+Every other zero $\rho$ is paired with its reflection $1-\bar\rho$, and each such pair contributes $\ge 0$ by (21) (our Lemma~\ref{lem:L5}).
+Instead of discarding one more pair, we keep it.
+
+\begin{lemma}\label{lem:twozero}
+In the situation of \eqref{eq:bty}, suppose $\rho_1 = \beta_1 + i(t+d)$ is a second zero with $\beta_1 > 1/2$.
+Put $\eta_1 = 1-\beta_1$, and assume $\lambda^*$-admissibility, i.e.\ $\sigma - \beta_1 > 0$. Then \eqref{eq:bty} holds with
+\[
+Z \ge a_1\Rp\big(F(\sigma - 1 + \eta_1 - id) + F(\sigma - \eta_1 - id)\big) .
+\]
+\end{lemma}
+
+\begin{proof}
+The pair $\{\rho_1, 1-\bar\rho_1\}$ contributes exactly $\Rp F(s_1 - \rho_1) + \Rp F(s_1 - (1-\bar\rho_1))$ to the zero sum, and this equals the displayed quantity.
+All other pairs are $\ge 0$ by Lemma~\ref{lem:L5}, since $0 \le \Rp(s_1-\rho) \le 2\sigma - 1$ for every zero below height $Kt+T_0$.
+The term $s_1$ enters with the coefficient $a_1$.
+The case $d < 0$ is identical, because $F(\bar z) = \overline{F(z)}$, so only $|d|$ matters.
+\end{proof}
+
+A pair of zeros at heights $t, t+d$ is therefore impossible as soon as
+\[
+\mathcal M_2 := \mathcal M_1(\eta_0) + a_1\Rp\big(F(\sigma-1+\eta_1-id) + F(\sigma-\eta_1-id)\big) > 0
+\]
+for at least one of the two choices of primary zero.
+Here $F$ is formed with the primary $\eta$.
+The reflected term behaves like $\Rp F(\sigma - \eta_1 - id) \approx \eta w_0(\sigma-\eta_1)/((\sigma-\eta_1)^2 + d^2)$, which is of size about $0.04$ for $d \lesssim 0.05$ and $\eta, \eta_1 \approx 0.0075$.
+This is what produces the repulsion.
+
+\begin{theorem}\label{thm:rep}
+For integers $29 \le l_k \le 37$ and $k$ with $\lambda^*(l_k) < k\cdot10^{-4}\cdot l_k \le 0.0125(l_k-1)$, define $d^*(l_k,k)$ by the table \code{rep/dstar2c\_all.json}.
+Its values range from $0.142$ for the cell just above the zero-free edge at $l_k = 29$, through $0.058$ for $l_k = 29$ and $0.056$ for $l_k = 30$, down to $0.045$ for $l_k = 37$.
+Suppose two zeros $\beta_j + i\gamma_j$ ($j = 0,1$) satisfy $H_0 < \gamma_j \le e^{l_k}$ and $1-\beta_j \le k\cdot 10^{-4}$.
+Then $|\gamma_0 - \gamma_1| \ge d^*(l_k, k)$.
+\end{theorem}
+
+\begin{proof}
+For a cell $(l_k,k)$ put $\Lambda = k\cdot10^{-4}l_k$, $e_{\min} = \lambda^*(l_k)/l_k$ and $e_{\max} = k\cdot10^{-4}$.
+By Theorem~\ref{thm:H}, both zeros have $1-\beta_j \ge e_{\min}$, since $\lambda^*(l)/l$ is non-increasing.
+
+Fix a sub-cell $(l-1, l]$ of heights, $l \le l_k$.
+We certify $\mathcal M_2 > 0$ for all $(\log t, \eta_0, \eta_1, |d|) \in [l-1, l + 10^{-12}] \times [e_{\min},e_{\max}]^2 \times [0, d^*]$, in ball arithmetic by adaptive bisection of the box.
+The width $10^{-12}$ covers the height $t+d$ of the second zero.
+On each box we try both orderings of the pair.
+As before, $\sigma$ is taken as a ball, with $A$ at the top of the box, and the constants at $(\eta_0,\sigma_0)$ rounded outward.
+In this way all $k$ on a coarse grid are certified at $97\%$ of the float value of $d^*$ (\code{rep/rep\_cert.py}, \code{rep/repcert\_run.py}).
+Intermediate $k$ inherit the value of the next certified $k$ above, which is valid because enlarging $e_{\max}$ only enlarges the box.
+
+Finally, a zero counted at height $\le e^{l_k}$ may lie in any lower height cell.
+So the table records $\min_{l\le l_k} d^*(l,k)$, over the cells $l$ in which $1-\beta \le k\cdot10^{-4}$ is compatible with Theorem~\ref{thm:H} (\code{rep/min\_fix.py}).
+This minimum changes only the six cells $(l_k, 121)$ with $l_k \ge 32$, which become $0$.
+\end{proof}
+
+The first version of these certificates used a second-order enclosure for $W''$ that clamped $\nu$ from below at $-2$.
+An independent audit found this.
+After the fix, every one of the $131$ certified cells, and the chain of Theorem~\ref{thm:H}, was certified again with identical results.
+\section{Zero-density estimates}\label{sec:density}
+
+Let $N(\sigma,T) = \#\{\rho = \beta+i\gamma: \beta > \sigma,\ 0 < \gamma \le T\}$, counted with multiplicity.
+In Proposition~\ref{prop:master}, $N(s,t)$ is replaced by $N^+(s,t)$, the minimum of the following bounds, each valid in its stated range.
+\begin{enumerate}
+\item[(N1)] $N(T) \le \frac T{2\pi}\log\frac T{2\pi e} + \log T + 1$ for $T \ge H_0$; this follows from \cite{HSW}.
+\item[(N2)] For $\sigma \ge \sigma_0 \in\{0.60, 0.65, \dots, 0.99\}$ and $T \ge 3.061\cdot 10^{10}$: Kadiri--Lumley--Ng \cite[Table~1]{KLN}, in the form $N(\sigma,T) \le A(\log T)^{5-2\sigma_0}T^{\frac83(1-\sigma_0)} + B\log^2T$.
+  This is valid because $\sigma \ge \sigma_0$, and the rows with $k < 1$ are used as $k = 1$.
+\item[(N3)] For $\sigma \ge 0.9927$ and $T > H_0$: Bellotti's bounds $N(\sigma,T) \le CT^{B(1-\sigma)}$ \cite[Thm.~1.1, Table~2]{Bellotti}, uniformly and for the ranges $T\in(e^{l-1},e^l]$ ($29\le l\le41$).
+\item[(N4)] For $1-\sigma \le 0.03$ and $28 < \log T \le 40$: Theorem~\ref{thm:density} below.
+  It is this bound that matters in the binding range.
+\end{enumerate}
+
+\subsection{The log-free estimate}
+We follow Bellotti \cite[\S\S3--4]{Bellotti}, with $L = \log T$, $U = T^u$, $V = T^v$ ($v = \tau u$), $W = T^w$ and $X = T^x$.
+\begin{itemize}
+\item The Barban--Vehov weights are $\psi_d$, supported on $d\le V$, with $\Psi(n) = \sum_{d\mid n}\psi_d$, so that $\Psi(1) = 1$ and $\Psi(n) = 0$ for $1 < n \le U$.
+\item The Selberg-type weights are $\theta_d$, supported on $d\le W$, with $\Theta(n) = \sum_{d\mid n}\theta_d$.
+\end{itemize}
+Let $\alpha = 1-\delta$.
+\begin{itemize}
+\item The plane is cut into rectangles of height $h = \kappa_0\delta$.
+\item In each rectangle we choose one representative zero with $\beta \ge \alpha$, if there is one; let $J$ be the number of representatives.
+\item Let $\tilde n$ be an upper bound for the number of zeros with $\beta\ge\alpha$ in one rectangle.
+\end{itemize}
+
+\begin{theorem}\label{thm:density}
+Let $\delta \in ((k-1)10^{-4}, k\,10^{-4}]$ with $k \le 300$, and $\log T \le l$ with $l \in \{29, 29.5, 30, 30.5, 31, 32, \dots, 40\}$.
+Let $(u,\tau,w,x)$ be admissible for the cell $(k,l)$ in the sense of Lemma~\ref{lem:D}.
+Then
+\[
+N(1-\delta, T) \le \tilde n\,\frac{d_4d_5}{w}\cdot\frac{\mathcal C}{c_1^2 - c_5}\cdot\frac{e^{2x\delta l}}{\delta l},
+\]
+where the constants $\tilde n, d_4, d_5, \mathcal C, c_1, c_5$ are those of Lemma~\ref{lem:D}, evaluated at $\delta_k = k\,10^{-4}$ and $L = l$.
+\end{theorem}
+
+The parameters are chosen separately for each cell by minimising the bound numerically.
+Any admissible choice gives a valid bound, so the optimisation needs no certification.
+The constants are evaluated at the worst corner of the cell: the smallest $\alpha$ and the largest $T$.
+Between the cells we use $N(\sigma,T) \le N(\sigma,e^l)$.
+The resulting tables are \code{code/lemmaD\_tableGH0.01\_*.pkl}.
+
+\begin{lemma}\label{lem:D}
+Write $\alpha_k = 1 - \delta_k$ and $\nu = \lambda^*(l)/l$.
+Call $(u,\tau,w,x)$ admissible if
+\[
+0.02 < w < u,\quad \tau > 1.05,\quad xL > uL - 2\log L,\quad uL \ge 40,\quad xL > \tau uL,
+\]
+\[
+\delta_k > \nu,\quad c_1 > 0,\quad c_1^2 - c_5 \ge 0.2 .
+\]
+For admissible parameters the bound of Theorem~\ref{thm:density} holds with the following constants.
+\begin{enumerate}
+\item[(i)] $c_1 = e^{-L^2/U} - B_1 - 3.8\,e^{-L(L-2u)}\dfrac{L^2+1}{w(v-u)L^6}$, where $I_\Gamma = 5.922$ and
+\[
+B_1 = \frac{10.45\cdot 0.618\cdot L\cdot I_\Gamma}{2\pi}\,T^{(v+w)/2 + 1/6 + x(1/2-\alpha_k)} .
+\]
+\item[(ii)] $d_5 = 1.0061\big(1 + (1.333 + 4e^{-wL/2})/(wL)\big)$ \cite[Lemma~4.3]{Bellotti}.
+\item[(iii)] $d_4$ is any upper bound for $\sum_n \Psi(n)^2n^{-1}(e^{-n/X} - e^{-nL^2/U})$; we take the bound of Theorem~\ref{thm:G}.
+\item[(iv)] $c_5 = \dfrac{d_4d_5}{2\pi}\,\dfrac{e^{wL}}{wL}\Big(e^{Lx(3/2-2\alpha_k)} + e^{(Lu-2\log L)(3/2-2\alpha_k)}\Big)\,\mathcal J$, where $\mathcal J = 4.72\cdot 0.618\, e^{L/6}L$.
+\item[(v)] $\mathcal C = \min_{\kappa_0}\Big[1.0067\big(1 + 2\delta_k\,\Lambda_{\mathrm{pair}}(\kappa_0\delta_k)\big)\Big] + 2\sqrt{2\pi}\cdot 2.4\cdot I'(\delta_k,l)$, with $\Lambda_{\mathrm{pair}}$ from Lemma~\ref{lem:pair} and $I'$ from Lemma~\ref{lem:crowd}.
+\item[(vi)] $\tilde n = \max\big(1, \min_\eta\lfloor M(\eta,l)/\mathrm{cost}(h/2)\rfloor\big)$ with $h = \kappa_0\delta_k$, in the notation of Lemma~\ref{lem:pair}.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+We indicate only where the argument departs from \cite{Bellotti}.
+The overall structure is \cite[(4.22)--(4.23)]{Bellotti}: $J^2c_1^2 \le J(c_2+c_3+c_4)X^{2-2\alpha}/(\delta\log T) + J^2c_5$, followed by $N(\alpha,T) \le \tilde nJ$.
+Each change below replaces one of her constants by a smaller valid one.
+
+\emph{(i) The term $B_1$.}
+This replaces Bellotti's $44.66\,d_2(v+w)^4T^{(v+w)/2+x(1/2-\alpha_0)+27/164}\log^4T$ in \cite[(3.17)]{Bellotti}.
+Write $a = ga'$ and $b = gb'$ with $(a',b') = 1$, and use $|\psi_a|, |\theta_b| \le 1$ and $\sum_{n\le N}n^{-1/2}\le 2\sqrt N$.
+This gives
+$|M(\tfrac12+it)| \le \sum_g g^{-1/2}\cdot 2(V/g)^{1/2}\cdot 2(W/g)^{1/2} < 4\zeta(3/2)\sqrt{VW} = 10.45\sqrt{VW}$,
+a bound without logarithms.
+We also use $|\zeta(\frac12+iu)| \le 0.618|u|^{1/6}\log|u|$ for $3 \le |u| \le e^{105}$ \cite{HPY}, and $\le 1.461$ for $|u| < 3$ \cite{Hiary}, together with
+$(\gamma+|t|)^{1/6}\log(\gamma+|t|) \le T^{1/6}\log T\,(1+|t|)$.
+Finally $I_\Gamma = \sup_{\sigma\in[-\frac12,\frac12-\alpha]}\int|\Gamma(\sigma+it)|(1+|t|)\,dt \le 5.922$ for $\delta \le 0.03$.
+The last term of $c_1$ is Bellotti's bound for the tail $\sum_{n>U}\Psi\Theta n^{-\rho}e^{-nL^2/U}$ \cite[(3.19)ff.]{Bellotti}.
+
+\emph{(iv) The term $\mathcal J$.}
+This replaces $J_1+J_2+J_3+J_4 \le 0.241 + 5.921 + 286.077\,T^{27/164} + 0.241$ \cite[(4.17)--(4.19)]{Bellotti}.
+We have $c := \frac32 - \beta_r - \beta_s \in [-\frac12, -0.44]$ for $\delta\le0.03$, and $|\zeta(\frac12 + iu)| \le \max(1.461, 0.618|u|^{1/6}\log|u|)$ for all $|u|\ge3$.
+For $|u| > e^{105}$ this holds because Patel and Yang's $66.7|u|^{27/164}$ \cite{PY} is smaller there.
+Moreover $|u| \le T + |t|$.
+Hence the whole integral \cite[(4.16)]{Bellotti} is at most
+\[
+0.618\,T^{1/6}\log T\int_{\mathbb R}|\Gamma(c+it)|\Big(1+\frac{|t|}3\Big)^{1/6}\Big(1 + \frac{\log(1+|t|/3)}{\log3}\Big)dt \le 4.72\cdot 0.618\,T^{1/6}\log T .
+\]
+The integral equals $4.7136$ at $c = -0.44$ and increases with $c$.
+
+\emph{(iii) The diagonal.} $d_4$ is the Barban--Vehov mean square of \cite[Lemma~4.2]{Bellotti}, which we bound by Theorem~\ref{thm:G}.
+Bellotti's own bound \cite[Lemma~3.3, (3.6)]{Bellotti} gives $d_4 \approx 85$--$105$ in the relevant range; Theorem~\ref{thm:G} gives about $1.5$.
+Because Theorem~\ref{thm:G} bounds the whole sum, Bellotti's condition $u+v<x$ is not needed.
+
+\emph{(v) The off-diagonal terms $c_2+c_3$.}
+Bellotti assumes \cite[(4.11)]{Bellotti} that representatives of distinct rectangles are at least $\delta$ apart.
+This need not hold: adjacent rectangles can have representatives arbitrarily close.
+Lemma~\ref{lem:pair} makes no such assumption, and it also uses the repulsion of Theorem~\ref{thm:rep}.
+The far term $c_4$ is replaced using Lemma~\ref{lem:crowd}.
+
+\emph{(vi) The local count.} $\tilde n$ replaces $b_1\delta\log T + b_2$ \cite[Lemma~2.4]{Bellotti}.
+\end{proof}
+
+\subsection{The pair sum}
+For $s_0 = 1 + \eta + i\gamma_r$, the Hadamard product and Stirling's formula give
+\[
+\sum_\rho\Rp\frac{1}{s_0-\rho} \le M(\eta, L) := \min\Big\{\tfrac12\log\tfrac{T}{2\pi} + F(\eta),\ \min_{c\in[0.5,2]}\Big(\tfrac12\log\tfrac T{2\pi} + \tfrac{c^2+1/2}{2c}F(\eta) + \tfrac{\log(T/\pi)}{8c}\Big)\Big\},
+\]
+where $F(\eta) = -\zeta'(1+\eta)/\zeta(1+\eta)$.
+The second expression comes from positivity of $(c + \cos\phi)^2$.
+Every term in the sum is positive.
+A zero with $\beta \ge 1-\delta$ at vertical distance $d$ from $s_0$ contributes at least
+$\mathrm{cost}(d) := \min_{a\in\{\eta, \eta+\delta\}} a/(a^2+d^2)$,
+which is valid because $a\mapsto a/(a^2+d^2)$ is unimodal.
+
+\begin{lemma}\label{lem:pair}
+Fix a representative $r$ and $h = \kappa_0\delta$.
+On each side of $r$, the representative of the $j$-th rectangle away lies at distance $d \in ((j-1)h, (j+1)h)$.
+Its contribution to the Hal\'asz--Montgomery pair sum, relative to the diagonal, is at most
+$b_j = g\big(\max(2\delta, (j-1)h, d^*)\big)/\max\big(2\delta, (j-1)h, d^*\big)$, where
+$g(d) = \min\big(1, |\Gamma(1+2\delta+id)|/\Gamma(1+2\delta)\big)$ and $d^* = d^*(\lceil l\rceil, k)$ is the repulsion distance of Theorem~\ref{thm:rep}.
+Its cost is at least $\mathrm{cost}((j+1)h)$.
+Rectangles with $(j+1)h \le d^*$ contain no representative.
+Then
+\[
+\sum_{s\ne r,\ |\gamma_s - \gamma_r| \le 1}\frac{|\Gamma(2-\rho_r-\bar\rho_s)|X^{2-\beta_r-\beta_s}}{1.0067\,X^{2\delta}} \le 2\delta\,\Lambda_{\mathrm{pair}}(h),
+\]
+where $\Lambda_{\mathrm{pair}}(h) := \min_\eta\max\big\{\sum_j b_jx_j : 0\le x_j\le 1 \ (\text{two per } j),\ \sum_j\mathrm{cost}((j+1)h)x_j \le M(\eta,L) - \mathrm{cost}(0)\big\}$.
+\end{lemma}
+
+\begin{proof}
+We have $|\Gamma(z)| = |\Gamma(1+z)|/|z|$.
+For $0\le\Rp z = s\le2\delta$, $|\Gamma(1+s+id)| \le \Gamma(1+s)|\Gamma(1+2\delta+id)|/\Gamma(1+2\delta)$, since the product $\prod_n(1+d^2/(1+s+n)^2)^{-1}$ is increasing in $s$.
+Also $X^y/y$ is increasing on $[2\nu, 2\delta]$, which gives the factor $1/\max(2\delta, |\Delta|)$.
+The crowding budget at $s_0 = 1+\eta+i\gamma_r$ bounds the total cost of all representatives near $\gamma_r$.
+The maximum of the linear functional under this budget is the fractional knapsack value, computed greedily.
+The repulsion theorem applies because all representatives counted in the cell $(k,l)$ have $1-\beta\le\delta_k$ and height $\le e^l$; for half-integer $l$ we use the integer cell above.
+\end{proof}
+
+\begin{lemma}[crowding]\label{lem:crowd}
+For a window of height $w_0$ centred at $t \le T$ and any $\eta > 0$, the number of representatives in the window is at most
+$n(w_0) = \min\big(\lfloor M'/\min(f(\eta), f(\eta+\delta))\rfloor, \lceil w_0/\delta\rceil + 1\big)$,
+where $f(a) = a/(a^2 + w_0^2/4)$ and $M' = \frac12\log\frac T{2\pi} + \frac1\eta - 0.36$.
+Consequently Bellotti's $c_4$ \cite[(4.13)--(4.14)]{Bellotti} may be computed with
+$I' = \delta\sum_i n(w_0)\max_{[y_i, y_i+w_0]} g$ in place of $I = \int_1^T g$, where $g(y) = e^{y/6}y^{1.5-2\alpha}e^{-\pi y/2}$, $w_0 = 1/4$, and the windows tile $[1,60]$.
+\end{lemma}
+
+\begin{proof}
+This is the crowding argument above applied to $s = 1+\eta+it$.
+For $0 < \eta \le 1.5$ we have $-\zeta'(1+\eta)/\zeta(1+\eta) \le 1/\eta - 0.36$; the minimum of $1/\eta + \zeta'/\zeta(1+\eta)$ on $(0, 1.5]$ is $0.378$.
+Beyond $y = 60$ the function $g$ is below $10^{-30}$.
+The worst case is taken over each $\delta$-bin, and $\eta$ is optimised on a grid.
+\end{proof}
+
+\subsection{The Barban--Vehov mean square}
+Let $\Delta = \log(V/U)$, $Y_1 = \log(X/V)$ and $Y_2 = \log(X/U)$.
+
+\begin{theorem}\label{thm:G}
+Let $\log U \ge 40$, $X > V$, $\tau \in [1.3, 2.5]$ and $\log X/\log V \in [1.1, 2.6]$. Then
+\[
+S := \sum_n\frac{\Psi(n)^2}{n}e^{-n/X} \le e^{-1/X} + D_4 + \mathrm{REM} + 2\sqrt{S_sS_t} + S_t,
+\]
+where
+\[
+D_4 = \Delta^{-2}\Big[\frac{Y_2^2 - Y_1^2}{2} - \gamma_E\Delta + k_1(Y_1+Y_2-2\gamma_E) + 2k_0\Big], \qquad k_1 \le -0.5853,\quad k_0 \le 0.4214 .
+\]
+Here $\mathrm{REM}$ is an explicit sum of exponentially small contour remainders, $S_t$ is an explicit bound for the mean square of the non-smooth part of the weights, and $S_s = e^{-1/X} + D_4 + \mathrm{REM}$.
+\end{theorem}
+
+\begin{proof}[Outline]
+Write $\Psi = (\Lambda_V - \Lambda_U)/\Delta$, where $\Lambda_z(n) = \sum_{d\mid n}\mu(d)\log^+(z/d)$.
+Split each truncation weight $\rho(d)$ as $\rho_s + \rho_t$, where $\rho_s(d) = \mathbb E[\rho(de^{-\eta Z})]$ with $Z\sim N(0,1)$ and $\eta = 0.02$.
+By Minkowski's inequality in $\ell^2(e^{-n/X}/n)$, $S \le (\sqrt{S_s}+\sqrt{S_t})^2$.
+
+For the smooth part, the Mellin transform of $\rho_s$ is $\hat\rho(s)e^{\eta^2s^2/2}$, and
+\begin{multline*}
+S_s = (2\pi i)^{-3}\iiint\Gamma(w)X^w\hat\rho_s(s_1)\hat\rho_s(s_2)\\ \times\frac{\zeta(1+w)\zeta(1+w+s_1+s_2)}{\zeta(1+w+s_1)\zeta(1+w+s_2)}\,\mathcal A(w,s_1,s_2)\,dw\,ds_1\,ds_2,
+\end{multline*}
+where $\mathcal A$ is an Euler product that converges absolutely near $0$ and satisfies $\mathcal A(w,0,s_2) = \mathcal A(w,s_1,0) = 1$.
+
+The Gaussian factor allows every contour to be closed inside the box $|\Ip| \le T_2 = 400$, $\Rp \ge 1-\theta$, $\theta = 0.4$.
+In this box $1/\zeta$ is analytic; this follows from \cite{PlattTrudgianRH} and is in any case confirmed by the computation.
+Beyond the box all lines lie at $\Rp\ge1$, and the Gaussian factor gives $e^{-\eta^2T_2^2/2}$.
+
+The residues produce $e^{-1/X} + D_4$, with $k_1 = H(0)$ and $k_0 = H'(0) + \gamma_EH(0)$, where $H$ is the kernel of the $s$-integral at $w = 0$.
+At leading order this reproduces the asymptotic $\frac32 + (\Theta - \tau)/(\tau-1)$ of the Graham-type mean square.
+
+The certified inputs are:
+\begin{itemize}
+\item rigorous box bounds $|\zeta| \le 11.89$ (for $|s-1|\ge 0.1$) and $|1/\zeta| \le 14.57$ on $\sigma\in[0.6,1.3]$, $|t|\le450$, obtained from Taylor models of $(s-1)\zeta(s)$ in \code{arb} (\code{lemG/box2.py});
+\item enclosures $k_1 = -0.607063\pm0.0217$ and $k_0 = 0.35026\pm0.0711$ (\code{lemG/kcert2.py});
+\item sup bounds for $\mathcal A$, obtained from enclosures over cells of the $3$-torus of phases for $p\le100$, a second-order bound for $p\le10^6$, and a tail estimate beyond (\code{lemG/remainder.py});
+\item $S_t$, for which $|\rho_t(d)| \le (\eta/\Delta)\big[\varpi((\log d - \log U)/\eta) + \varpi((\log d - \log V)/\eta)\big]$ with $\varpi(y) = \phi(y) - |y|\bar\Phi(|y|)$.
+  The resulting block sum uses exact masses for $m\le10^6$ and the bound $|\sum_{m\le x}\mu^2(m)/\varphi(m) - \log x - 1.3326| \le 4/\sqrt x$ \cite{RamareAkhilesh} beyond (\code{lemG/stbound.py}).
+\end{itemize}
+The integrals of explicit majorants are evaluated as rigorous upper sums or in closed form.
+At the binding cell, $\mathrm{REM} = 5.4\cdot10^{-4}$ and $S_t = 9.9\cdot10^{-5}$.
+All cells of the final tables have $\tau\in[1.54,1.78]$, $\log X/\log V\in[1.42,1.55]$ and $\log U\in[56.6,78.6]$, and every one of them takes its $d_4$ from Theorem~\ref{thm:G}.
+Details are in \code{notes/LEMMA\_G.md}, Step~3.
+\end{proof}
+
+\begin{remark}
+In the relevant range Theorem~\ref{thm:G} gives $d_4 \approx 1.48$, whereas Bellotti's \cite[Lemma~3.3]{Bellotti} gives $\approx 5.8$--$90$.
+For comparison, the Ramar\'e--Zuniga Alterman bound \cite{RZA} with an $X^\eps$ majorant gives $\approx 20$.
+Since $\log N$ has elasticity about $1$ in $d_4$, this is the single largest improvement in the density estimate.
+\end{remark}
+\section{The computation}\label{sec:computation}
+
+\subsection{The scan}
+For each interval $[L_1, L_2]$ we search for kernel parameters $(c, f)$:
+first over the grid $c\in\{40,50,\dots,100\}$, $f\in\{0.5,\dots,0.9\}$, then locally over $c\pm10$ in steps of $5$ and $f\pm0.1$ in steps of $0.05$.
+Given $(c,f)$, we put $\tau_{12} = \eps_R(L_2+1)/(1 + 2/L_1)$ and choose $\eps$ so that the smoothing term of Proposition~\ref{prop:master} equals $f\tau_{12}$.
+This uses three fixed-point steps; the residual excess is bounded rigorously in \code{certify/transfer\_check.py} and is below $10^{-3}$ relative even at $L_1 = 43$.
+We then evaluate the right-hand side of Proposition~\ref{prop:master} with $N^+$ from \S\ref{sec:density}, $\lambda^*$ from Theorem~\ref{thm:H} and $H = 3\cdot10^{12}$.
+The ratio $q$ is this right-hand side divided by $\tau_{12}$; an interval is certified when $q < 1$.
+
+The scan starts with intervals of width $10$ and bisects any interval that is not certified, down to width $0.5$ (\code{code/interval\_adapt.py}).
+For $[43, 57)$ we only need some bound, since this range enters only through the integral in Lemma~\ref{lem:transfer}; there we use widths $2$ to $0.5$, and $q$ may exceed $1$.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+range of $L$ & worst $q$ & remark\\
+\midrule
+$[43,57)$ & $3.80$ (at $43$), $\le 0.47$ above $48$ & used only through Lemma~\ref{lem:transfer}\\
+$[57,1000)$ & $0.9966$ at $907$ & $[857,907)$ needed width $5$\\
+$[1000,2000)$ & $0.8884$ at $1000$ & \\
+$[2000,2810)$ & $0.4063$ & \\
+$[2800,3159)$ & $0.4001$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The binding range $L\approx 900$ corresponds to bandwidth $T_1 \approx e^{30}$.
+There the zero sum is dominated by $\lambda = (1-\beta)\log T \in [0.20, 0.32]$ and $\log T\in(28.73, 30]$.
+For the interval $[900,910]$ of width $10$, the best kernel gives $0.40$ (smoothing) $+ 0.60$ (zeros above $H_0$) $= 1.002$, plus negligible terms; intervals of width $5$ are certified.
+
+\subsection{Certificates}
+The following list gives, for each ingredient, the program that certifies it.
+All these programs are in the repository; \code{code/rerun\_all.sh} re-runs the whole chain.
+\begin{enumerate}
+\item Lemma~\ref{lem:epsR} ($\eps_R$ on every cell): \code{certify/epsR\_cert.py}.
+\item Lemma~\ref{lem:smooth} (smoothing constant): \code{certify/smoothing\_const.py}.
+\item Proposition~\ref{prop:transfer} (from $\psi$ to $\pi - \li$, both conditions of \eqref{eq:target}): \code{certify/transfer\_check.py}.
+  The worst ratio is $0.99577$, at $\log y = 917$.
+\item Lemmas~\ref{lem:W0}--\ref{lem:L12} (constants of \cite{BTY}): in \code{rep/}, the programs \code{consts\_cert.py}, \code{lemma5\_cert.py}, \code{lemma11\_cert.py}, \code{f\_nonneg\_cert.py}, \code{mp\_cert.py} and \code{misc\_cert.py}.
+\item Theorem~\ref{thm:H}: \code{rep/lamcert.py}, with output \code{rep/lamstar2c.json}.
+\item Theorem~\ref{thm:rep}: \code{rep/repcert\_run.py} and \code{rep/min\_fix.py}; output \code{rep/dstar2c\_all.json}.
+\item Theorem~\ref{thm:G}: in \code{lemG/}, the programs \code{box2.py}, \code{kcert2.py}, \code{remainder.py} and \code{stbound.py}.
+\item Theorem~\ref{thm:density}: the tables \code{lemmaD\_tableGH0.01\_*.pkl}, produced by \code{bt4.py}.
+  Every cell's bound is recomputed exactly from its stored parameters when it is used.
+\item The scan: \code{interval\_adapt.py}, with logs in \code{logs/}.
+\end{enumerate}
+
+The scan itself runs in double precision.
+Every summand is a non-negative explicit majorant, evaluated with a relative rounding error far below the margin.
+The smallest margins are $1 - q = 3.4\cdot10^{-3}$ in the scan and $4.2\cdot10^{-3}$ in Proposition~\ref{prop:transfer}.
+The double-precision evaluation of the scan (as opposed to the certificates of items 1--7, which use ball arithmetic) is the one place where a referee has to accept a floating-point argument.
+It is a sum of a few thousand positive terms, each computed with a relative error of order $10^{-14}$.
+
+\subsection{Independent audit}
+An independent adversarial audit of the new ingredients (\S\S\ref{sec:zfr}--\ref{sec:density}) checked the following points and confirmed them:
+\begin{itemize}
+\item the legitimacy of keeping the second pair in Lemma~6 of \cite{BTY};
+\item the per-$\sigma$ form of Lemma~5;
+\item the induction in Theorem~\ref{thm:H};
+\item the use of $d^*$ in the pair sum;
+\item the error constants;
+\item the replacement of $\mathcal J$.
+\end{itemize}
+It found one genuine defect: the clamp on $\nu$ described at the end of \S\ref{sec:rep}.
+It also found three minor gaps: a missing non-negativity certificate for the dropped Lemma-10 terms, the unrounded $w$-derivative values, and the range of the Hiary--Patel--Yang bound.
+All four were fixed, and the full chain was re-run with identical results.
+\section{Remarks}\label{sec:remarks}
+
+\subsection{Corrections to inputs}
+For convenience we collect the points found while re-deriving the explicit inputs; none of them changes a published main theorem.
+\begin{enumerate}
+\item In \cite{BTY}:
+  \begin{enumerate}
+  \item the Lemma-10 term in the final inequality should carry the factor $\kappa$ (Remark~\ref{rem:btyf0});
+  \item the misprint in (25) (Remark~\ref{rem:btyf0});
+  \item the value of $m_5$ in Table~1 (Remark~\ref{rem:m5});
+  \item the integral of the digamma majorant (31) (\S\ref{ss:constants});
+  \item the uniform test for (21), which needs $\sigma \ge 0.993464$ (Remark~\ref{rem:L5});
+  \item the numerical verification of $\partial_\sigma G_p < 0$ is unnecessary, since this follows from $P \ge 0$ (Lemma~\ref{lem:L1011});
+  \item the terms with $m > 15$ in Lemma~10 are dropped there without a bound, which is justified by $f\ge0$.
+  \end{enumerate}
+\item In B\"uthe's smoothing estimate the main term is conservative by a factor of $2$ (Remark~\ref{rem:buthe}).
+\item In Bellotti \cite{Bellotti}, the pair-sum accounting \cite[(4.11)]{Bellotti} assumes a spacing of $\delta$ between representatives of different rectangles, which does not appear to be justified as stated; Lemma~\ref{lem:pair} avoids this assumption.
+  Since her constants are much larger than ours elsewhere, her published bounds are not affected in practice.
+\end{enumerate}
+
+\subsection{On two recent preprints}\label{sec:de}
+\begin{enumerate}
+\item \emph{arXiv:2408.02591} \cite{De2} claims \eqref{eq:ram} for $x \ge e^{43.5102147}$.
+  The argument combines $\pi(x) < e\,\pi(x/e)$ with $\pi(x) > x/\log x$ to conclude, in (29), that $\pi(x)^2 - \frac{ex}{\log x}\pi(x/e) < 0$.
+  That conclusion requires $\frac{x}{\log x}e\pi(x/e) \ge \pi(x)^2$.
+  From the first inequality one only obtains $\frac{x}{\log x}e\pi(x/e) > \frac{x}{\log x}\pi(x)$.
+  Passing from there to $\pi(x)^2$ would need $\pi(x) \le x/\log x$, which is the reverse of the second inequality (and is false for $x \ge 17$).
+  The gap is not a slip that can be repaired: the difference of the two sides of \eqref{eq:ram} has size $x^2/\log^6x$, whereas the bounds used have relative accuracy $\approx(\log x)^{-3/2}$.
+\item \emph{arXiv:2407.12052} \cite{De1} claims \eqref{eq:ram} for $x\ge e^{547}$.
+  The argument has four problems.
+  \begin{enumerate}
+  \item The monotonicity argument assumes Sterneck's conjecture $|M(x)| < \frac12\sqrt x$, which is false \cite{Neubauer}.
+  \item It asserts $M(x) = O(\sqrt x)$, which is an open problem (and widely believed false); the proof given yields at most $O(x^{1/2+\eps})$.
+  \item The retained main term is itself only $O(x^2/\log^2x)$, so the sign of $G(x) = \pi(x)^2 - \frac{ex}{\log x}\pi(x/e)$ is not determined.
+  \item The range below $e^{3158.442}$ is "covered" by evaluating at $26$ sample points.
+  \end{enumerate}
+\end{enumerate}
+Neither preprint therefore proves \eqref{eq:ram} in the range considered here.
+
+\subsection*{Acknowledgements}
+The computations and the drafting of this paper were carried out with substantial assistance from an AI system (Claude, Anthropic), which also performed the adversarial audit described in \S\ref{sec:computation}.
+All certificates are reproducible from the public code.
+\begin{thebibliography}{99}
+\bibitem{arb} F.~Johansson, \emph{Arb: efficient arbitrary-precision midpoint-radius interval arithmetic}, IEEE Trans. Comput. \textbf{66} (2017), 1281--1292.
+\bibitem{Axler2} C.~Axler, \emph{Estimates for $\pi(x)$ for large values of $x$ and Ramanujan's prime counting inequality}, Integers \textbf{18} (2018), A61.
+\bibitem{Axler} C.~Axler, \emph{On Ramanujan's prime counting inequality}, arXiv:2207.02486.
+\bibitem{Bellotti} C.~Bellotti, \emph{An explicit log-free zero density estimate for the Riemann zeta-function}, arXiv:2405.12545.
+\bibitem{BTY} C.~Bellotti, T.~Trudgian and A.~Yang, \emph{Zero-free regions inspired by work of Heath-Brown}, arXiv:2603.21490.
+\bibitem{BerndtIV} B.~C.~Berndt, \emph{Ramanujan's Notebooks, Part IV}, Springer, New York, 1994.
+\bibitem{Buthe2016} J.~B\"uthe, \emph{Estimating $\pi(x)$ and related functions under partial RH assumptions}, Math. Comp. \textbf{85} (2016), 2483--2498.
+\bibitem{Buthe2018} J.~B\"uthe, \emph{An analytic method for bounding $\psi(x)$}, Math. Comp. \textbf{87} (2018), 1991--2009.
+\bibitem{CullyHugillJohnston} M.~Cully-Hugill and D.~R.~Johnston, \emph{On the error term in the explicit formula of Riemann--von Mangoldt}, Int. J. Number Theory \textbf{19} (2023), 1205--1228.
+\bibitem{De1} S.~De, \emph{On proving an inequality of Ramanujan using explicit order estimates for the Mertens function}, arXiv:2407.12052.
+\bibitem{De2} S.~De, \emph{On proving Ramanujan's inequality using a sharper bound for the prime counting function $\pi(x)$}, arXiv:2408.02591.
+\bibitem{DudekPlatt} A.~W.~Dudek and D.~J.~Platt, \emph{On solving a curious inequality of Ramanujan}, Exp. Math. \textbf{24} (2015), 289--294.
+\bibitem{Hassani} M.~Hassani, \emph{On an inequality of Ramanujan concerning the prime counting function}, Ramanujan J. \textbf{28} (2012), 435--442.
+\bibitem{HSW} E.~Hasanalizade, Q.~Shen and P.-J.~Wong, \emph{Counting zeros of the Riemann zeta function}, J. Number Theory \textbf{235} (2022), 219--241.
+\bibitem{Hiary} G.~A.~Hiary, \emph{An explicit van der Corput estimate for $\zeta(1/2+it)$}, Indag. Math. \textbf{27} (2016), 524--533.
+\bibitem{HPY} G.~A.~Hiary, D.~Patel and A.~Yang, \emph{An improved explicit estimate for $\zeta(1/2+it)$}, J. Number Theory \textbf{256} (2024), 195--217.
+\bibitem{Johnston} D.~R.~Johnston, \emph{Improving bounds on prime counting functions by partial verification of the Riemann hypothesis}, Ramanujan J. \textbf{59} (2022), 1307--1321; arXiv:2109.02249.
+\bibitem{JohnstonYang} D.~R.~Johnston and A.~Yang, \emph{Some explicit estimates for the error term in the prime number theorem}, J. Math. Anal. Appl. \textbf{527} (2023), 127460.
+\bibitem{KLN} H.~Kadiri, A.~Lumley and N.~Ng, \emph{Explicit zero density for the Riemann zeta function}, J. Math. Anal. Appl. \textbf{465} (2018), 22--46.
+\bibitem{MV73} H.~L.~Montgomery and R.~C.~Vaughan, \emph{The large sieve}, Mathematika \textbf{20} (1973), 119--134.
+\bibitem{Neubauer} G.~Neubauer, \emph{Eine empirische Untersuchung zur Mertensschen Funktion}, Numer. Math. \textbf{5} (1963), 1--13.
+\bibitem{PY} D.~Patel and A.~Yang, \emph{An explicit sub-Weyl bound for $\zeta(1/2+it)$}, J. Number Theory (2024).
+\bibitem{PlattTrudgian} D.~J.~Platt and T.~S.~Trudgian, \emph{The error term in the prime number theorem}, Math. Comp. \textbf{90} (2021), 871--881.
+\bibitem{PlattTrudgianRH} D.~J.~Platt and T.~S.~Trudgian, \emph{The Riemann hypothesis is true up to $3\cdot10^{12}$}, Bull. Lond. Math. Soc. \textbf{53} (2021), 792--797.
+\bibitem{RamareAkhilesh} O.~Ramar\'e and P.~Akhilesh, \emph{Explicit averages of non-negative multiplicative functions: going beyond the main term}, Colloq. Math. \textbf{147} (2017), 275--313.
+\bibitem{RZA} O.~Ramar\'e and S.~Zuniga Alterman, \emph{An $L^2$-bound for the Barban--Vehov weights}, arXiv:2405.12662.
+\bibitem{RS62} J.~B.~Rosser and L.~Schoenfeld, \emph{Approximate formulas for some functions of prime numbers}, Illinois J. Math. \textbf{6} (1962), 64--94.
+\end{thebibliography}
+\end{document}

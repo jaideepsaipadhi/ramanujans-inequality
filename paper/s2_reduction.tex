@@ -1,0 +1,113 @@
+\section{Reduction to bounds for $\psi$}\label{sec:reduction}
+
+\begin{definition}\label{def:epsR}
+For $L > 1$ and $x = e^L$, put
+\[
+g(L) = \frac{\li(x)^2 - \frac{e x}{L}\li(x/e)}{(x/L)^2}, \qquad b(L) = \frac{2\li(x)}{x/L} + \frac{L}{L-1}.
+\]
+Define $\eps_R(L) := \big(-b + \sqrt{b^2 - 4g}\big)/2$ whenever $g(L) < 0$.
+\end{definition}
+
+Asymptotically $\eps_R(L) = \frac{1}{3L^4}\big(1+O(L^{-1})\big)$; for example $\eps_R(L)\cdot 3L^4$ equals $1.2706$ at $L = 58$, $1.0145$ at $L = 907$ and $1.0041$ at $L = 3159$.
+Computing $\eps_R$ directly is delicate, because $g$ is the difference of two quantities of size $1$ that agree to within $L^{-4}$.
+
+\begin{lemma}\label{lem:epsR}
+Put $A(L) = L e^{-L}\li(e^L)$, $u = 1/L$ and $P(u) = \sum_{k<16} k!\,u^k$.
+Then $g = A(L)^2 - \frac{L}{L-1}A(L-1)$, $b = 2A(L) + \frac{L}{L-1}$, and $\eps_R = -2g/(b + \sqrt{b^2-4g})$.
+Moreover $A(L) = P(u) + R(L)$, where
+\[
+-6e^{-L/2} \le R(L) \le \frac{16!\,u^{16}}{1 - 34u} + 6e^{-L/2} \qquad (L \ge 57).
+\]
+For every cell $[a, a+0.05] \subset [57.9, 3160.1]$ we have $g < 0$ on the cell, and $\eps_R$ admits an explicit certified lower bound there.
+\end{lemma}
+
+\begin{proof}
+The formulas for $g$ and $b$ follow by dividing the definitions by $(x/L)^2$ and $x/L$.
+For $R$, integrate $\int_a^x dt/\log t$ by parts $16$ times with $a = \sqrt x$.
+The boundary term at $a$ is $\li(a) - aP(2/L)/(L/2)$, which has absolute value at most $3a/(L/2)$ because $A$ and $P$ are both at most $1.1$ for arguments $\ge 28.5$.
+The integral remainder satisfies $0 \le (L/x)\,16!\int_a^x dt/\log^{17}t \le 16!\,u^{16}/(1-34u)$.
+To see this, note that the logarithmic derivative of $e^s s^{-17}$ is at least $1 - 34/L$ on $[L/2, L]$.
+
+The cancelling part $S(u) = P(u)^2 - P\big(\tfrac{u}{1-u}\big)/(1-u)$ is a power series in $u$ with integer coefficients.
+These are computed exactly up to order $70$, and $s_0 = \dots = s_3 = 0$, $s_4 = -1$, $s_5 = -14$.
+The tail is bounded by $\big(\sum_{k<16}k!\big)(2u)^{71}/(1-2u)$.
+Evaluating $S$ as $u^4\cdot(S/u^4)$ in ball arithmetic on each cell avoids the cancellation, and the remaining terms involve $R$ only.
+This is carried out by \code{certify/epsR\_cert.py} at $200$ bits.
+Point values agree with a $60$-digit direct evaluation; the enclosures have relative width at most $1.9\cdot 10^{-3}$, which is the variation of $\eps_R$ across a cell.
+\end{proof}
+
+\begin{lemma}\label{lem:reduce}
+Let $L = \log x \ge 58$ and $\eps = \eps_R(L)$.
+Assume $g(L) < 0$ and
+\begin{equation}\label{eq:pibounds}
+|\pi(x) - \li(x)| \le \eps\, \frac{x}{L}, \qquad \Big|\pi\Big(\frac xe\Big) - \li\Big(\frac xe\Big)\Big| \le \eps\, \frac{x/e}{L-1},
+\end{equation}
+with at least one of the two inequalities strict.
+Then \eqref{eq:ram} holds at $x$.
+\end{lemma}
+
+\begin{proof}
+Since $\li(x) > \eps x/L$, \eqref{eq:pibounds} gives $0 < \pi(x) \le \li(x) + \eps x/L$ and $\pi(x/e) \ge \li(x/e) - \eps x/(e(L-1))$.
+It therefore suffices to show
+$(\li(x) + \eps x/L)^2 < \frac{ex}{L}\big(\li(x/e) - \eps\frac{x}{e(L-1)}\big)$.
+After dividing by $(x/L)^2$ this reads $g + b\eps + \eps^2 < 0$, and with $\eps = \eps_R(L)$ the left side equals $0$.
+Strictness in \eqref{eq:pibounds} makes the inequality strict.
+\end{proof}
+
+Writing $y = x/e$, so that $\log y = L - 1$, the hypotheses \eqref{eq:pibounds} for all $x$ with $\log x \in [58, 3159]$ become the following two conditions:
+\begin{equation}\label{eq:target}
+\begin{aligned}
+|\pi(y) - \li(y)| &< \eps_R(\log y + 1)\,\frac{y}{\log y} &&(57 \le \log y \le 3158),\\
+|\pi(y) - \li(y)| &< \eps_R(\log y)\,\frac{y}{\log y} &&(58 \le \log y \le 3159).
+\end{aligned}
+\end{equation}
+No monotonicity of $\eps_R$ is needed: both conditions are checked directly, cell by cell (Proposition~\ref{prop:transfer}).
+
+\begin{lemma}[transfer]\label{lem:transfer}
+Let $y \ge 2$.
+Then
+\[
+\pi(y) - \li(y) = \frac{\vartheta(y) - y}{\log y} + \int_2^y \frac{\vartheta(t) - t}{t\log^2 t}\,dt + \frac{2}{\log 2} - \li(2),
+\qquad \Big|\frac{2}{\log 2} - \li(2)\Big| < 1.84.
+\]
+Moreover $0 \le \psi(t) - \vartheta(t) \le 1.4262\sqrt t$ for $t > 0$ \cite[Thm.~13]{RS62}.
+\end{lemma}
+
+\begin{proof}
+Partial summation gives $\pi(y) = \vartheta(y)/\log y + \int_2^y \vartheta(t)\,dt/(t\log^2 t)$.
+Integration by parts gives $\li(y) = y/\log y + \int_2^y dt/\log^2 t + \li(2) - 2/\log 2$.
+Subtracting the two identities proves the formula.
+\end{proof}
+
+\begin{proposition}\label{prop:transfer}
+Suppose that for every certified interval $[L_1, L_2] \subset [43, 3159]$ of the final scan (\S\ref{sec:computation})
+\begin{equation}\label{eq:psicert}
+|\psi(t) - t| \le q_{[L_1,L_2]}\,\frac{\eps_R(L_2+1)}{1 + 2/L_1}\, t + a(t) \qquad (\log t \in [L_1, L_2]).
+\end{equation}
+Here $q_{[L_1,L_2]}$ is the certified ratio of that interval, and $a(t) = 2 + e^{2\cdot 10^{-4}}(\log t + 10^{-4})\big(2.01\cdot 10^{-4}\sqrt t + \tfrac12\log\log(2t^2)\big)$ collects the additive terms of Lemma~\ref{lem:smooth} and Proposition~\ref{prop:explicit}.
+Suppose also that $|\psi(t) - t| \le 0.94\sqrt t$ for $11 < t \le 10^{19}$ \cite[Thm.~2]{Buthe2018}.
+Then \eqref{eq:target} holds.
+\end{proposition}
+
+\begin{proof}
+Combine Lemma~\ref{lem:transfer} with \eqref{eq:psicert}, the bound $|\vartheta - t| \le |\psi - t| + 1.4262\sqrt t$, and the trivial bound $|\vartheta(t) - t| \le 11$ for $t \le 11$.
+The integral over $[2, e^{43}]$ is at most
+$\big((0.94 + 1.4262)\cdot 2 e^{21.5}/\log^2 2\big) + 121$.
+
+On $[e^{43}, y]$ we use upper Riemann sums in $u = \log t$ with step $h = 0.05$.
+On each cell we use the largest certified bound meeting it, and the inequality $\int_a^b e^u u^{-2}du \le (e^b - e^a)/a^2$.
+For $y$ in a cell $[a, a+h]$ with $a \ge 57$, the numerator is bounded over the whole cell.
+It is compared with the certified lower bounds of Lemma~\ref{lem:epsR} for $\eps_R$ on $[a+1, a+1+h]$ and on $[a, a+h]$; the latter comparison is needed only when $a \ge 58$.
+The script \code{certify/transfer\_check.py} carries this out in $40$-digit arithmetic for every cell of $[57, 3159)$.
+The largest value of
+\[
+\frac{\text{bound for } |\pi(y) - \li(y)|}{\min(\eps_R(\log y+1),\,\eps_R(\log y))\cdot y/\log y}
+\]
+that it finds is $0.99577$, attained at $\log y = 917$.
+\end{proof}
+
+\begin{remark}
+The factor $(1+2/L_1)^{-1}$ in \eqref{eq:psicert} is what the integral term costs.
+Heuristically, $\int^{y}\eps_R(\log t+1)\,dt/\log^2 t \approx \eps_R(\log y+1)\frac{y}{\log^2 y}(1 + 6/\log y)$, so the total is $\approx(1 + 1/L + 6/L^2) \le 1 + 2/L$.
+Proposition~\ref{prop:transfer} does not rely on this heuristic; it verifies the inequality numerically, cell by cell.
+\end{remark}

@@ -1,0 +1,107 @@
+\section{Introduction}
+
+In his second notebook (see \cite{BerndtIV}, p.~112) Ramanujan stated that
+\begin{equation}\label{eq:ram}
+\pi(x)^2 < \frac{e x}{\log x}\, \pi\!\left(\frac{x}{e}\right)
+\end{equation}
+holds for all sufficiently large $x$, where $\pi(x)$ is the number of primes up to $x$.
+Expanding $\pi$ by the prime number theorem with the error term $O(x\log^{-6}x)$ shows that the two sides differ by
+$\frac{x^2}{\log^6 x}\,(1+o(1))$, so \eqref{eq:ram} is a statement about the sixth term of the asymptotic expansion.
+It requires the relative error $|\pi(x)-\li(x)|\log x/x$ to be smaller than roughly $1/(3\log^4 x)$.
+Let $N_R$ denote the smallest real number such that \eqref{eq:ram} holds for every $x \ge N_R$.
+
+\subsection*{What was known}
+\begin{itemize}
+\item Under the Riemann hypothesis, Dudek and Platt \cite{DudekPlatt} showed $N_R = 38\,358\,837\,683$.
+  They combined Hassani's conditional bound \cite{Hassani} with a computation for $x \le 1.15\cdot 10^{16}$.
+  The largest prime counterexample, $38\,358\,837\,677$, had been found by Galway (see \cite{DudekPlatt}).
+\item Unconditionally, the inequality is known in two ranges:
+  \begin{itemize}
+  \item for $38\,358\,837\,683 \le x \le e^{58}$ (Platt and Trudgian \cite{PlattTrudgian}), extended to $x \le e^{103}$ by Johnston \cite[Thm.~5.1]{Johnston};
+  \item for $x \ge e^{X_0}$, where $X_0$ fell successively as follows (see \cite{Axler} for the history):
+  \[
+  9658 \to 9032\ \text{\cite{Axler2}} \to 3915\ \text{\cite{PlattTrudgian}} \to 3604\ \text{\cite{CullyHugillJohnston}} \to 3361\ \text{\cite{JohnstonYang}} \to 3158.442\ \text{\cite{Axler}}.
+  \]
+  \end{itemize}
+\end{itemize}
+The range $e^{103} < x < e^{3158.442}$ remained open.
+Two recent preprints \cite{De1,De2} claim to settle it; we explain in \S\ref{sec:de} why their arguments are not proofs.
+
+\subsection*{Result}
+\begin{theorem}\label{thm:main}
+Inequality \eqref{eq:ram} holds for every real $x$ with $e^{58} \le x \le e^{3159}$.
+Consequently it holds for every $x \ge 38\,358\,837\,683$, and $N_R = 38\,358\,837\,683$ unconditionally.
+\end{theorem}
+
+The second statement follows from the first together with \cite[Thm.~5.1]{Johnston} and \cite[Thm.~1.1]{Axler}.
+The value of $N_R$ also uses the computations of Galway and of Dudek--Platt \cite{DudekPlatt} for $x \le 10^{11}$.
+
+The only information about zeros of $\zeta$ that we take from a large-scale computation is the theorem of Platt and Trudgian \cite{PlattTrudgianRH}:
+every non-trivial zero $\rho$ of $\zeta$ with $0 < \Ip\rho \le H_0 := 3\cdot 10^{12}$ satisfies $\Rp \rho = 1/2$.
+All remaining information about zeros comes from explicit theorems, and our own computations are certified with rigorous ball arithmetic \cite{arb}.
+
+\subsection*{Method}
+Write $L = \log x$.
+\begin{enumerate}
+\item By an elementary argument (\S\ref{sec:reduction}), \eqref{eq:ram} at $x$ follows from
+  $|\pi(y)-\li(y)| \le \eps_R(\log y + 1)\, y/\log y$ for $y \in \{x, x/e\}$.
+  Here $\eps_R(L) \approx 1/(3L^4)$ is an explicit function (Definition~\ref{def:epsR}).
+  This in turn follows from relative bounds for $\psi(t)-t$ on $[e^{43}, x]$ (Lemma~\ref{lem:transfer}).
+\item The bound for $\psi$ comes from a smoothed explicit formula with Logan's kernel, as in B\"uthe \cite{Buthe2016,Buthe2018} (\S\ref{sec:explicit}).
+  The zeros with $|\gamma| \le H_0$ lie on the critical line.
+  Zeros above $H_0$ are controlled by three ingredients:
+  \begin{enumerate}
+  \item[(a)] a zero-free region $\sigma > 1 - \lambda^*(\log t)/\log t$ (\S\ref{sec:zfr});
+  \item[(b)] explicit zero-density estimates $N(\sigma,T)$ (\S\ref{sec:density});
+  \item[(c)] a repulsion lemma for pairs of zeros close to the $1$-line (\S\ref{sec:rep}), which feeds into (b).
+  \end{enumerate}
+\item The binding range is $L \approx 900$, where the kernel has bandwidth $T_1 \approx e^{30}$.
+  There the decisive zeros are those with $1-\beta \approx 0.21/\log\gamma$, at heights just above $H_0$.
+  Without (a)--(c) and the improved density estimate, the same argument needs the Riemann hypothesis up to height $8\cdot 10^{12}$ (or more, with the published density constants).
+\end{enumerate}
+
+\subsection*{New ingredients}
+\begin{enumerate}
+\item \textbf{Zero density} (Theorem~\ref{thm:density}).
+  We rework Bellotti's log-free zero-density estimate \cite{Bellotti} for $\sigma$ near $1$ and $3\cdot 10^{12} < T \le e^{40}$.
+  The main gain comes from an asymptotically sharp, fully explicit evaluation of the Barban--Vehov mean square $\sum_n \Psi(n)^2 e^{-n/X}/n$ (Theorem~\ref{thm:G}).
+  This is the quantity Bellotti calls $d_4$, and our bound improves it by a factor of about $4$.
+  The bound uses a smoothed contour argument with a certified enclosure of $1/\zeta$ in a box.
+  Further, smaller improvements:
+  \begin{itemize}
+  \item a corrected and sharpened bound for the off-diagonal pair sum, using a crowding argument;
+  \item a log-free pointwise bound for the mollifier;
+  \item a sharper treatment of the contour integral of $\zeta(1/2+it)$;
+  \item parameters optimised separately for each $(\sigma,T)$-cell.
+  \end{itemize}
+\item \textbf{A height-dependent zero-free region} (Theorem~\ref{thm:H}).
+  Bellotti, Trudgian and Yang \cite{BTY} proved $\zeta(\sigma+it)\neq 0$ for $\sigma > 1 - 1/(4.896\log t)$.
+  We evaluate their basic inequality exactly at every height and iterate.
+  This gives $(1-\beta)\log\gamma \ge 0.21384$ for $\log\gamma \le 29$, which is $R = 4.676$ in place of $4.896$.
+  Several of their constants are tied to $\sigma \ge 0.99346$, so we re-derive all of them for the smaller $\sigma$ and the larger $\eta$ we need.
+\item \textbf{Repulsion} (Theorem~\ref{thm:rep}).
+  Keeping a second zero, together with its reflection, in the zero sum of the same inequality shows the following.
+  Two zeros $\beta_j+i\gamma_j$ with $(1-\beta_j)\log\gamma_j \le 0.35$ at heights near $e^{29}$ satisfy $|\gamma_0-\gamma_1| \ge 0.058$.
+  This removes the near-diagonal part of the pair sum in the density estimate.
+\end{enumerate}
+
+\subsection*{Certification}
+Every quantity that enters the final inequalities is either an explicit closed form or is bounded with interval arithmetic (\code{python-flint}/Arb \cite{arb}).
+This covers the zero-free and repulsion certificates, the constants of \cite{BTY} that we re-derive, the box enclosure of $1/\zeta$, and the final sum over zeros.
+In the scan over $L$, every interval is certified by explicit upper sums of monotone majorants.
+The code, tables and logs are available at \url{https://github.com/jaideepsaipadhi/ramanujans-inequality}.
+Section~\ref{sec:computation} lists the certificate for each lemma.
+
+\subsection*{Corrections to the literature}
+We found the following points while re-deriving the explicit inputs we use; none of them affects the main published results.
+\begin{itemize}
+\item In \cite{BTY}:
+  \begin{itemize}
+  \item a normalisation slip in the final inequality: the Lemma-10 term should be multiplied by $\kappa = 433/859$;
+  \item an incorrect value in their Table~1, at $p = 5$;
+  \item a digamma majorant whose integral is larger than stated;
+  \item a positivity test that is valid only for $\sigma \ge 0.99346$.
+  \end{itemize}
+\item B\"uthe's smoothing estimate \cite[Prop.~4]{Buthe2016} (quoted as Prop.~1 in \cite{Buthe2018}) is conservative by a factor of $2$ in its main term, under the normalisation stated there.
+\end{itemize}
+Details are in \S\ref{sec:remarks}.
