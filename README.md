@@ -1,5 +1,7 @@
 # Ramanujan's prime-counting inequality, unconditionally for all x ≥ 38,358,837,683
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23408098.svg)](https://doi.org/10.5281/zenodo.23408098) · aiXiv: [2610.01760](https://aixiv.online/abs/2610.01760)
+
 **Theorem.** For every real x ≥ 38 358 837 683,
 
     π(x)² < (e x / log x) · π(x/e).
