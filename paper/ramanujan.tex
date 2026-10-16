@@ -30,6 +30,7 @@
 \keywords{Ramanujan's inequality, prime-counting function, zero-density estimates, zero-free regions, explicit formula, interval arithmetic}
 
 \begin{document}
+\sloppy
 \begin{abstract}
 Ramanujan observed that $\pi(x)^2 < \frac{e x}{\log x}\,\pi\!\left(\frac{x}{e}\right)$ for all sufficiently large $x$.
 Dudek and Platt showed, assuming the Riemann hypothesis, that the last counterexample is $x = 38\,358\,837\,682$.
@@ -258,7 +259,7 @@ The largest value of
 \[
 \frac{\text{bound for } |\pi(y) - \li(y)|}{\min(\eps_R(\log y+1),\,\eps_R(\log y))\cdot y/\log y}
 \]
-that it finds is $0.99577$, attained at $\log y = 917$.
+that it finds is $0.99383$, attained at $\log y = 877$.
 \end{proof}
 
 \begin{remark}
@@ -930,10 +931,10 @@ For $[43, 57)$ we only need some bound, since this range enters only through the
 range of $L$ & worst $q$ & remark\\
 \midrule
 $[43,57)$ & $3.80$ (at $43$), $\le 0.47$ above $48$ & used only through Lemma~\ref{lem:transfer}\\
-$[57,1000)$ & $0.9966$ at $907$ & $[857,907)$ needed width $5$\\
-$[1000,2000)$ & $0.8884$ at $1000$ & \\
-$[2000,2810)$ & $0.4063$ & \\
-$[2800,3159)$ & $0.4001$ & \\
+$[57,1000)$ & $0.9947$ at $867$ & $[857,917)$ needed width $5$\\
+$[1000,2000)$ & $0.8919$ at $1000$ & \\
+$[2000,2600)$ & $0.4052$ & \\
+$[2600,3159)$ & $0.4003$ & \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -949,14 +950,14 @@ All these programs are in the repository; \code{code/rerun\_all.sh} re-runs the 
 \item Lemma~\ref{lem:epsR} ($\eps_R$ on every cell): \code{certify/epsR\_cert.py}.
 \item Lemma~\ref{lem:smooth} (smoothing constant): \code{certify/smoothing\_const.py}.
 \item Proposition~\ref{prop:transfer} (from $\psi$ to $\pi - \li$, both conditions of \eqref{eq:target}): \code{certify/transfer\_check.py}.
-  The worst ratio is $0.99577$, at $\log y = 917$.
+  The worst ratio is $0.99383$, at $\log y = 877$.
 \item Lemmas~\ref{lem:W0}--\ref{lem:L12} (constants of \cite{BTY}): in \code{rep/}, the programs \code{consts\_cert.py}, \code{lemma5\_cert.py}, \code{lemma11\_cert.py}, \code{f\_nonneg\_cert.py}, \code{mp\_cert.py} and \code{misc\_cert.py}.
 \item Theorem~\ref{thm:H}: \code{rep/lamcert.py}, with output \code{rep/lamstar2c.json}.
 \item Theorem~\ref{thm:rep}: \code{rep/repcert\_run.py} and \code{rep/min\_fix.py}; output \code{rep/dstar2c\_all.json}.
 \item Theorem~\ref{thm:G}: in \code{lemG/}, the programs \code{box2.py}, \code{kcert2.py}, \code{remainder.py} and \code{stbound.py}.
 \item Theorem~\ref{thm:density}: the tables \code{lemmaD\_tableGH0.01\_*.pkl}, produced by \code{bt4.py}.
   Every cell's bound is recomputed exactly from its stored parameters when it is used.
-\item The scan: \code{interval\_adapt.py}, with logs in \code{logs/}.
+\item The scan: \code{interval\_adapt.py}, with logs in \code{logs/}; \code{certify/coverage\_check.py} checks that the certified intervals cover $[57,3159)$.
 \end{enumerate}
 
 \subsection{Rounding in the scan}
@@ -974,7 +975,7 @@ Standard error analysis therefore bounds the relative rounding error of each $q$
 
 As an empirical check, inflating every density bound by a factor $1+10^{-6}$ changes $q$ on the binding interval $[907,912]$ by $5.8\cdot10^{-7}$.
 This is consistent with the scan depending on the density bounds linearly, with coefficient at most $1$.
-The smallest margins are $1-q \ge 3\cdot10^{-3}$ in the scan and about $4\cdot10^{-3}$ in Proposition~\ref{prop:transfer}, some eight orders of magnitude above the rounding error.
+The smallest margins are $1-q \ge 5\cdot10^{-3}$ in the scan and about $6\cdot10^{-3}$ in Proposition~\ref{prop:transfer}, some eight orders of magnitude above the rounding error.
 A complete interval-arithmetic re-evaluation of the scan, keeping the floating-point parameters but evaluating each bound in \code{arb}, is straightforward but costly; we have not carried it out.
 
 \subsection{Adversarial audits}

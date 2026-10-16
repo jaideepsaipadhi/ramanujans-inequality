@@ -31,7 +31,12 @@ The proof is in [`paper/ramanujan.pdf`](paper/ramanujan.pdf).
 Requires Python 3 with mpmath, numpy, scipy, sympy, python-flint.
 
 ```
-cd code && ./rerun_all.sh          # re-certify Lemma H, Lemma Rep, rebuild tables, scan (~16 h on 2 cores)
-cd certify && python3 smoothing_const.py
-python3 transfer_check.py ../logs/final_3.0e12_*.txt
+cd code && ./rerun_all.sh          # every certificate, the tables, the scan and the final checks (~20 h on 2 cores)
+cd certify && python3 coverage_check.py ../logs/final_3.0e12_*.txt && python3 transfer_check.py ../logs/final_3.0e12_*.txt
 ```
+
+## Final numbers (H = 3·10¹²)
+- Scan ratio q < 1 on all of [57, 3159). The worst value is 0.9947, at L = 867; the range [857, 917) needed width-5 intervals.
+- Transfer to π − li: the worst ratio is 0.99383, at log y = 877.
+- The final scan runs in double precision; the paper (§7) gives the rounding analysis. All other steps are certified in ball arithmetic.
+- The scan logs are split across `logs/final_3.0e12_{low,a,b,c,c2,c3,c4,dpar}.txt` because a container restart interrupted the run. The logs together cover the whole range, and `coverage_check.py` verifies this.

@@ -10,4 +10,4 @@ python3 min_fix.py                                     # min over lower height c
 cd "$HERE"; export LEMMAG=1
 ( python3 bt4.py 29,29.5,30,30.5,31 ; python3 bt4.py 32,33,34,35 ) & ( python3 bt4.py 36,37,38,39,40 ) & wait
 ./run_final.sh 3.0e12
-cd "$HERE/../certify" && python3 smoothing_const.py | tail -1 && python3 epsR_cert.py | tail -1 && python3 transfer_check.py ../logs/final_3.0e12_*.txt
+cd "$HERE/../certify" && python3 coverage_check.py ../logs/final_3.0e12_*.txt && python3 smoothing_const.py | tail -1 && python3 epsR_cert.py | tail -1 && python3 transfer_check.py ../logs/final_3.0e12_*.txt

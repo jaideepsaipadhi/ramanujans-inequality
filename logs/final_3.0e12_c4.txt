@@ -1,0 +1,6 @@
+2550 2560 0.4004
+2560 2570 0.4003
+2570 2580 0.4003
+2580 2590 0.4003
+2590 2600 0.4003
+H=3.000e+12 [2550,2600) adaptive (start width 10): worst certified-cover ratio 0.4004 at L=2550; uncovered: []; subdivided: []
