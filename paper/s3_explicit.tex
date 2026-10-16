@@ -20,13 +20,13 @@ It coincides with B\"uthe's modified Chebyshev function \cite[(3.2)--(3.4)]{Buth
 
 \subsection{Smoothing}
 \begin{lemma}\label{lem:smooth}
-Let $x \ge 10^{18}$, $30 \le c \le 110$, $0 < \eps \le 10^{-4}$, and $\lambda_0 = \log(10\sqrt c/\eps) < \log x - 1$.
+Let $x \ge 10^{18}$, let $c\in\{30,31,\dots,110\}$ be an integer, $0 < \eps \le 10^{-4}$, and $\lambda_s = \log(10\sqrt c/\eps) < \log x - 1$.
 Put $\nu_c := \int_0^1 u\,\eta_{c,1}(u)\,du$. Then
 \begin{multline*}
-|\psi(x) - \psi_{c,\eps}(x)| \le \frac{\log x + \lambda_0}{\log x - \lambda_0}\cdot 2\eps\, e^{\eps/2}\Big(\frac{\nu_c}{2} + \frac{I_0(c)}{200\sinh c}\Big)x \\ + a(x),
+|\psi(x) - \psi_{c,\eps}(x)| \le \frac{\log x + \lambda_s}{\log x - \lambda_s}\cdot 2\eps\, e^{\eps/2}\Big(\frac{\nu_c}{2} + \frac{I_0(c)}{200\sinh c}\Big)x \\ + a(x),
 \end{multline*}
 where $a(x) = e^{2\eps}\log(e^{\eps}x)\big(2.01\eps\sqrt x + \tfrac12\log\log(2x^2)\big)$.
-Moreover $2\sqrt c\,e^{\eps/2}\big(\nu_c/2 + I_0(c)/(200\sinh c)\big) \le 0.80319 < 0.7946\cdot 1.02$ for $c \in [30,110]$.
+Moreover $2\sqrt c\,e^{\eps/2}\big(\nu_c/2 + I_0(c)/(200\sinh c)\big) \le 0.80319 < 0.7946\cdot 1.02$ for these $c$ (the scan uses only integer $c$).
 \end{lemma}
 
 \begin{proof}
@@ -41,7 +41,7 @@ For $3 \le Y \le X/2$ the Brun--Titchmarsh inequality of Montgomery and Vaughan,
 \psi(X) - \psi(X - Y) \le \log X\Big(\frac{2Y}{\log Y} + 0.6\frac{Y}{\sqrt X} + \log\log X^2\Big).
 \]
 Put $Y = x(1-e^{-\tau}) \le x\tau$.
-For $\tau \ge \tau_0 := \eps/(10\sqrt c)$ we have $\log Y \ge \log x - \lambda_0$.
+For $\tau \ge \tau_0 := \eps/(10\sqrt c)$ we have $\log Y \ge \log x - \lambda_s$.
 For $\tau < \tau_0$ we bound the integrand by its value at $\tau_0$, using monotonicity.
 
 The mass of $\phi$ below $\tau_0$ is at most $\tau_0\max\phi \le \tau_0 e^{\eps/2}c I_0(c)/(2\eps\sinh c)$.
@@ -49,7 +49,7 @@ Also $\int_0^\eps\tau\phi \le e^{\eps/2}\eps\nu_c/2$, since $\lambda \ge 2$.
 Combining these gives the main term, with $\log x$ in the numerator.
 
 The lower bound $\psi_{c,\eps}(x) - \psi(x) \le \int_{-\eps}^0 (\psi_0(xe^{|\tau|}) - \psi(x))\phi$ is treated in the same way.
-Here the intervals end at $xe^{\eps}$, which produces the factor $\log(e^\eps x) \le \log x + \lambda_0$.
+Here the intervals end at $xe^{\eps}$, which produces the factor $\log(e^\eps x) \le \log x + \lambda_s$.
 The prime-power and $\log\log$ terms give $a(x)$.
 
 The final numerical inequality is certified in ball arithmetic by \code{certify/smoothing\_const.py}, using \code{acb.integral} for $\nu_c$.
@@ -58,9 +58,10 @@ The maximum over $c$ is attained at $c = 110$.
 
 \begin{remark}\label{rem:buthe}
 \cite[Prop.~4]{Buthe2016} (quoted as \cite[Prop.~1]{Buthe2018}) states the main term as $2\eps x|\nu_c(\alpha)|\log(e^\eps x)/\log B$, with $\nu_c(t) = \int_{-\infty}^t\mu_c$ and $\mu_c(t) = -\int_{-\infty}^t\eta_{c,1}$ for $t<0$.
-With $\eta_{c,1}$ normalised as above ($\int\eta_{c,1} = 2$), one has $|\nu_c(0)| = \nu_c \sim \sqrt{2/(\pi c)}$.
-The asymptotic $|\nu_c(0)|\sim(2\pi c)^{-1/2}$ quoted in \cite[Remark~1]{Buthe2018} corresponds to the density normalised to mass $1$.
-With the stated normalisation, the proposition is therefore conservative by a factor of $2$ in its main term, and Lemma~\ref{lem:smooth} recovers this factor.
+With $\eta_{c,1}$ normalised as above ($\int\eta_{c,1} = 2$), one has $|\nu_c(0)| = \nu_c \sim \sqrt{2/(\pi c)}$, whereas \cite[Remark~1]{Buthe2018} quotes $|\nu_c(0)|\sim(2\pi c)^{-1/2}$, which corresponds to a density of mass $1$.
+We have not been able to reconcile the two normalisations.
+Our own proof of the smoothing step (Lemma~\ref{lem:smooth}) does not depend on this.
+Its main constant, $0.80/\sqrt c$, is half of what $2|\nu_c(0)|$ would give with the stated normalisation.
 \end{remark}
 
 \subsection{Explicit formula and truncation}
@@ -110,11 +111,11 @@ S(s) := \sum_{\substack{H < \gamma \le T_1\\ \beta > s}} \frac{\ell_{c,\eps}(\ga
 \]
 
 \begin{proposition}\label{prop:master}
-Let $43 \le L_1 < L_2$, $c \in [30,110]$ and $\eps \le 10^{-4}$, with $\lambda_0 < L_1 - 1$. Let $T_1 = c/\eps$.
-Assume no zero $\beta+i\gamma$ with $\gamma \le T_1$ has $\beta \ge s_{\max} := 1 - \lambda^*(\log T_1)/\log T_1$, where $\lambda^*$ is as in \S\ref{sec:zfr}.
+Let $43 \le L_1 < L_2$, $c \in [30,110]$ and $\eps \le 10^{-4}$, with $\lambda_s < L_1 - 1$. Let $T_1 = c/\eps$.
+Assume every zero $\beta+i\gamma$ with $H_0<\gamma \le T_1$ has $\beta \le s_{\max} := 1 - \lambda^*(\log T_1)/\log T_1$, where $\lambda^*$ is as in \S\ref{sec:zfr} (this holds by Theorem~\ref{thm:H}).
 Then for every $x$ with $\log x\in[L_1,L_2]$,
 \begin{multline*}
-\frac{|\psi(x)-x|}{x} \le \frac{L_2+\lambda_0}{L_1-\lambda_0}\cdot\frac{0.7946\cdot 1.02\,\eps}{\sqrt c}
+\frac{|\psi(x)-x|}{x} \le \frac{L_2+\lambda_s}{L_1-\lambda_s}\cdot\frac{0.7946\cdot 1.02\,\eps}{\sqrt c}
 + \frac{0.32\,e^{0.71\sqrt{c\eps}}\log(3c)\log T_1}{\sinh c} + e^{-L_1/2}\log^2 H\\
 + 2\Big(L_2\int_{0.6}^{s_{\max}} e^{(s-1)L_1}S(s)\,ds + e^{-0.4L_1}\big(S(0.6) + \log^2 T_1\big)\Big) + \frac{a(x)+2}{x}.
 \end{multline*}
@@ -136,7 +137,7 @@ together with $x^{s-1} \le e^{(s-1)L_1}$ and $\log x \le L_2$; also $S(s) = 0$ f
 
 All remaining zeros in this height range have $\beta \le 0.6$.
 These include the reflections $1-\bar\rho$ of zeros off the line, and the zeros on the line.
-They contribute at most $x^{-0.4}\sum_{H<\gamma\le T_1}1/\gamma \le x^{-0.4}\log^2T_1$.
+They contribute at most $x^{-0.4}e^{\eps(c+1)/6}\sum_{H<\gamma\le T_1}1/\gamma \le x^{-0.4}\log^2T_1$; here Lemma~\ref{lem:sumrecip} gives $\frac12\log^2T_1$, which leaves ample room for the factor $e^{\eps(c+1)/6} \le 1 + 10^{-9}$.
 \end{proof}
 
 \begin{lemma}[Stieltjes bound]\label{lem:stieltjes}

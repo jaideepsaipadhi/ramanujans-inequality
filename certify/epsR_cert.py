@@ -1,4 +1,4 @@
-"""Rigorous enclosures of eps_R(L) (Definition 2.1) on every cell [a, a + h] of [57.9, 3160.1].
+"""Rigorous enclosures of eps_R(L) (Definition 2.1) on every cell [a, a + h] of [58, 3160.1].
 A(L) := L e^{-L} li(e^L).  Then g = A(L)^2 - (L/(L-1)) A(L-1),  b = 2A(L) + L/(L-1),  eps_R = -2g/(b + sqrt(b^2 - 4g)).
 Expansion (K integrations by parts of int_a^x dt/log t with a = sqrt x):
   A(L) = P(u) + R(L),  P(u) = sum_{k<K} k! u^k,  u = 1/L,
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     for L in [58, 100, 907, 3159]:
         e, g = eps_ball(L, L)
         print('L=%d  ball %s   mpmath %s' % (L, e, mp.nstr(eps_mp(L), 15)))
-    h = 0.05; a = 57.9; out = []; worst_rel = 0; gpos = False
+    h = 0.05; a = 58.0; out = []; worst_rel = 0; gpos = False
     while a < 3160.1:
         e, g = eps_ball(a, a + h)
         if not (g < 0): gpos = True

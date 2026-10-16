@@ -46,14 +46,27 @@ All these programs are in the repository; \code{code/rerun\_all.sh} re-runs the 
 \item The scan: \code{interval\_adapt.py}, with logs in \code{logs/}.
 \end{enumerate}
 
-The scan itself runs in double precision.
-Every summand is a non-negative explicit majorant, evaluated with a relative rounding error far below the margin.
-The smallest margins are $1 - q = 3.4\cdot10^{-3}$ in the scan and $4.2\cdot10^{-3}$ in Proposition~\ref{prop:transfer}.
-The double-precision evaluation of the scan (as opposed to the certificates of items 1--7, which use ball arithmetic) is the one place where a referee has to accept a floating-point argument.
-It is a sum of a few thousand positive terms, each computed with a relative error of order $10^{-14}$.
+\subsection{Rounding in the scan}
+Items 1--7 are certified in ball arithmetic.
+The scan (item~9) and the evaluation of the density bounds from the stored parameters (item~8) run in IEEE double precision, with $\eps_R$ and $-\zeta'/\zeta(1+\eta)$ taken from $60$- and $30$-digit \code{mpmath} computations.
+This is the one place where the argument rests on a floating-point computation rather than on a certificate, so we describe it precisely.
 
-\subsection{Independent audit}
-An independent adversarial audit of the new ingredients (\S\S\ref{sec:zfr}--\ref{sec:density}) checked the following points and confirmed them:
+Each value of $q$ is a sum of a few thousand non-negative terms.
+Each term is a product of exponentials and explicit factors, obtained from the parameters by a bounded number (well under $10^4$) of floating-point operations.
+Only two subtractions involve quantities of comparable size.
+The first is $c_1 = e^{-L^2/U} - B_1 - \cdots$; over all table cells $c_1 \ge 0.92$, so there is no cancellation.
+The second is $c_1^2 - c_5$, which is $\ge 0.83$ over all table cells, so it amplifies relative errors by at most a factor of about $1.2$.
+The greedy knapsack value of Lemma~\ref{lem:pair} and the Stieltjes and upper sums of Proposition~\ref{prop:master} are sums of non-negative terms.
+Standard error analysis therefore bounds the relative rounding error of each $q$ by about $10^{-11}$.
+
+As an empirical check, inflating every density bound by a factor $1+10^{-6}$ changes $q$ on the binding interval $[907,912]$ by $5.8\cdot10^{-7}$.
+This is consistent with the scan depending on the density bounds linearly, with coefficient at most $1$.
+The smallest margins are $1-q \ge 3\cdot10^{-3}$ in the scan and about $4\cdot10^{-3}$ in Proposition~\ref{prop:transfer}, some eight orders of magnitude above the rounding error.
+A complete interval-arithmetic re-evaluation of the scan, keeping the floating-point parameters but evaluating each bound in \code{arb}, is straightforward but costly; we have not carried it out.
+
+\subsection{Adversarial audits}
+Two adversarial audits were carried out by separate instances of the same AI system that assisted with the computations (see the acknowledgements); they are not independent in the human sense.
+The first audit covered the new ingredients (\S\S\ref{sec:zfr}--\ref{sec:density}) and checked the following points, confirming them:
 \begin{itemize}
 \item the legitimacy of keeping the second pair in Lemma~6 of \cite{BTY};
 \item the per-$\sigma$ form of Lemma~5;
@@ -65,3 +78,7 @@ An independent adversarial audit of the new ingredients (\S\S\ref{sec:zfr}--\ref
 It found one genuine defect: the clamp on $\nu$ described at the end of \S\ref{sec:rep}.
 It also found three minor gaps: a missing non-negativity certificate for the dropped Lemma-10 terms, the unrounded $w$-derivative values, and the range of the Hiary--Patel--Yang bound.
 All four were fixed, and the full chain was re-run with identical results.
+
+A second audit, of a draft of this paper, found an unjustified rescaling: the density constants, which are valid at the corner $\delta_k$ of a cell, had been applied with the actual $\delta$ inside the cell.
+This was removed (Theorem~\ref{thm:density} now uses the corner value), and the scan was re-run.
+That audit also corrected the definition of $N_R$, the attributions for the lower range, the hypotheses of Lemmas~\ref{lem:L5} and~\ref{lem:epsR}, the statement of the correction factor $\iota$, and the reproducibility scripts.

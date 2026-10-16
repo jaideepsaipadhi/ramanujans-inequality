@@ -30,13 +30,13 @@ This is what produces the repulsion.
 
 \begin{theorem}\label{thm:rep}
 For integers $29 \le l_k \le 37$ and $k$ with $\lambda^*(l_k) < k\cdot10^{-4}\cdot l_k \le 0.0125(l_k-1)$, define $d^*(l_k,k)$ by the table \code{rep/dstar2c\_all.json}.
-Its values range from $0.142$ for the cell just above the zero-free edge at $l_k = 29$, through $0.058$ for $l_k = 29$ and $0.056$ for $l_k = 30$, down to $0.045$ for $l_k = 37$.
+For each $l_k$ the value is largest for the smallest admissible $k$ (for example $0.142$ at $l_k = 29$), and for the large values of $k$ it equals $0.058$ ($l_k = 29$), $0.056$ ($l_k = 30$) and $0.045$ ($l_k = 37$).
 Suppose two zeros $\beta_j + i\gamma_j$ ($j = 0,1$) satisfy $H_0 < \gamma_j \le e^{l_k}$ and $1-\beta_j \le k\cdot 10^{-4}$.
 Then $|\gamma_0 - \gamma_1| \ge d^*(l_k, k)$.
 \end{theorem}
 
 \begin{proof}
-For a cell $(l_k,k)$ put $\Lambda = k\cdot10^{-4}l_k$, $e_{\min} = \lambda^*(l_k)/l_k$ and $e_{\max} = k\cdot10^{-4}$.
+For a cell $(l_k,k)$ put $e_{\min} = \lambda^*(l_k)/l_k$ and $e_{\max} = k\cdot10^{-4}$; the variables $\eta_0,\eta_1$ below denote $1-\beta$ of the two zeros.
 By Theorem~\ref{thm:H}, both zeros have $1-\beta_j \ge e_{\min}$, since $\lambda^*(l)/l$ is non-increasing.
 
 Fix a sub-cell $(l-1, l]$ of heights, $l \le l_k$.

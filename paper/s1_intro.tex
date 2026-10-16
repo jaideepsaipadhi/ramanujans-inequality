@@ -8,7 +8,7 @@ holds for all sufficiently large $x$, where $\pi(x)$ is the number of primes up 
 Expanding $\pi$ by the prime number theorem with the error term $O(x\log^{-6}x)$ shows that the two sides differ by
 $\frac{x^2}{\log^6 x}\,(1+o(1))$, so \eqref{eq:ram} is a statement about the sixth term of the asymptotic expansion.
 It requires the relative error $|\pi(x)-\li(x)|\log x/x$ to be smaller than roughly $1/(3\log^4 x)$.
-Let $N_R$ denote the smallest real number such that \eqref{eq:ram} holds for every $x \ge N_R$.
+Following Axler \cite{Axler}, let $N_R$ denote the smallest positive integer such that \eqref{eq:ram} holds for every real $x \ge N_R$.
 
 \subsection*{What was known}
 \begin{itemize}
@@ -17,7 +17,7 @@ Let $N_R$ denote the smallest real number such that \eqref{eq:ram} holds for eve
   The largest prime counterexample, $38\,358\,837\,677$, had been found by Galway (see \cite{DudekPlatt}).
 \item Unconditionally, the inequality is known in two ranges:
   \begin{itemize}
-  \item for $38\,358\,837\,683 \le x \le e^{58}$ (Platt and Trudgian \cite{PlattTrudgian}), extended to $x \le e^{103}$ by Johnston \cite[Thm.~5.1]{Johnston};
+  \item for $38\,358\,837\,683 \le x \le 10^{19}$ (Axler \cite{Axler2}, building on B\"uthe's bounds \cite{Buthe2018}), extended to $x\le e^{58}$ by Platt and Trudgian \cite{PlattTrudgian} and to $x \le e^{103}$ by Johnston \cite[Thm.~5.1]{Johnston};
   \item for $x \ge e^{X_0}$, where $X_0$ fell successively as follows (see \cite{Axler} for the history):
   \[
   9658 \to 9032\ \text{\cite{Axler2}} \to 3915\ \text{\cite{PlattTrudgian}} \to 3604\ \text{\cite{CullyHugillJohnston}} \to 3361\ \text{\cite{JohnstonYang}} \to 3158.442\ \text{\cite{Axler}}.
@@ -44,7 +44,7 @@ All remaining information about zeros comes from explicit theorems, and our own 
 Write $L = \log x$.
 \begin{enumerate}
 \item By an elementary argument (\S\ref{sec:reduction}), \eqref{eq:ram} at $x$ follows from
-  $|\pi(y)-\li(y)| \le \eps_R(\log y + 1)\, y/\log y$ for $y \in \{x, x/e\}$.
+  $|\pi(x)-\li(x)| \le \eps_R(L)\,x/L$ and $|\pi(x/e)-\li(x/e)| \le \eps_R(L)\,(x/e)/(L-1)$.
   Here $\eps_R(L) \approx 1/(3L^4)$ is an explicit function (Definition~\ref{def:epsR}).
   This in turn follows from relative bounds for $\psi(t)-t$ on $[e^{43}, x]$ (Lemma~\ref{lem:transfer}).
 \item The bound for $\psi$ comes from a smoothed explicit formula with Logan's kernel, as in B\"uthe \cite{Buthe2016,Buthe2018} (\S\ref{sec:explicit}).
@@ -57,7 +57,7 @@ Write $L = \log x$.
   \end{enumerate}
 \item The binding range is $L \approx 900$, where the kernel has bandwidth $T_1 \approx e^{30}$.
   There the decisive zeros are those with $1-\beta \approx 0.21/\log\gamma$, at heights just above $H_0$.
-  Without (a)--(c) and the improved density estimate, the same argument needs the Riemann hypothesis up to height $8\cdot 10^{12}$ (or more, with the published density constants).
+  With only the published zero-free region and density constants, the zeros above $H_0$ alone would exceed the available error budget several times over in this range.
 \end{enumerate}
 
 \subsection*{New ingredients}
@@ -65,7 +65,7 @@ Write $L = \log x$.
 \item \textbf{Zero density} (Theorem~\ref{thm:density}).
   We rework Bellotti's log-free zero-density estimate \cite{Bellotti} for $\sigma$ near $1$ and $3\cdot 10^{12} < T \le e^{40}$.
   The main gain comes from an asymptotically sharp, fully explicit evaluation of the Barban--Vehov mean square $\sum_n \Psi(n)^2 e^{-n/X}/n$ (Theorem~\ref{thm:G}).
-  This is the quantity Bellotti calls $d_4$, and our bound improves it by a factor of about $4$.
+  This is the quantity Bellotti calls $d_4$; our bound is about $1.5$ where her Table~5 gives $85$--$105$.
   The bound uses a smoothed contour argument with a certified enclosure of $1/\zeta$ in a box.
   Further, smaller improvements:
   \begin{itemize}
@@ -86,9 +86,8 @@ Write $L = \log x$.
 \end{enumerate}
 
 \subsection*{Certification}
-Every quantity that enters the final inequalities is either an explicit closed form or is bounded with interval arithmetic (\code{python-flint}/Arb \cite{arb}).
-This covers the zero-free and repulsion certificates, the constants of \cite{BTY} that we re-derive, the box enclosure of $1/\zeta$, and the final sum over zeros.
-In the scan over $L$, every interval is certified by explicit upper sums of monotone majorants.
+The zero-free and repulsion certificates, the constants of \cite{BTY} that we re-derive, the box enclosure of $1/\zeta$, the reduction of \S\ref{sec:reduction} and the smoothing constant are certified with ball arithmetic (\code{python-flint}/Arb \cite{arb}).
+The final scan over $L$, which evaluates explicit upper sums of monotone majorants, runs in double precision; \S\ref{sec:computation} explains why its rounding errors are far below its margin.
 The code, tables and logs are available at \url{https://github.com/jaideepsaipadhi/ramanujans-inequality}.
 Section~\ref{sec:computation} lists the certificate for each lemma.
 
@@ -102,6 +101,6 @@ We found the following points while re-deriving the explicit inputs we use; none
   \item a digamma majorant whose integral is larger than stated;
   \item a positivity test that is valid only for $\sigma \ge 0.99346$.
   \end{itemize}
-\item B\"uthe's smoothing estimate \cite[Prop.~4]{Buthe2016} (quoted as Prop.~1 in \cite{Buthe2018}) is conservative by a factor of $2$ in its main term, under the normalisation stated there.
+\item In B\"uthe's smoothing estimate \cite[Prop.~4]{Buthe2016} (quoted as Prop.~1 in \cite{Buthe2018}), the asymptotic quoted for $\nu_c$ does not match the stated normalisation of the kernel; our own proof of the smoothing step (Lemma~\ref{lem:smooth}) avoids the issue.
 \end{itemize}
 Details are in \S\ref{sec:remarks}.

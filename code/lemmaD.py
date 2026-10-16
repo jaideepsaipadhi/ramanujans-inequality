@@ -243,7 +243,9 @@ def logN(s, T):
     # REFEREE FIX (Oct 9): the constants are evaluated at L = lk and are NOT monotone in L, so the bound is only
     # certified at T = e^lk; use N(s,T) <= N(s, e^lk) (no rescaling in T).  The rescaling in delta is kept: the
     # constants were computed at the bin's smallest sigma (worst alpha), the exponent and 1/delta use the actual delta.
-    return val - 2*x*(k/1e4)*lk + 2*x*de*lk - math.log(de*lk)
+    # AUDIT FIX (Oct 16): no in-bin rescaling.  The constants are certified only at (delta_k, lk); since N(sigma, T) is
+    # non-increasing in sigma and non-decreasing in T, N(1 - delta, T) <= N(1 - delta_k, e^lk) = the cell bound itself.
+    return val - math.log((k/1e4)*lk)
 if __name__ == "__main__":
     import lemmaA
     for s in [0.986, 0.988, 0.990, 0.992, 0.993, 0.994, 0.9945]:

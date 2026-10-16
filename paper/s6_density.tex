@@ -12,7 +12,7 @@ In Proposition~\ref{prop:master}, $N(s,t)$ is replaced by $N^+(s,t)$, the minimu
 \end{enumerate}
 
 \subsection{The log-free estimate}
-We follow Bellotti \cite[\S\S3--4]{Bellotti}, with $L = \log T$, $U = T^u$, $V = T^v$ ($v = \tau u$), $W = T^w$ and $X = T^x$.
+We follow Bellotti \cite[\S\S3--4]{Bellotti}. In this section $L = \log T$ (not $\log x$), and $U = T^u$, $V = T^v$ ($v = \tau u$), $W = T^w$ and $X = T^x$.
 \begin{itemize}
 \item The Barban--Vehov weights are $\psi_d$, supported on $d\le V$, with $\Psi(n) = \sum_{d\mid n}\psi_d$, so that $\Psi(1) = 1$ and $\Psi(n) = 0$ for $1 < n \le U$.
 \item The Selberg-type weights are $\theta_d$, supported on $d\le W$, with $\Theta(n) = \sum_{d\mid n}\theta_d$.
@@ -29,15 +29,15 @@ Let $\delta \in ((k-1)10^{-4}, k\,10^{-4}]$ with $k \le 300$, and $\log T \le l$
 Let $(u,\tau,w,x)$ be admissible for the cell $(k,l)$ in the sense of Lemma~\ref{lem:D}.
 Then
 \[
-N(1-\delta, T) \le \tilde n\,\frac{d_4d_5}{w}\cdot\frac{\mathcal C}{c_1^2 - c_5}\cdot\frac{e^{2x\delta l}}{\delta l},
+N(1-\delta, T) \le N(1-\delta_k, e^l) \le \tilde n\,\frac{d_4d_5}{w}\cdot\frac{\mathcal C}{c_1^2 - c_5}\cdot\frac{e^{2x\delta_kl}}{\delta_kl},
 \]
-where the constants $\tilde n, d_4, d_5, \mathcal C, c_1, c_5$ are those of Lemma~\ref{lem:D}, evaluated at $\delta_k = k\,10^{-4}$ and $L = l$.
+where $\delta_k = k\,10^{-4}$ and the constants $\tilde n, d_4, d_5, \mathcal C, c_1, c_5$ are those of Lemma~\ref{lem:D}, evaluated at $\delta_k$ and $L = l$.
+(The first inequality is monotonicity of $N$; no rescaling within a cell is used.)
 \end{theorem}
 
 The parameters are chosen separately for each cell by minimising the bound numerically.
 Any admissible choice gives a valid bound, so the optimisation needs no certification.
-The constants are evaluated at the worst corner of the cell: the smallest $\alpha$ and the largest $T$.
-Between the cells we use $N(\sigma,T) \le N(\sigma,e^l)$.
+The bound is applied at the corner $(1-\delta_k, e^l)$ of the cell, which dominates the whole cell by monotonicity.
 The resulting tables are \code{code/lemmaD\_tableGH0.01\_*.pkl}.
 
 \begin{lemma}\label{lem:D}
@@ -91,7 +91,7 @@ Hence the whole integral \cite[(4.16)]{Bellotti} is at most
 The integral equals $4.7136$ at $c = -0.44$ and increases with $c$.
 
 \emph{(iii) The diagonal.} $d_4$ is the Barban--Vehov mean square of \cite[Lemma~4.2]{Bellotti}, which we bound by Theorem~\ref{thm:G}.
-Bellotti's own bound \cite[Lemma~3.3, (3.6)]{Bellotti} gives $d_4 \approx 85$--$105$ in the relevant range; Theorem~\ref{thm:G} gives about $1.5$.
+Bellotti's own bound \cite[Lemma~3.3, (3.6)]{Bellotti} gives $d_4 \approx 85$--$105$ at her parameters (her Table~5); Theorem~\ref{thm:G} gives about $1.5$ at ours.
 Because Theorem~\ref{thm:G} bounds the whole sum, Bellotti's condition $u+v<x$ is not needed.
 
 \emph{(v) The off-diagonal terms $c_2+c_3$.}
@@ -106,9 +106,9 @@ The far term $c_4$ is replaced using Lemma~\ref{lem:crowd}.
 \subsection{The pair sum}
 For $s_0 = 1 + \eta + i\gamma_r$, the Hadamard product and Stirling's formula give
 \[
-\sum_\rho\Rp\frac{1}{s_0-\rho} \le M(\eta, L) := \min\Big\{\tfrac12\log\tfrac{T}{2\pi} + F(\eta),\ \min_{c\in[0.5,2]}\Big(\tfrac12\log\tfrac T{2\pi} + \tfrac{c^2+1/2}{2c}F(\eta) + \tfrac{\log(T/\pi)}{8c}\Big)\Big\},
+\sum_\rho\Rp\frac{1}{s_0-\rho} \le M(\eta, L) := \min\Big\{\tfrac12\log\tfrac{T}{2\pi} + \mathcal Z(\eta),\ \min_{c\in[0.5,2]}\Big(\tfrac12\log\tfrac T{2\pi} + \tfrac{c^2+1/2}{2c}\mathcal Z(\eta) + \tfrac{\log(T/\pi)}{8c}\Big)\Big\},
 \]
-where $F(\eta) = -\zeta'(1+\eta)/\zeta(1+\eta)$.
+where $\mathcal Z(\eta) = -\zeta'(1+\eta)/\zeta(1+\eta)$.
 The second expression comes from positivity of $(c + \cos\phi)^2$.
 Every term in the sum is positive.
 A zero with $\beta \ge 1-\delta$ at vertical distance $d$ from $s_0$ contributes at least
@@ -140,17 +140,17 @@ The repulsion theorem applies because all representatives counted in the cell $(
 \end{proof}
 
 \begin{lemma}[crowding]\label{lem:crowd}
-For a window of height $w_0$ centred at $t \le T$ and any $\eta > 0$, the number of representatives in the window is at most
-$n(w_0) = \min\big(\lfloor M'/\min(f(\eta), f(\eta+\delta))\rfloor, \lceil w_0/\delta\rceil + 1\big)$,
-where $f(a) = a/(a^2 + w_0^2/4)$ and $M' = \frac12\log\frac T{2\pi} + \frac1\eta - 0.36$.
+For a window of height $\omega$ centred at $t \le T$ and any $\eta > 0$, the number of representatives in the window is at most
+$n(\omega) = \min\big(\lfloor M'/\min(f_\omega(\eta), f_\omega(\eta+\delta))\rfloor, \lceil \omega/\delta\rceil + 1\big)$,
+where $f_\omega(a) = a/(a^2 + \omega^2/4)$ and $M' = \frac12\log\frac T{2\pi} + \frac1\eta - 0.36$.
 Consequently Bellotti's $c_4$ \cite[(4.13)--(4.14)]{Bellotti} may be computed with
-$I' = \delta\sum_i n(w_0)\max_{[y_i, y_i+w_0]} g$ in place of $I = \int_1^T g$, where $g(y) = e^{y/6}y^{1.5-2\alpha}e^{-\pi y/2}$, $w_0 = 1/4$, and the windows tile $[1,60]$.
+$I' = \delta\sum_i n(\omega)\max_{[y_i, y_i+\omega]} g_\alpha$ in place of $I = \int_1^T g$, where $g_\alpha(y) = e^{y/6}y^{1.5-2\alpha}e^{-\pi y/2}$, $\omega = 1/4$, and the windows tile $[1,60]$.
 \end{lemma}
 
 \begin{proof}
 This is the crowding argument above applied to $s = 1+\eta+it$.
 For $0 < \eta \le 1.5$ we have $-\zeta'(1+\eta)/\zeta(1+\eta) \le 1/\eta - 0.36$; the minimum of $1/\eta + \zeta'/\zeta(1+\eta)$ on $(0, 1.5]$ is $0.378$.
-Beyond $y = 60$ the function $g$ is below $10^{-30}$.
+Beyond $y = 60$ the function $g_\alpha$ is below $10^{-30}$.
 The worst case is taken over each $\delta$-bin, and $\eta$ is optimised on a grid.
 \end{proof}
 
@@ -202,7 +202,7 @@ Details are in \code{notes/LEMMA\_G.md}, Step~3.
 \end{proof}
 
 \begin{remark}
-In the relevant range Theorem~\ref{thm:G} gives $d_4 \approx 1.48$, whereas Bellotti's \cite[Lemma~3.3]{Bellotti} gives $\approx 5.8$--$90$.
-For comparison, the Ramar\'e--Zuniga Alterman bound \cite{RZA} with an $X^\eps$ majorant gives $\approx 20$.
+At the binding cell, Theorem~\ref{thm:G} gives $d_4 \approx 1.48$.
+At the same parameters, an $X^\eps$ majorant combined with the Ramar\'e--Zuniga Alterman bound \cite{RZA} gives $\approx 20$, and our earlier explicit Selberg-diagonalisation bound (\code{notes/LEMMA\_F.md}) gives $\approx 5.8$; Bellotti's Table~5 values, at her parameters, are $85$--$105$.
 Since $\log N$ has elasticity about $1$ in $d_4$, this is the single largest improvement in the density estimate.
 \end{remark}

@@ -1,5 +1,5 @@
-"""Hostile-referee version of the scan.
- * Covers EVERY x in [e^656, e^3159]: for each interval [L1,L2] the kernel (c, eps) is designed
+"""The certified scan (Proposition 3.6 of the paper).
+ * Covers every x in a given range [e^L1, e^L2]: for each interval [L1,L2] the kernel (c, eps) is designed
    for the smallest tolerance tol(L2), and the zero tail is evaluated at L1 (weakest damping x^(beta-1)).
  * pi vs psi: pi-li = (theta-x)/L + int (theta-t)/(t log^2 t) dt  =>  need psi error <= tol/(1+2/L1).
  * Brun-Titchmarsh small-|t| slack: smoothing cost inflated by 2%."""

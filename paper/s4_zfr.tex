@@ -17,7 +17,7 @@ In particular $f(0) = \kappa\eta w_0$.
 
 Let $\rho_0 = \beta_0 + it$ be a zero with $t \ge H_0$, and put $\eta = 1-\beta_0$ and $\lambda_0 = \eta\log t$.
 Suppose $\zeta$ has no zeros with $\beta \ge 1 - A/\log\gamma$ for $H_0 \le \gamma \le Kt + T_0$, and put $\sigma = 1 - A/\log(Kt+T_0)$.
-Assume $\eta \le \eta_0 \le 0.0147$ and $\sigma \ge \sigma_0 \ge 0.9930$.
+Assume $\eta \le \eta_0 \le 0.0145$ and $\sigma \ge \sigma_0 \ge 0.9930$.
 The argument of \cite[Lemma~15]{BTY} then gives
 \begin{multline}\label{eq:bty}
 c_{10}\,\eta w_0 \le \eta w_0\Big(\frac{a\kappa}2\log t - G\Big) + a_0F(\sigma-1) - a_1\big(F(\sigma-1+\eta) + F(\sigma-\eta)\big) - Z\\ + 10^{-10}\eta + 2\cdot10^{-7} + E_2\lambda_0\eta^2 + E_3\eta^3 .
@@ -62,7 +62,7 @@ Sign changes of $w''''$ are isolated, and each piece is integrated with \code{ac
 For comparison, $C_w(69.4, 69.4) = 51.80$, while \cite{BTY} use $C < 52$ at this point.
 
 \begin{lemma}[non-negativity; replaces {\cite[Lemma~5, (21)]{BTY}}]\label{lem:L5}
-Let $\sigma\in[0.993,1)$ and $\eta \le \eta_0 \le 0.0147$. Then $\Rp F(z) + \Rp F(2\sigma - 1 - \bar z) \ge 0$ for $0 \le \Rp z \le 2\sigma-1$.
+Let $\sigma\in[0.993,1)$ and $\eta \le \eta_0 \le 0.0145$. Then $\Rp F(z) + \Rp F(2\sigma - 1 - \bar z) \ge 0$ for $0 \le \Rp z \le 2\sigma-1$.
 \end{lemma}
 
 \begin{proof}
@@ -74,7 +74,7 @@ B(y) := \sum_{m=1}^{7} b_m\frac{m - \sgn(b_m)\eps_0/m}{m^2+y^2} > 0 \quad (y\in\
 \]
 Here $(1+x)\sum\kappa_mx^m = \sum b_mx^m$.
 This reduction is independent of $\sigma$.
-For $\eta_0 \le 0.0147$ we have $\eps_0 \le 1/500$.
+For $\eta_0 \le 0.0145$ and $\sigma \ge 0.993$ we have $\eps_0 \le 1/500$ (with $C_w \le 51.9$).
 For $\eps_0 = 1/500$, $B$ is a rational function whose numerator has no real roots and whose value at $0$ is positive; this is checked by exact root isolation (\code{rep/lemma5\_cert.py}).
 \end{proof}
 
@@ -164,7 +164,7 @@ Both integrals are bounded by sums of ball suprema over $256$ subintervals.
 \subsection{The zero-free region}
 \begin{theorem}\label{thm:H}
 Let $\lambda^*(l)$ be the function given by the table below on the grid $l \in \{28, 28.25, \dots, 43\}$, extended by $\lambda^*(l) := \lambda^*(\lceil l\rceil_{0.25})$ for $l \le 43$ and by $\lambda^*(l) := 1/4.896$ for $l > 43$.
-Then every zero $\beta+i\gamma$ of $\zeta$ with $\gamma \ge 3$ satisfies $(1-\beta)\log\gamma \ge \lambda^*(\log\gamma)$.
+Then every zero $\beta+i\gamma$ of $\zeta$ with $\gamma > H_0$ satisfies $(1-\beta)\log\gamma \ge \lambda^*(\log\gamma)$; for $3\le\gamma\le H_0$ all zeros have $\beta = 1/2$ \cite{PlattTrudgianRH}.
 \begin{center}\small
 \begin{tabular}{c|cccccc}
 \toprule
@@ -192,7 +192,7 @@ On each box we take $\sigma$ as a ball, with $A$ at the top of the box, which is
 The constants are taken at $\eta_0 = \lceil \lambda_j/l_{\min}\rceil_{10^{-4}} + 10^{-4}$ and at $\sigma_0$ rounded down.
 Then $\lambda_j(L) \ge \lambda_{j-1}(L)$, and a zero with $\lambda_{j-1}(L) \le (1-\beta)\log\gamma < \lambda_j(L)$ would give $\mathcal M_1 > 0$, contradicting \eqref{eq:bty}.
 
-The chain stabilises after three steps, and the fourth step changes no entry by more than $10^{-5}$.
+We use the table produced by the fourth step; it differs from the third by at most $10^{-5}$ in every entry.
 Program: \code{rep/lamcert.py}.
 \end{proof}
 

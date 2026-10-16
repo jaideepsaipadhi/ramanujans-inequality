@@ -67,5 +67,5 @@ while u < 3159:
         if r > worst[0]: worst = (r, a)
     I += eth*(mp.e**b - mp.e**a)/a**2
     u = b
-print('max over log y in [57, 3159) of |pi - li| bound / (eps_max(log y + 1) y/log y) = %s at log y = %s' % (mp.nstr(worst[0], 8), mp.nstr(worst[1], 6)))
+print('max over log y in [57, 3159) of |pi - li| bound / (min(eps_R(log y + 1), eps_R(log y)) y/log y) = %s at log y = %s' % (mp.nstr(worst[0], 8), mp.nstr(worst[1], 6)))
 print('TRANSFER OK' if worst[0] < 1 else 'TRANSFER FAILS')

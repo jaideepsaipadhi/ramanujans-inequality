@@ -18,7 +18,7 @@ Moreover $A(L) = P(u) + R(L)$, where
 \[
 -6e^{-L/2} \le R(L) \le \frac{16!\,u^{16}}{1 - 34u} + 6e^{-L/2} \qquad (L \ge 57).
 \]
-For every cell $[a, a+0.05] \subset [57.9, 3160.1]$ we have $g < 0$ on the cell, and $\eps_R$ admits an explicit certified lower bound there.
+For every cell $[a, a+0.05] \subset [58, 3160.1]$ we have $g < 0$ on the cell, and $\eps_R$ admits an explicit certified lower bound there.
 \end{lemma}
 
 \begin{proof}
@@ -82,9 +82,9 @@ Subtracting the two identities proves the formula.
 \begin{proposition}\label{prop:transfer}
 Suppose that for every certified interval $[L_1, L_2] \subset [43, 3159]$ of the final scan (\S\ref{sec:computation})
 \begin{equation}\label{eq:psicert}
-|\psi(t) - t| \le q_{[L_1,L_2]}\,\frac{\eps_R(L_2+1)}{1 + 2/L_1}\, t + a(t) \qquad (\log t \in [L_1, L_2]).
+|\psi(t) - t| \le q_{[L_1,L_2]}\,\iota_{[L_1,L_2]}\,\frac{\eps_R(L_2+1)}{1 + 2/L_1}\, t + a(t) \qquad (\log t \in [L_1, L_2]).
 \end{equation}
-Here $q_{[L_1,L_2]}$ is the certified ratio of that interval, and $a(t) = 2 + e^{2\cdot 10^{-4}}(\log t + 10^{-4})\big(2.01\cdot 10^{-4}\sqrt t + \tfrac12\log\log(2t^2)\big)$ collects the additive terms of Lemma~\ref{lem:smooth} and Proposition~\ref{prop:explicit}.
+Here $q_{[L_1,L_2]}$ is the ratio computed by the scan for that interval, $\iota_{[L_1,L_2]} \le 1 + 10^{-3}$ is the correction factor of Lemma~\ref{lem:iota}, and $a(t) = 2 + e^{2\cdot 10^{-4}}(\log t + 10^{-4})\big(2.01\cdot 10^{-4}\sqrt t + \tfrac12\log\log(2t^2)\big)$ collects the additive terms of Lemma~\ref{lem:smooth} and Proposition~\ref{prop:explicit}.
 Suppose also that $|\psi(t) - t| \le 0.94\sqrt t$ for $11 < t \le 10^{19}$ \cite[Thm.~2]{Buthe2018}.
 Then \eqref{eq:target} holds.
 \end{proposition}
@@ -111,3 +111,24 @@ The factor $(1+2/L_1)^{-1}$ in \eqref{eq:psicert} is what the integral term cost
 Heuristically, $\int^{y}\eps_R(\log t+1)\,dt/\log^2 t \approx \eps_R(\log y+1)\frac{y}{\log^2 y}(1 + 6/\log y)$, so the total is $\approx(1 + 1/L + 6/L^2) \le 1 + 2/L$.
 Proposition~\ref{prop:transfer} does not rely on this heuristic; it verifies the inequality numerically, cell by cell.
 \end{remark}
+
+\begin{lemma}\label{lem:iota}
+In the scan, $\eps$ is defined by three steps of the iteration $\eps_{n+1} = C/\kappa(\eps_n)$, where
+$\kappa(\eps) = (L_2 + \lambda_s)/(L_1 - \lambda_s)$, $\lambda_s = \log(10\sqrt c/\eps)$, and $C = 0.7946^{-1}\,1.02^{-1}f\tau_{12}\sqrt c$.
+The smoothing term it charges is $f\tau_{12}$, whereas Proposition~\ref{prop:master} requires $f\tau_{12}\,\kappa(\eps_3)/\kappa(\eps_2)$.
+Let $\theta = (L_1+L_2)/((L_2+\lambda_{\max})(L_1-\lambda_{\max}))$ and $\kappa_0 = (L_2+\lambda_{\max})/(L_1-\lambda_{\max})$, where $\lambda_{\max} = \log(10\sqrt{110}/\eps_{\min})$ and $\eps_{\min} = 0.3\,\tau_{12}\sqrt{30}/(0.7946\cdot1.02\cdot 10)$.
+Then
+\[
+\kappa(\eps_3)/\kappa(\eps_2) \le \iota := (1 + 10^{-8})\exp(\theta^3\log\kappa_0) .
+\]
+\end{lemma}
+
+\begin{proof}
+With $y_n = \log\eps_n$, we have $y_{n+1} = \log C - \log\kappa(e^{y_n})$.
+Moreover $|\frac{d}{dy}\log\kappa| = (L_1+L_2)/((L_2+\lambda_s)(L_1-\lambda_s)) \le \theta$, since $\lambda_s\le\lambda_{\max}$.
+Hence $|y_{n+1} - y_n| \le \theta^n|y_1 - y_0|$, with $y_0 = \log C$ and $|y_1 - y_0| = \log\kappa(\eps_0) \le \log\kappa_0$.
+Therefore $|\log\kappa(\eps_3) - \log\kappa(\eps_2)| \le \theta|y_3 - y_2| \le \theta^3\log\kappa_0$.
+The factor $1+10^{-8}$ absorbs the Logan factor $e^{\eps(c+1)/6}$ of Lemma~\ref{lem:logancomplex}, which is $\le 1 + 5\cdot10^{-10}$ whenever $T_1 > H_0$.
+The script \code{certify/transfer\_check.py} evaluates $\iota$ for every interval and checks $\kappa_0 \le 10$ and $L_1 - \lambda_{\max} > 1$.
+At $L_1 = 43$ it gives $\iota \le 1 + 10^{-3}$, and $\iota - 1$ is far smaller for larger $L_1$.
+\end{proof}
