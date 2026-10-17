@@ -211,7 +211,7 @@ The factor $(1 + 2/L_1)^{-1}$ leaves room for the integral in \eqref{eq:pili}.
 
 \begin{proposition}\label{prop:transfer}
 Let \eqref{eq:psicert} hold on every interval of the cover of $[43, 3159]$ constructed in Section~\ref{sec:proof}, with the values $q_{[L_1,L_2]}$ obtained there.
-Then, for every $y$ with $57 \leq \log y \leq 3159$, the bound for $|\pi(y) - \li(y)|$ obtained from \eqref{eq:pili} is at most $0.99382\min\{\eps_R(\log y + 1), \eps_R(\log y)\}\,y/\log y$, where the second argument is used only for $\log y \geq 58$.
+Then, for every $y$ with $57 \leq \log y \leq 3159$, the bound for $|\pi(y) - \li(y)|$ obtained from \eqref{eq:pili} is at most $0.99052\min\{\eps_R(\log y + 1), \eps_R(\log y)\}\,y/\log y$, where the second argument is used only for $\log y \geq 58$.
 In particular, \eqref{eq:target} holds.
 \end{proposition}
 
@@ -224,7 +224,7 @@ Hence the part of the integral in \eqref{eq:pili} over $[2, e^{43}]$ is at most
 \]
 On $[e^{43}, y]$ we substitute $t = e^v$ and bound the integral by upper sums with step $0.05$ in $v$; on each step we use the largest bound \eqref{eq:psicert} that meets it, together with $\int_a^b e^v v^{-2}\,dv \leq (e^b - e^a)/a^2$.
 For $y$ with $\log y \in [a, a + 0.05]$ and $a \geq 57$, the resulting bound for $|\pi(y) - \li(y)|\log y/y$ is compared with the lower bounds of Lemma~\ref{lem:epsR} for $\eps_R$ on $[a+1, a+1.05]$ and, if $a \geq 58$, on $[a, a+0.05]$.
-This is carried out in ball arithmetic for every such interval $[a, a+0.05] \subseteq [57, 3159]$, and the largest ratio, $0.99382$, occurs at $\log y = 877$.
+This is carried out in ball arithmetic for every such interval $[a, a+0.05] \subseteq [57, 3159]$, and the largest ratio, $0.99052$, occurs at $\log y = 877$.
 Note that $q_{[L_1,L_2]} < 1$ alone would not suffice, because of the additional terms $1.4262\sqrt t$, $a(t)$ and the integral in \eqref{eq:pili}; the proposition rests on this computation.
 \end{proof}
 
@@ -756,11 +756,11 @@ $\mathrm{REM}$ is the explicit sum of contour remainders given in Lemma~\ref{lem
 \end{theorem}
 
 The proof is given in Appendix~\ref{app:G}.
+In Lemma~\ref{lem:D} we take $d_4$ to be the right-hand side of Theorem~\ref{thm:G} minus $e^{-L^2/U}$; this is admissible since $\sum_n\Psi(n)^2n^{-1}e^{-nL^2/U} \geq e^{-L^2/U}$, the term $n = 1$ being $e^{-L^2/U}$.
 The idea is to replace the weights by a Gaussian smoothing in $\log d$, whose Mellin transform decays like $e^{-\eta^2t^2/2}$; this allows us to close all contours inside a fixed box of height $400$, in which $1/\zeta$ is bounded by a rigorous computation, and the main term $e^{-1/X} + D_4$ arises from the residues at $s = 0$, $s = -w$ and $w = 0$.
 
 
-At the binding cell of the computation, $\mathrm{REM} = 5.4\cdot10^{-4}$, $S_t = 9.9\cdot10^{-5}$ and Theorem~\ref{thm:G} gives $d_4 \leq 1.48$.
-For comparison, at the same parameters the combination of an $X^\eps$ majorant with the bound of Ramar\'e and Zuniga Alterman \cite{RZA} gives about $20$.
+For example, for the cell $(k, l) = (80, 30)$ of Theorem~\ref{thm:density}, at its parameters, $\mathrm{REM} \leq 0.016$, $S_t \leq 6.7\cdot10^{-5}$ and Theorem~\ref{thm:G} gives $d_4 \leq 1.62$.
 Since $\log N^+$ depends on $d_4$ with elasticity about $1$, this is the most important improvement in the density estimate.
 In the final tables, all cells have $\tau \in [1.54, 1.78]$, $\log X/\log V \in [1.42, 1.55]$ and $\log U \in [56.6, 78.6]$, and all of them use Theorem~\ref{thm:G}.
 
@@ -785,9 +785,9 @@ The results are as follows.
 range of $L$ & largest value of $q$ & remark\\
 \midrule
 $[43, 57)$ & $3.85$ on $[43, 43.5]$; at most $0.47$ on $[53, 57)$ & enters only through \eqref{eq:pili}\\
-$[57, 1000)$ & $0.99467$ on $[872, 877]$ & width $5$ on $[857, 917)$\\
-$[1000, 2000)$ & $0.8919$ on $[1000, 1010]$ & \\
-$[2000, 2600)$ & $0.4065$ & \\
+$[57, 1000)$ & $0.99137$ on $[872, 877]$ & width $5$ on $[857, 917)$\\
+$[1000, 2000)$ & $0.8887$ on $[1000, 1010]$ & \\
+$[2000, 2600)$ & $0.4064$ & \\
 $[2600, 3159)$ & $0.4003$ & \\
 \bottomrule
 \end{tabular}
@@ -929,7 +929,7 @@ where $\mathcal A = \prod_p\mathcal A_p$ with
 \mathcal A_p = \frac{(1 - x_1 - x_2 + z)(1 - z)}{(1 - x_1)(1 - x_2)}, \qquad \mathcal A_p - 1 = \frac{zx_1 + zx_2 - z^2 - x_1x_2}{(1 - x_1)(1 - x_2)},
 \]
 $x_j = p^{-1-w-s_j}$ and $z = p^{-1-w-s_1-s_2}$.
-The product converges absolutely if each pairwise sum of the real parts of $1 + w + s_1$, $1 + w + s_2$ and $1 + w + s_1 + s_2$ exceeds $1$, and $\mathcal A(w, 0, s_2) = \mathcal A(w, s_1, 0) = 1$.
+The product converges absolutely if each sum of two of the real parts of $1 + w + s_1$, $1 + w + s_2$ and $1 + w + s_1 + s_2$, and twice the last of them, exceeds $1$, and $\mathcal A(w, 0, s_2) = \mathcal A(w, s_1, 0) = 1$.
 \end{lemma}
 
 \begin{proof}
@@ -977,22 +977,30 @@ The pole of $\zeta(1 + w + s_1 + s_2)$ at $s_2 = -w - s_1$ has real part $-c - \
 \emph{Step 2.}
 For $|\Ip s_1| \leq T_2$ we move $s_1$ to $\Rp s_1 = -\theta_1$, joining the moved segment to the original line $\Rp s_1 = \sigma_1$ by horizontal connectors at $\Ip s_1 = \pm T_2$.
 In the region swept, $1 + w + s_1 \in \mathcal B$, so $1/\zeta(1 + w + s_1)$ is analytic.
-The residue at $s_1 = 0$ equals $(\rho_s(1) - 1)\cdot(\ldots) \leq 0$ and may be omitted.
+At $s_1 = 0$ the function $\hat\rho_s$ has a simple pole with residue $1$ and $G(w, 0, s_2) = 1$, so this residue equals
+\[
+\frac{1}{2\pi i}\int_{(-c')}\hat\rho_s(s_2)\,ds_2\cdot\frac1{2\pi i}\int_{|\Ip w|\leq W_0}\Gamma(w)X^w\,dw = (\rho_s(1) - 1)\big(e^{-1/X} - \vartheta\big),
+\]
+where $|\vartheta|$ is at most the first term of $R_8$; since $\rho_s(1) \leq 1$ and $e^{-1/X} - \vartheta > 0$, this residue is non-positive and may be omitted.
 The pole at $s_1 = -w - s_2$, which is crossed when $|\Ip(w + s_2)| \leq T_2$, gives
 \[
 R_x = \frac1{(2\pi i)^2}\iint\Gamma(w)X^w\hat\rho_s(-w-s_2)\hat\rho_s(s_2)\,\frac{\zeta(1+w)\,\mathcal A(w; -w-s_2, s_2)}{\zeta(1 - s_2)\zeta(1 + w + s_2)}\,ds_2\,dw.
 \]
-The integrals over the moved segment, over the connectors and over the remaining parts of $\Rp s_1 = \sigma_1$ are $R_1$ and $R_2$ in Lemma~\ref{lem:A-rem}, and extending $R_x$ to all $s_2$ costs $R_3$.
+The integral over the moved segment is $R_1$, the integrals over the connectors and over the remaining parts of $\Rp s_1 = \sigma_1$ make up $R_2$, and extending $R_x$ to all $s_2$ costs $R_3$; the integrand of $R_2$ has an integrable singularity at $s_1 = -w - s_2$, and Fubini's theorem applies.
 
 \emph{Step 3.}
 We expand
 \[
 \Delta^2\hat\rho_s(-w-s_2)\hat\rho_s(s_2)(w + s_2)^2s_2^2 = \Big(V^{-w} - V^{-w}\Big(\frac UV\Big)^{s_2} - U^{-w}\Big(\frac VU\Big)^{s_2} + U^{-w}\Big)E(w + s_2)E(s_2),
 \]
-and denote by $\Phi(s_2)$ the remaining factor of the integrand, so that $\Phi$ has a simple pole at $s_2 = 0$ with residue $-E(w)/w^2$ (from the zero of $1/\zeta(1 - s_2)$) and a simple pole at $s_2 = -w$ with residue $E(w)/w^2$ (from the zero of $1/\zeta(1 + w + s_2)$), since $\mathcal A(w; -w, 0) = \mathcal A(w; 0, -w) = 1$.
-For the two diagonal terms we move the segment $|\Ip s_2| \leq T_2$ of $\Rp s_2 = -c'$ to $\mathcal P$; this crosses $s_2 = 0$ and gives $(V^{-w} + U^{-w})(K_c(w) + E(w)/w^2)$, while the parts with $|\Ip s_2| > T_2$ give $R_4$.
-In the term with $(U/V)^{s_2}$ we move $s_2$ to $\Rp s_2 = b$, crossing $s_2 = 0$; this gives $-V^{-w}E(w)/w^2$ and the remainder $R_5$.
-In the term with $(V/U)^{s_2}$ we move $s_2$ to $\Rp s_2 = -b$, crossing $s_2 = -w$; this gives $-V^{-w}E(w)/w^2$ and the remainder $R_6$.
+and denote by $\Phi(s_2)$ the remaining factor of the integrand.
+Then $\Phi$ has a simple pole at $s_2 = 0$ with residue $-E(w)/w^2$ (from the zero of $1/\zeta(1 - s_2)$) and a simple pole at $s_2 = -w$ with residue $E(w)/w^2$ (from the zero of $1/\zeta(1 + w + s_2)$), since $\mathcal A(w; -w, 0) = \mathcal A(w; 0, -w) = 1$.
+In each of the four terms we keep the parts of the line $\Rp s_2 = -c'$ with $|\Ip s_2| > T_2$; together they give $R_4$.
+On $|\Ip s_2| \leq T_2$ we proceed as follows, always joining the moved segment to the remaining line by horizontal connectors at $\Ip s_2 = \pm T_2$.
+For the two diagonal terms we move the segment to $\mathcal P$; this crosses $s_2 = 0$ and gives $(V^{-w} + U^{-w})(K_c(w) + E(w)/w^2)$.
+In the term with $(U/V)^{s_2}$ we move the segment to $\Rp s_2 = b$, crossing $s_2 = 0$; this gives $-V^{-w}E(w)/w^2$, and the moved segment and its connectors give $R_5$.
+In the term with $(V/U)^{s_2}$ we move the segment to $\Rp s_2 = -b$, crossing $s_2 = -w$; this gives $-U^{-w}(V/U)^{-w}E(w)/w^2 = -V^{-w}E(w)/w^2$, and the moved segment and its connectors give $R_6$.
+In all these regions $1 - s_2$ and $1 + w + s_2$ have imaginary parts of absolute value at most $T_2 + W_0 = 440$, so (B1) applies where the real parts are at most $1.3$.
 Altogether,
 \begin{multline*}
 R_x = \frac1{\Delta^2}\cdot\frac1{2\pi i}\int\Gamma(w)X^w\Big[V^{-w}\Big(K_c(w) - \frac{E(w)}{w^2}\Big) + U^{-w}\Big(K_c(w) + \frac{E(w)}{w^2}\Big)\Big]dw\\
@@ -1010,7 +1018,7 @@ Hence the residues at $w = 0$ sum to
 \frac{1}{\Delta^2}\Big[\frac{Y_2^2 - Y_1^2}2 - \gamma_E(Y_2 - Y_1) + k_1(Y_1 + Y_2 - 2\gamma_E) + 2k_0\Big] = D_4,
 \]
 since $Y_2 - Y_1 = \Delta$.
-The integral over $\Rp w = -\theta_2$ is $R_7$, and the connectors at $|\Ip w| = W_0$ give the second half of $R_8$.
+The integral over $\Rp w = -\theta_2$ is $R_7$, and the connectors at $|\Ip w| = W_0$ give the second term of $R_8$.
 \end{proof}
 
 \subsection{The remainders}
@@ -1020,99 +1028,134 @@ For a real number $\sigma$ and $0 \leq t_0 < t_1 \leq \infty$ put
 \mathcal J_\nu(\sigma; t_0, t_1) = 2\int_{t_0}^{t_1}e^{\eta^2(\sigma^2 - t^2)/2}\frac{(1 + t)^\nu}{\sigma^2 + t^2}\,dt, \qquad h(\sigma) = \frac{V^\sigma + U^\sigma}{\Delta},
 \]
 so that $\int_{t_0\leq|t|\leq t_1}|\hat\rho_s(\sigma + it)|(1 + |t|)^\nu\,dt \leq h(\sigma)\mathcal J_\nu(\sigma; t_0, t_1)$.
-Let $\mathcal G_\nu = \int_{|v|\leq W_0}|\Gamma(c + iv)|(1 + |v|)^\nu\,dv$, and for real $e_1$, $e_2$, $e_{12}$ let $\mathcal A^*(e_1, e_2, e_{12})$ denote an upper bound for $|\mathcal A|$ on the set where the real parts of $1 + w + s_1$, $1 + w + s_2$ and $1 + w + s_1 + s_2$ are $e_1$, $e_2$ and $e_{12}$.
-Finally, let $Z_b = \max\{M_Z, 1/(\theta_1 - c + c') + 1/(1 + c - \theta_1 - c')\}$ and $g = e^{-\eta^2T_2^2/2}$.
+Let $\mathcal G_\nu = \int_{|v|\leq W_0}|\Gamma(c + iv)|(1 + |v|)^\nu\,dv$.
+For sets $I_1, I_2, I_3$ of real numbers let $\mathcal A^*(I_1, I_2, I_3)$ denote an upper bound for $|\mathcal A(w, s_1, s_2)|$ whenever the real parts of $1 + w + s_1$, $1 + w + s_2$ and $1 + w + s_1 + s_2$ lie in $I_1$, $I_2$ and $I_3$ (a single number stands for a one-point set).
+Let $Z_b = \max\{M_Z, 1/\sigma_2 + 1/(1 - \sigma_2)\}$ with $\sigma_2 = 1 + c - \theta_1 - c'$, $\epsilon_T = e^{-\eta^2T_2^2/2}$, $\epsilon_T' = e^{-\eta^2(T_2 - W_0)^2/2}$, $\zeta_1 = \zeta(1 + c)$ and $\iota(\sigma) = \zeta(\sigma)/\zeta(2\sigma)$.
 
 \begin{lemma}\label{lem:A-rem}
-With $\zeta_1 = \zeta(1 + c)$, $\iota(\sigma) = \zeta(\sigma)/\zeta(2\sigma)$ and $\mathcal A_1 = \mathcal A^*(1 + c - \theta_1, 1 + c - c', 1 + c - \theta_1 - c')$, the remainders in the proof of Proposition~\ref{prop:A-main} satisfy the following bounds.
+Let $\mathcal A_1 = \mathcal A^*(1 + c - \theta_1, 1 + c - c', \sigma_2)$, $\mathcal A_1^\square = \mathcal A^*([1 + c - \theta_1, 1 + c + \sigma_1], 1 + c - c', [\sigma_2, 1 + c + \sigma_1 - c'])$, $\mathcal A_x = \mathcal A^*(1 + c', 1 + c - c', 1)$, $\mathcal A_V = \mathcal A^*(1 - b, 1 + c + b, 1)$ and $\mathcal A_U = \mathcal A^*(1 + b, 1 + c - b, 1)$.
+Then the remainders in the proof of Proposition~\ref{prop:A-main} satisfy
 \begin{align*}
-R_1 &= \frac{\mathcal G_1e^{c\ell_X}\zeta_1Z_bM_I\,\iota(1 + c - c')\mathcal A_1}{(2\pi)^3}\\
-&\qquad\times h(-\theta_1)\mathcal J_1(-\theta_1; 0, T_2)\,h(-c')\mathcal J_1(-c'; 0, \infty),\\
-R_2 &= \frac{\zeta_1\iota(1 + c - c')\mathcal A_1}{(2\pi)^3}\Big[2\mathcal G_0e^{c\ell_X}M_I\,\hbar\,\mathcal Z\\
+R_1 &\leq \frac{\mathcal G_1e^{c\ell_X}\zeta_1Z_bM_I\,\iota(1 + c - c')\mathcal A_1}{(2\pi)^3}\,h(-\theta_1)\mathcal J_1(-\theta_1; 0, T_2)\,h(-c')\mathcal J_1(-c'; 0, \infty),\\
+R_2 &\leq \frac{\zeta_1\iota(1 + c - c')\mathcal A_1^\square}{(2\pi)^3}\Big[2\mathcal G_0e^{c\ell_X}M_I\,\hbar\,\mathcal Z\\
 &\qquad + \mathcal G_1e^{c\ell_X}h(\sigma_1)\mathcal J_1(\sigma_1; T_2, \infty)\,\zeta(1 + c + \sigma_1 - c')\,\iota(1 + c + \sigma_1)\,h(-c')\mathcal J_1(-c'; 0, \infty)\Big],\\
-R_3 &= \frac{\mathcal G_0e^{cY_2}\zeta_1\mathcal A_x\iota(1 + c')\iota(1 + c - c')}{(2\pi)^2}\\
-&\qquad\times\frac{(U^{-(c-c')} + V^{-(c-c')})e^{\eta^2(c-c')^2/2}g}{\Delta T_2^2}\,h(-c')\mathcal J_0(-c'; 0, \infty),\\
-R_4 &= \frac{2\mathcal G_0e^{cY_2}\zeta_1\mathcal A_x\iota(1 + c')\iota(1 + c - c')}{(2\pi)^2\Delta^2}\cdot\frac{4e^{\eta^2((c-c')^2 + c'^2)/2}g}{3T_2^3},\\
-R_5 &= \frac{\mathcal G_0e^{cY_1}}{\Delta^2}\big(r_V + r'\big),\\
-R_6 &= \frac{\mathcal G_0e^{cY_2}}{\Delta^2}\big(r_U + r'\big),\\
-R_7 &= \frac{(e^{-\theta_2Y_1} + e^{-\theta_2Y_2})\,\mathcal R}{2\pi\Delta^2},\\
-R_8 &= \frac{\gamma_0e^{c\ell_X}\zeta_1^4}{2\pi\zeta(2 + 2c)} + \frac{2\gamma_0(\theta_2 + c)e^{cY_2}\mathcal K}{\Delta^2},
+R_3 &\leq \frac{\mathcal G_0e^{c\ell_X}\zeta_1\mathcal A_x\iota(1 + c')\iota(1 + c - c')}{(2\pi)^2}\cdot\frac{(U^{-(c-c')} + V^{-(c-c')})e^{\eta^2(c-c')^2/2}\epsilon_T}{\Delta T_2^2}\,h(-c')\mathcal J_0(-c'; 0, \infty),\\
+R_4 &\leq \frac{4\mathcal G_0e^{cY_2}\zeta_1\mathcal A_x\iota(1 + c')\iota(1 + c - c')}{(2\pi)^2\Delta^2}\cdot\frac{2e^{\eta^2((c-c')^2 + c'^2)/2}\epsilon_T}{3(T_2 - W_0)^3},\\
+R_5 &\leq \frac{\mathcal G_0e^{cY_1}}{\Delta^2}\big(r_V + r_V'\big), \qquad
+R_6 \leq \frac{\mathcal G_0e^{cY_2}}{\Delta^2}\big(r_U + r_U'\big), \qquad
+R_7 \leq \frac{(e^{-\theta_2Y_1} + e^{-\theta_2Y_2})\,\mathcal R}{2\pi\Delta^2},\\
+R_8 &\leq \frac{\gamma_0e^{c\ell_X}\zeta_1^4}{2\pi\zeta(2 + 2c)}\\
+&\qquad + \frac{2\gamma_0(\theta_2 + c)e^{cY_2}\mathcal K}{\Delta^2},\\
+\gamma_0 &= \frac{4\cdot3.4\,W_0^{1/2}e^{-\pi W_0/2}}{\pi(1 - 1/(\pi W_0))},
 \end{align*}
-where $\mathcal A_x = \mathcal A^*(1 + c', 1 + c - c', 1)$, $\gamma_0 = 4\cdot2.6\,W_0^{c - 1/2}e^{-\pi W_0/2}/\pi$, and
+where
 \begin{align*}
-r_V &= \frac{e^{-\Delta b}\zeta_1\mathcal A^*(1 - b, 1 + c + b, 1)M_I\iota(1 + c + b)}{2\pi}\cdot\frac{\pi e^{\eta^2((c+b)^2 + b^2)/2}}{b^2(b + c)},\\
-r_U &= \frac{e^{-\Delta b}\zeta_1\mathcal A^*(1 + b, 1 + c - b, 1)M_I\iota(1 + b)}{2\pi}\cdot\frac{\pi e^{\eta^2((c-b)^2 + b^2)/2}}{b^2(b - c)},\\
-r' &= \frac{4(b + c')e^{c'\Delta}g\,\zeta_1\max\{\mathcal A^*(1 - b, 1 + c + b, 1), \mathcal A_x\}M_I\iota(1 + c - c')}{2\pi T_2^4}.
+r_V &= \frac{e^{-\Delta b}\zeta_1\mathcal A_VM_I\iota(1 + c + b)}{2\pi}\cdot\frac{\pi e^{\eta^2((c+b)^2 + b^2)/2}}{b^2(b + c)},\\
+r_U &= \frac{e^{-\Delta b}\zeta_1\mathcal A_UM_I\iota(1 + b)}{2\pi}\cdot\frac{\pi e^{\eta^2((c-b)^2 + b^2)/2}}{b^2(b - c)},\\
+r_V' &= \frac{2(b + c')e^{c'\Delta}e^{\eta^2((c+b)^2 + b^2)/2}\epsilon_T\epsilon_T'}{2\pi T_2^2(T_2 - W_0)^2}\\
+&\qquad\times\zeta_1\,\mathcal A^*([1 - b, 1 + c'], [1 + c - c', 1 + c + b], 1)\,M_I\,\iota(1 + c - c'),\\
+r_U' &= \frac{2(b - c')e^{\eta^2b^2}\epsilon_T\epsilon_T'}{2\pi T_2^2(T_2 - W_0)^2}\\
+&\qquad\times\zeta_1\,\mathcal A^*([1 + c', 1 + b], [1 + c - b, 1 + c - c'], 1)\,\iota(1 + c')\,M_I.
 \end{align*}
 Here $\hbar = (V^{\sigma_1} + U^{\sigma_1})e^{\eta^2(\theta_1^2 - T_2^2)/2}/(\Delta T_2^2)$ bounds $|\hat\rho_s|$ on the connectors of Step~2,
 \begin{multline*}
 \mathcal Z = (\theta_1 + \sigma_1)\Big(\Big(2 + \frac{2 + W_0 + T_2}{\sigma_2}\Big)h(-c')\mathcal J_0(-c'; 0, \infty) + \frac{h(-c')\mathcal J_1(-c'; 0, \infty)}{\sigma_2}\Big)\\
-+ 2\pi\sqrt{(\theta_1 + \sigma_1)^2 + 1}\,\frac{(V^{-c'} + U^{-c'})e^{\eta^2c'^2/2}}{\Delta c'^2}, \qquad \sigma_2 = 1 + c - \theta_1 - c',
++ 2\pi\sqrt{(\theta_1 + \sigma_1)^2 + 1}\,\frac{(V^{-c'} + U^{-c'})e^{\eta^2c'^2/2}}{\Delta c'^2},
 \end{multline*}
-$\mathcal R = 2\int_0^{W_0}|\Gamma(-\theta_2 + iv)|\big(\mathcal K(v) + e^{\eta^2\theta_2^2/2}\theta_2^{-2}\big)\,dv$, and $\mathcal K(v)$ is the following bound for $|K_c(w)|$ on $-\theta_2 \leq \Rp w \leq c$, $|\Ip w| = v$:
+$\mathcal R = 2\int_0^{W_0}|\Gamma(-\theta_2 + iv)|\big(\mathcal K(v) + e^{\eta^2\theta_2^2/2}\theta_2^{-2}\big)\,dv$, $\mathcal K = \mathcal K(W_0) + e^{\eta^2\theta_2^2/2}W_0^{-2}$, and
 \begin{multline*}
-\mathcal K(v) = \frac{M_Z}{2\pi}\Big(\mathcal A^*(1 - \kappa_1, 1 + \kappa_1 - \theta_2, 1)M_I\,\iota(1 + \kappa_1 - \theta_2)\frac{\pi(2\kappa_1 - \theta_2)e^{\eta^2((\kappa_1-\theta_2)^2 + \kappa_1^2)/2}}{\kappa_1(\kappa_1 - \theta_2)((2\kappa_1 - \theta_2)^2 + v^2)}\\
-+ \frac{4(\kappa_1 + c')\,\mathcal A^{**}M_I^2g}{T_2^4}\Big),
+\mathcal K(v) = \frac{M_Z}{2\pi}\Big(\mathcal A^*(1 - \kappa_1, [1 + \kappa_1 - \theta_2, 1 + \kappa_1 + c], 1)M_I\,\iota(1 + \kappa_1 - \theta_2)\frac{\pi(2\kappa_1 - \theta_2)e^{\eta^2((\kappa_1 + c)^2 + \kappa_1^2)/2}}{\kappa_1(\kappa_1 - \theta_2)((2\kappa_1 - \theta_2)^2 + v^2)}\\
++ \mathcal A^*([1 - \kappa_1, 1 + c'], [1 - \theta_2 - c', 1 + c + \kappa_1], 1)M_I^2\,\frac{2(\kappa_1 + c')e^{\eta^2((\kappa_1 + c)^2 + \kappa_1^2)/2}\epsilon_T\epsilon_T'}{T_2^2(T_2 - W_0)^2}\Big).
 \end{multline*}
-with $\mathcal A^{**} = \max\{\mathcal A^*(1 - \kappa_1, 1 + \kappa_1 - \theta_2, 1), \mathcal A_x\}$, and $\mathcal K := \mathcal K(W_0) + e^{\eta^2\theta_2^2/2}W_0^{-2}$.
+The function $\mathcal K(v)$ bounds $|K_c(w)|$ for $\Rp w = -\theta_2$ and $|\Ip w| = v$, and also for $-\theta_2 \leq \Rp w \leq c$ and $|\Ip w| = W_0$.
 \end{lemma}
 
 \begin{proof}
-Each term is the integral of the absolute value of the integrand over the corresponding piece of contour, bounded factor by factor.
-The factor $\Gamma(w)X^w$ gives $\mathcal G_\nu e^{c\ell_X}$ (or $e^{cY_j}$ after the $V^{-w}$, $U^{-w}$ have been absorbed).
+Each term is the integral of the absolute value of the integrand over the corresponding piece of contour, bounded factor by factor; several of the resulting bounds are weaker than necessary by small constant factors.
+The factor $\Gamma(w)X^w$ gives $\mathcal G_\nu e^{c\ell_X}$, or $\mathcal G_\nu e^{cY_j}$ after $V^{-w}$ or $U^{-w}$ has been absorbed; in $R_4$, all four coefficients are at most $e^{cY_2}$, since $e^{cY_1 + c'\Delta} \leq e^{cY_2}$.
 The factors $\hat\rho_s$ give $h(\sigma)\mathcal J_\nu(\sigma; \cdot, \cdot)$.
-The zeta factors are bounded by (B1) when the argument lies in $\mathcal B$ and by (B2) otherwise, and $\mathcal A$ by $\mathcal A^*$.
-In $R_1$ we use $|\zeta(1 + w + s_1 + s_2)| \leq Z_b(1 + |\Ip w|)(1 + |\Ip s_1|)(1 + |\Ip s_2|)$ on $\Rp = 1 + c - \theta_1 - c'$, which follows from (B1) for heights at most $450$ and from (B2) beyond; the three factors $1 + |\Ip|$ are absorbed into $\mathcal G_1$ and $\mathcal J_1$.
+The zeta factors are bounded by (B1) when the argument lies in $\mathcal B$, and by (B2) otherwise; for real parts in $[1.3, 1.4]$ we use $\iota(1.3) < M_I$.
+In $R_1$ we use $|\zeta(1 + w + s_1 + s_2)| \leq Z_b(1 + |\Ip w|)(1 + |\Ip s_1|)(1 + |\Ip s_2|)$ on $\Rp(1 + w + s_1 + s_2) = \sigma_2$, which follows from (B1) for heights at most $450$ and from (B2) beyond; the three factors $1 + |\Ip|$ are absorbed into $\mathcal G_1$ and $\mathcal J_1$.
 In $R_2$, on the connectors, the pole of $\zeta(1 + u)$ with $u = w + s_1 + s_2$ is handled by $|\zeta(1 + u)| \leq 1/|u| + 1 + |1 + u|/\Rp(1 + u)$, integrating $1/|u|$ over a disc of radius $\sqrt{(\theta_1 + \sigma_1)^2 + 1}$ and using $1/|u| \leq 1$ elsewhere.
-In $R_3$--$R_6$ the Gaussian factor $E$ at height at least $T_2$ produces $g$, and the integral $\int_{\mathbb R}dt/((t^2 + a^2)((t + v)^2 + a'^2)) = \pi(a + a')/(aa'((a + a')^2 + v^2))$ gives the factors in $r_U$, $r_V$ and $\mathcal K$.
-In $R_8$ we use the bound for $|F_s(w) - \rho_s(1)|$ from Step~1 and $|\Gamma(\sigma + iv)| \leq 2.6|v|^{\sigma-1/2}e^{-\pi|v|/2}$ for $|v| \geq 1$ and $-\theta_2 \leq \sigma \leq c$.
+Whenever a contour runs at height at least $T_2$, the factor $|E(s)|$ gives $\epsilon_T$ and, where it is present, $|E(w + s)|$ gives $\epsilon_T'$, while $|s| \geq T_2$ and $|w + s| \geq T_2 - W_0$.
+The identity $\int_{\mathbb R}dt/((t^2 + a^2)((t + v)^2 + a'^2)) = \pi(a + a')/(aa'((a + a')^2 + v^2))$ gives the factors in $r_U$, $r_V$ and $\mathcal K(v)$.
+In $\mathcal K(v)$, $|\zeta(1 + w)| \leq M_Z$ holds since $|w| \geq \theta_2$ on $\Rp w = -\theta_2$ and $|w| \geq W_0$ on the connectors.
+In $R_8$ we use the bound for $|F_s(w) - \rho_s(1)|$ from Step~1 and, for $v \geq W_0$ and $-\theta_2 \leq \sigma \leq c$,
+\begin{multline*}
+|\Gamma(\sigma + iv)| = \frac{|\Gamma(\sigma + 1 + iv)|}{|\sigma + iv|} \leq \Gamma(\sigma + 1)\frac{|\Gamma(2 + iv)|}{v}\\
+= \Gamma(\sigma + 1)\frac{\sqrt{1 + v^2}}{v}\sqrt{\frac{\pi v}{\sinh\pi v}} \leq 3.4\,v^{1/2}e^{-\pi v/2},
+\end{multline*}
+where we used that $|\Gamma(x + iv)|/\Gamma(x)$ is increasing in $x > 0$ and $\Gamma(\sigma + 1) \leq \Gamma(0.7) < 1.3$.
 \end{proof}
 
-All constants in Lemma~\ref{lem:A-rem} which do not depend on $(U, V, X)$ (the integrals $\mathcal G_\nu$, $\mathcal J_\nu$ and $\mathcal R$, the values of $\zeta$, and the bounds $\mathcal A^*$) are computed once in ball arithmetic.
+All quantities in Lemma~\ref{lem:A-rem} which do not depend on $(U, V, X)$ (the integrals $\mathcal G_\nu$, $\mathcal J_\nu$ and $\mathcal R$, the values of $\zeta$, and the bounds $\mathcal A^*$) are computed once in ball arithmetic.
 The integrals are upper Riemann sums, using (B3) and the monotonicity of the other factors.
-For $\mathcal A^*$ we take, for $p \leq 100$, the supremum of $|\mathcal A_p|$ over the $3$-torus of phases of $x_1$, $x_2$ and $z$, evaluated on a grid of $96^3$ cells with the explicit cell enclosure (moving a phase by at most $h/2$ moves $x_j$ by at most $|x_j|h/2$ and $z$ by at most $3|z|h/2$).
-For $100 < p \leq 10^6$ we use $\log|\mathcal A_p| \leq |\mathcal A_p - 1|$ and the triangle inequality, and for $p > 10^6$ the bound $4.2\cdot10^{6(1-m)}/(m - 1)$, where $m$ is the least of the four pairwise sums.
-For example, $\mathcal A_1 \leq 1202.27$, $\mathcal A_x \leq 14.56$ and $\mathcal R \leq 6.25\cdot10^6$.
+For $\mathcal A^*$ we bound $\prod_{p\leq100}|\mathcal A_p|$ by the product of the suprema of $|\mathcal A_p|$ over the $3$-torus of phases of $x_1$, $x_2$ and $z$, evaluated on a grid of $96^3$ cells with an explicit cell enclosure (moving a phase by at most $h/2$ moves $x_j$ by at most $|x_j|h/2$ and $z$ by at most $3|z|h/2$), and with the moduli of $x_1$, $x_2$, $z$ given as intervals when the real parts vary.
+Where the real parts vary along a contour, the range is cut into up to $32$ pieces, according to the real parts of the moving variables, and the maximum over the pieces is taken.
+For $100 < p \leq 10^6$ we use $\log|\mathcal A_p| \leq |\mathcal A_p - 1|$ and the triangle inequality, and for $p > 10^6$ the bound $4.2\cdot10^{6(1-m)}/(m - 1)$, where $m$ is the least of the four sums of pairs of real parts in Lemma~\ref{lem:A-euler}.
+For example, $\mathcal A_1 \leq 1202.27$ and $\mathcal A_x \leq 14.56$.
 
 \subsection{The non-smooth part}
 
-\begin{lemma}\label{lem:A-St}
-Let $\varpi(y) = \phi(y) - |y|\bar\Phi(|y|)$, where $\phi$ and $\bar\Phi$ are the standard normal density and tail.
-Then $|\rho_t(d)| \leq \frac\eta\Delta[\varpi(\frac{\log d - \ell_U}\eta) + \varpi(\frac{\log d - \ell_V}\eta)]$ for every $d \geq 2$, and $0 \leq \rho_t(1) \leq \bar\Phi(\ell_U/\eta)$.
-Moreover, for every $\epsilon > 0$,
+\begin{lemma}\label{lem:A-bsum}
+Let $\varpi(y) = \phi(|y|) - |y|\bar\Phi(|y|)$, where $\phi$ and $\bar\Phi$ are the standard normal density and tail, and $\Psi_1(y) = \int_y^\infty\varpi$.
+For real $A$ put $b(A) = \sum_{r\geq1}\varpi((\log r - A)/\eta)/r$.
+Then
 \[
-S_t' \leq \Big(\frac\epsilon e\Big)^\epsilon X^\epsilon\Big(\frac1\epsilon + 1\Big)\Big(\frac\eta\Delta\Big)^2\Sigma + \bar\Phi(\ell_U/\eta)^2 =: S_t,
+b(A) \leq \eta\Big(\frac12 - \Psi_1\Big(\frac A\eta\Big)\Big) + 0.8\,e^{\eta^2/2}e^{-A} \quad (A \geq 0), \qquad b(A) \leq \eta\Psi_1\Big(\frac{|A|}\eta\Big) + 2\varpi\Big(\frac{|A|}\eta\Big) \quad (A < 0).
 \]
-where $\Sigma$ is an explicit upper bound for $\sum_m\mu^2(m)\varphi(m)^{-1}\beta(m)^2$ with
-\[
-\beta(m) = \sum_{K\in\{\ell_U, \ell_V\}}\sum_{r\geq1}\frac1r\,\varpi\Big(\frac{\log(mr) - K}{\eta}\Big).
-\]
+In particular $b(A) \leq \eta/2 + 0.8e^{\eta^2/2}$ for all $A$, and $b(A) \leq \eta/2 + 0.8e^{\eta^2/2}e^{-A}$ for $A \geq 0$.
 \end{lemma}
 
 \begin{proof}
-As a function of $y = \log d$, $\rho$ is piecewise linear with a change of slope $-1/\Delta$ at $\ell_U$ and $+1/\Delta$ at $\ell_V$.
-For $f(y) = y^+$ we have $\mathbb E[f(y - \eta Z)] - f(y) = \eta\varpi(y/\eta)$, which gives the first claim; at $d = 1$ the smoothing only removes the mass $\mathbb P(\eta Z < -\ell_U)$.
-For the second claim we use $e^{-y} \leq (\epsilon/e)^\epsilon y^{-\epsilon}$ and the identity
+The function $\varpi$ is even and log-concave, since $\varpi(y) = \int_{|y|}^\infty\bar\Phi$ for $y \geq 0$ and $\bar\Phi$ is log-concave.
+Hence $u \mapsto \varpi((u - A)/\eta)e^{-u}$ is log-concave, and $g(t) = \varpi((\log t - A)/\eta)/t$ is unimodal on $[1, \infty)$.
+For a unimodal function, $\sum_{r\geq1}g(r) \leq \int_1^\infty g + 2\max g$.
+Here $\int_1^\infty g(t)\,dt = \eta\int_{-A/\eta}^\infty\varpi = \eta\Psi_1(-A/\eta)$, and $\Psi_1(-y) = \frac12 - \Psi_1(y)$ since $\int_{\mathbb R}\varpi = \frac12$.
+Since $\varpi \leq \phi$ and $\phi(y)e^{-\eta y} = \phi(y + \eta)e^{\eta^2/2}$, we have $\max g \leq e^{-A}\phi(0)e^{\eta^2/2} \leq 0.4e^{\eta^2/2}e^{-A}$.
+For $A < 0$ the function $g$ is decreasing on $[1, \infty)$, so $\sum_rg(r) \leq g(1) + \int_1^\infty g = \varpi(|A|/\eta) + \eta\Psi_1(|A|/\eta)$.
+\end{proof}
+
+\begin{lemma}\label{lem:A-St}
+We have $|\rho_t(d)| \leq \frac\eta\Delta[\varpi(\frac{\log d - \ell_U}\eta) + \varpi(\frac{\log d - \ell_V}\eta)]$ for every $d \geq 1$.
+Let $\beta(m) = b(\ell_U - \log m) + b(\ell_V - \log m)$, and let $\Sigma$ be an upper bound for $\sum_m\mu^2(m)\varphi(m)^{-1}\beta(m)^2$.
+Then, for every $\epsilon > 0$,
+\[
+S_t' \leq S_t := \Big(\frac\epsilon e\Big)^\epsilon X^\epsilon\Big(\frac1\epsilon + 1\Big)\Big(\frac\eta\Delta\Big)^2\Sigma + \bar\Phi(\ell_U/\eta)^2,
+\]
+and an admissible value of $\Sigma$ is
+\[
+\Sigma = \beta_0^2\Big(\log10^6 + 1.3326 + \frac4{1000}\Big) + \sum_j\beta_j^2\Big(\delta_u + 8e^{-u_j/2}\Big) + \frac{36(\eta + 2)^2e^{-y_0^2}}{2\pi}\Big(1 + \frac{\eta}{2y_0}\Big),
+\]
+where $\beta_0 = \eta + 0.8e^{\eta^2/2}(e^{-(\ell_U - \log10^6)} + e^{-(\ell_V - \log10^6)})$, the $u_j = \log10^6 + j\delta_u$ with $\delta_u = 0.02$ run over $[\log10^6, \ell_V + 60\eta)$, $\beta_j$ is the upper bound for $\beta(m)$ on $\log m \in [u_j, u_j + \delta_u]$ given by Lemma~\ref{lem:A-bsum} (using the monotonicity of the bounds in $A$), and $y_0 = 60$.
+\end{lemma}
+
+\begin{proof}
+As a function of $y = \log d$, $\rho$ is piecewise linear with a change of slope of $-1/\Delta$ at $\ell_U$ and of $+1/\Delta$ at $\ell_V$.
+Since $\mathbb E[(y - \eta Z)^+] - y^+ = \eta\varpi(y/\eta)$, this gives the bound for $\rho_t$.
+Next, $e^{-y} \leq (\epsilon/e)^\epsilon y^{-\epsilon}$ for $y > 0$, and for any $f$,
 \[
 \sum_n\frac1{n^{1+\epsilon}}\Big(\sum_{d\mid n}\mu(d)f(d)\Big)^2 = \zeta(1 + \epsilon)\sum_m\frac{\mu^2(m)}{m^{1+\epsilon}}\prod_{p\mid m}\Big(1 - \frac1{p^{1+\epsilon}}\Big)\Big(\sum_r\frac{\mu(r)f(mr)}{r^{1+\epsilon}}\Big)^2,
 \]
-which follows from $\gcd(d_1, d_2)^{1+\epsilon} = \sum_{m\mid\gcd}m^{1+\epsilon}\prod_{p\mid m}(1 - p^{-1-\epsilon})$.
-Since $p^{-1-\epsilon}(1 - p^{-1-\epsilon}) \leq 1/(p - 1)$ and $\zeta(1 + \epsilon) \leq 1/\epsilon + 1$, we obtain the stated form, with the term $n = 1$ treated separately.
-To bound $\Sigma$ we use $\beta(m) \leq \beta_0$ for $m \leq 10^6$ (where $\log(mr)$ is far below $\ell_U$), with the exact value of $\sum_{m\leq10^6}\mu^2(m)/\varphi(m) \leq \log10^6 + 1.3326 + 4\cdot10^{-3}$, and partial summation with $|\sum_{m\leq y}\mu^2(m)/\varphi(m) - \log y - 1.3326| \leq 4/\sqrt y$ \cite{RamareAkhilesh} for $m > 10^6$; there $\beta(m)^2$, as a function of $\log m$, has at most three local maxima and total variation at most six times its maximum.
-The resulting $\Sigma$ is an explicit expression in $\ell_U$, $\ell_V$ and $\eta$, with $\int_0^\infty(\eta\Psi_1(y) + 2\varpi(y))^2\,dy$ as the only integral, where $\Psi_1(y) = \int_y^\infty\varpi$.
+which follows from $\gcd(d_1, d_2)^{1+\epsilon} = \sum_{m\mid\gcd(d_1,d_2)}m^{1+\epsilon}\prod_{p\mid m}(1 - p^{-1-\epsilon})$.
+Since $p^{-1-\epsilon}(1 - p^{-1-\epsilon}) \leq 1/(p - 1)$ and $\zeta(1 + \epsilon) \leq 1/\epsilon + 1$, and $\sum_r|\rho_t(mr)|/r \leq \frac\eta\Delta\beta(m)$, we obtain the bound for $S_t'$; the term $\bar\Phi(\ell_U/\eta)^2$ is not needed but is kept, as in the computation.
+For $\Sigma$ we split the sum over $m$.
+For $m \leq 10^6$ we have $\ell_K - \log m \geq 26$ for $K \in \{U, V\}$, so $\beta(m) \leq \beta_0$ by Lemma~\ref{lem:A-bsum}, and $\sum_{m\leq y}\mu^2(m)/\varphi(m) = \log y + c_0 + O^*(4/\sqrt y)$ with $c_0 = 1.33258\ldots < 1.3326$ \cite{RamareAkhilesh}.
+For $\log m \in [u_j, u_j + \delta_u]$ the same estimate shows that the total mass of $\mu^2(m)/\varphi(m)$ is at most $\delta_u + 8e^{-u_j/2}$.
+For $\log m \geq \ell_V + 60\eta$ both arguments of $b$ are at most $-60\eta$, so $\beta(m) \leq 2(\eta + 2)\phi((\log m - \ell_V)/\eta)$, and the mass on intervals of length $1$ is at most $9$; comparing the sum over such intervals with an integral of the decreasing majorant gives the last term.
 \end{proof}
 
 \subsection{Proof of Theorem~\ref{thm:G}}
 
 By \eqref{eq:mink}, Proposition~\ref{prop:A-main} and Lemma~\ref{lem:A-St}, the sum in Theorem~\ref{thm:G} is at most $S_s + 2\sqrt{S_sS_t} + S_t$ with $S_s \leq e^{-1/X} + D_4 + \mathrm{REM}$.
 It remains to bound $k_1 = H_c(0)$ and $k_0 = H_c'(0) + \gamma_EH_c(0)$.
-On the segment $\Rp s = \kappa_1$, $|\Ip s| \leq 150$ of $\mathcal P$ we compute the integral defining $H_c(0)$, and the integral obtained by differentiating under the integral sign, by rigorous numerical integration, with the Euler product truncated at $p \leq 2000$.
-The error from the truncation is at most $|\mathcal A_P|(e^{\tau} - 1)$ with an explicit $\tau$, and it is multiplied by $\int|g| \leq (\pi\int|g|^2(1 + t^2)\,dt)^{1/2}$, where $g$ is the integrand.
-The parts with $150 < |\Ip s| \leq T_2$ and the two connectors are bounded by the Gaussian factor.
+At $w = 0$ the integrand of $H_c$ is $g(s) = \mathcal A(0; -s, s)e^{\eta^2s^2}/(\zeta(1 - s)\zeta(1 + s)s^4)$, and differentiation with respect to $w$ multiplies it by $D(s) = \frac{\partial}{\partial w}\log\mathcal A + \eta^2s - \frac{\zeta'}{\zeta}(1 + s) - \frac2s$.
+On the segment $\Rp s = \kappa_1$, $|\Ip s| \leq 150$, we compute $\frac1{2\pi i}\int g$ and $\frac1{2\pi i}\int gD$ by rigorous numerical integration, with the Euler product truncated at $p \leq 2000$.
+The error from the truncation is at most $(e^\tau - 1)\int|g|$, with $\tau$ obtained from $|\mathcal A_p - 1| \leq 5.2p^{-m}$ ($m = 2 - \kappa_1$) and the bound $\pi(t) \leq 1.26t/\log t$ of Rosser and Schoenfeld \cite{RS62}, and similarly for $D$; here $\int|g| \leq (\pi\int|g|^2(1 + t^2)\,dt)^{1/2}$ by the Cauchy--Schwarz inequality.
+On the parts $150 < |\Ip s| \leq T_2$ and on the two horizontal pieces of $\mathcal P$ we bound $|g|$ and $|gD|$ in ball arithmetic on pieces of length $0.02$, using the truncated product and the tail bounds $|\mathcal A/\mathcal A_P - 1| \leq e^{\tau'} - 1$ with $\tau' = 4.4P^{1-m'}/(m' - 1)$ and $m' = 1.62$.
 This gives $k_1 \in -0.607063 \pm 0.0217$ and $k_0 \in 0.35026 \pm 0.0711$, hence $k_1 \leq -0.5853$ and $k_0 \leq 0.4214$.
-Finally, the conditions $\ell_U \geq 40$, $\tau \in [1.3, 2.5]$ and $\ell_X/\ell_V \in [1.1, 2.6]$ ensure that all the contours above stay in the regions where the bounds (B1)--(B3) and $\mathcal A^*$ were computed.
+Finally, the hypothesis $X > V$ gives $Y_1 > 0$, which is used in Step~4, and $\ell_U \geq 40$ is used in Lemma~\ref{lem:A-St}; the conditions on $\tau$ and $\log X/\log V$ are those under which the computation was carried out.
 \qed
-
 
 \begin{thebibliography}{99}
 
@@ -1165,8 +1208,6 @@ Finally, the conditions $\ell_U \geq 40$, $\tau \in [1.3, 2.5]$ and $\ell_X/\ell
 \bibitem{PlattTrudgianRH} D. J. Platt and T. S. Trudgian, \emph{The Riemann hypothesis is true up to $3\cdot10^{12}$}, Bull. Lond. Math. Soc. \textbf{53} (2021), no.~3, 792--797.
 
 \bibitem{RamareAkhilesh} O. Ramar\'e and P. Akhilesh, \emph{Explicit averages of non-negative multiplicative functions: going beyond the main term}, Colloq. Math. \textbf{147} (2017), no.~2, 275--313.
-
-\bibitem{RZA} O. Ramar\'e and S. Zuniga Alterman, \emph{An $L^2$-bound for the Barban--Vehov weights}, preprint (2024), available at \url{https://arxiv.org/abs/2405.12662}.
 
 \bibitem{RS62} J. B. Rosser and L. Schoenfeld, \emph{Approximate formulas for some functions of prime numbers}, Illinois J. Math. \textbf{6} (1962), 64--94.
 

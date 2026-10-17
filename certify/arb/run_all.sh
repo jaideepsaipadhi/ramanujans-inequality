@@ -5,6 +5,8 @@ set -e
 cd "$(dirname "$0")"
 python3 gammaint_cert.py                         # I_Gamma <= 5.922 and the J-integral <= 4.72
 python3 remconst.py                              # Lemma G remainder constants  -> remconst.json
+python3 kfar_arb.py                              # far parts of the k1, k0 integrals
+python3 kassemble_arb.py                         # k1 <= -0.5853, k0 <= 0.4214 (from ../../code/lemG/kcert2.log)
 rm -f cells_arb_*.json scan_arb_*.txt
 ( python3 cells_arb.py 0 2 ) & ( python3 cells_arb.py 1 2 ) & wait      # every density cell -> cells_arb_{0,1}.json
 ( python3 scan_arb.py 0 2 ) & ( python3 scan_arb.py 1 2 ) & wait        # the scan          -> scan_arb_{0,1}.txt

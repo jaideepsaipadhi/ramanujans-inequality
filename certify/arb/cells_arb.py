@@ -51,41 +51,67 @@ def remainder(u, tau, x, L):
     J0 = (ex(-cp, lV) + ex(-cp, lU))/Dd*RC['J_mcp_0_inf']; J1 = I2
     zconn = ln*((2 + (2 + W0 + T2)/sm)*J0 + J1/sm) + 2*PI*R0*Hinf
     hs1 = (ex(s0, lV) + ex(s0, lU))*(eta*eta*(th*th - T2*T2)/2).exp()/(Dd*T2*T2)
-    E1b = 2*RC['gam_c']*ex(c, lX)*z1c*hs1*zconn*MI*RC['iz1c_cp']*A1/pi3
+    E1b = 2*RC['gam_c']*ex(c, lX)*z1c*hs1*zconn*MI*RC['iz1c_cp']*RC['A1box']/pi3
     hsT = (ex(s0, lV) + ex(s0, lU))/Dd*RC['J_s0_T2_inf_w1']
-    E1c = Gw*z1c*hsT*RC['z1c_s0_cp']*RC['iz1c_s0']*I2*RC['iz1c_cp']*A1/pi3
+    E1c = Gw*z1c*hsT*RC['z1c_s0_cp']*RC['iz1c_s0']*I2*RC['iz1c_cp']*RC['A1box']/pi3
     out['E1bc'] = E1b + E1c
     Ax = RC['Ax']
     Gx = RC['gam_c']*upper_max(ex(c, Y1), ex(c, Y2))
     ext = (ex(-(c - cp), lU) + ex(-(c - cp), lV))*(eta*eta*(c - cp)**2/2).exp()*gauss/(Dd*T2*T2)
-    out['Rext'] = Gx*z1c*Ax*RC['iz1cp']*RC['iz1c_cp']*ext*J0/(2*PI)**2
-    Kt = 2*(eta*eta*((c - cp)**2 + cp*cp)/2).exp()*gauss*2/(T2**3*3)
-    out['Ktail'] = 2*Gx*z1c*Ax*RC['iz1cp']*RC['iz1c_cp']*Kt/(2*PI)**2/Dd**2
+    out['Rext'] = RC['gam_c']*ex(c, lX)*z1c*Ax*RC['iz1cp']*RC['iz1c_cp']*ext*J0/(2*PI)**2   # |X^w| = e^{c lX}
+    Kt = 2*(eta*eta*((c - cp)**2 + cp*cp)/2).exp()*gauss/(3*(T2 - W0)**3)   # both sides; |w+s| >= t - W0
+    out['Ktail'] = 4*RC['gam_c']*ex(c, Y2)*z1c*Ax*RC['iz1cp']*RC['iz1c_cp']*Kt/(2*PI)**2/Dd**2   # four terms, each coefficient <= e^{c Y2}
     AV, AU = RC['AV'], RC['AU']
     segV = PI/(b*b*(b + c))*(eta*eta*((c + b)**2 + b*b)/2).exp()
     segU = PI/(b*b*(b - c))*(eta*eta*((c - b)**2 + b*b)/2).exp()
     rV = (-Dd*b).exp()*z1c*AV*MI*RC['iz1c_b']*segV/(2*PI)
     rU = (-Dd*b).exp()*z1c*AU*MI*RC['iz1b']*segU/(2*PI)
-    connV = (cp*Dd).exp()*gauss*4*(b + cp)*z1c*upper_max(AV, Ax)*MI*RC['iz1c_cp']/T2**4/(2*PI)
+    gauss2 = (-(eta*eta*(T2 - W0)**2)/2).exp()
+    den4 = T2**2*(T2 - W0)**2
+    connV = 2*(b + cp)*(cp*Dd).exp()*(eta*eta*((c + b)**2 + b*b)/2).exp()*gauss*gauss2/den4*z1c*RC['AVbox']*MI*RC['iz1c_cp']/(2*PI)
+    connU = 2*(b - cp)*(eta*eta*(b*b + b*b)/2).exp()*gauss*gauss2/den4*z1c*RC['AUbox']*RC['iz1cp']*MI/(2*PI)
     out['rhoV'] = RC['gam_c']*ex(c, Y1)*(rV + connV)/Dd**2
-    out['rhoU'] = RC['gam_c']*ex(c, Y2)*(rU + connV)/Dd**2
+    out['rhoU'] = RC['gam_c']*ex(c, Y2)*(rU + connU)/Dd**2
     out['wshift'] = (ex(-thp, Y1) + ex(-thp, Y2))*RC['R6']/(2*PI)/Dd**2
-    gt = 2*arb('2.6')*W0**(c - arb('0.5'))*(-PI*W0/2).exp()*2/PI
+    gt = 2*arb('3.4')*W0.sqrt()*(-PI*W0/2).exp()*(2/PI)/(1 - 1/(PI*W0))   # |Gamma(s+iv)| <= 3.4 v^{1/2} e^{-pi v/2}, v >= 40, -thp <= s <= c
     out['wtail'] = gt*ex(c, lX)*z1c**4/RC['z2_2c']/(2*PI) + gt*(thp + c)*2*ex(c, Y2)*RC['KcW0']/Dd**2
     return sum(out.values(), arb(0))
 
-def St_rig(lU, lV, lX, a_star):
-    Q0 = RC['Q0']; Dd = lV - lU
-    u0 = arb(10**6).log(); c3 = arb('0.8')*(eta*eta/2).exp()
-    beta0 = eta + c3*((-(lU - u0)).exp() + (-(lV - u0)).exp())
-    small = (u0 + arb('1.3326') + arb(4)/1000)*beta0**2
-    Jf = lambda LK: (eta*eta/4)*(LK - u0) + eta*c3 + c3*c3/2 + eta*Q0
-    mh = (eta + 2*c3)**2
-    Sig = small + 2*(Jf(lU) + Jf(lV)) + (arb(4)/1000)*(7*mh)
+def _Phibar(x): return (x/arb(2).sqrt()).erfc()/2
+def _phi(x): return (-(x*x)/2).exp()/(2*PI).sqrt()
+def _varpi(x): return _phi(x) - x*_Phibar(x)                 # x >= 0
+def _Psi1(y): return ((1 + y*y)*_Phibar(y) - y*_phi(y))/2    # y >= 0
+def _bsup(Alo, Ahi):
+    """upper bound for b(A) = sum_r varpi((log r - A)/eta)/r over A in [Alo, Ahi] (Lemma A.bsum)."""
+    c3 = arb('0.8')*(eta*eta/2).exp()
+    if Alo >= 0:
+        if Alo >= 5: return eta/2 + c3*(-arb(Alo)).exp()
+        return eta*(arb(1)/2 - _Psi1(arb(Ahi)/eta)) + c3*(-arb(Alo)).exp()      # eta Psi1(-Ahi/eta) = eta(1/2 - Psi1(Ahi/eta))
+    if Ahi <= 0:
+        y = arb(-Ahi)/eta
+        return eta*_Psi1(y) + 2*_varpi(y)
+    return eta/2 + c3
+def St_block(lU, lV, lX, a_star, du=0.02):
+    """Lemma A.St: S_t <= (eps/e)^eps X^eps (1/eps+1) (eta/Delta)^2 Sigma + Phibar(lU/eta)^2, Sigma by a block sum."""
+    lUf, lVf = float(lU.mid()), float(lV.mid())
+    u0 = math.log(1e6); c3 = arb('0.8')*(eta*eta/2).exp()
+    beta0 = eta + c3*((-(lU - arb(u0))).exp() + (-(lV - arb(u0))).exp())
+    Sig = (arb(10**6).log() + arb('1.3326') + arb(4)/1000)*beta0**2         # m <= 1e6 (c0 = 1.33258... <= 1.3326)
+    u = u0; umax = lVf + 60*0.02
+    while u < umax:
+        ua, ub = u, u + du
+        bet = arb(0)
+        for K in (lU, lV):
+            Kf = float(K.mid()); rk = float(K.rad()) + 1e-12
+            bet += _bsup(Kf - ub - rk, Kf - ua + rk)
+        Sig += bet**2*(arb(du) + 8*(-arb(ua)/2).exp())                     # block mass <= du + 8 e^{-u/2}
+        u = ub
+    y0 = arb(umax - lVf)/eta                                              # tail u > umax: |A| >= y0 eta for both K
+    Sig += 36*(eta + 2)**2*(-(y0*y0)).exp()/(2*PI)*(1 + eta/(2*y0))
+    Dd = lV - lU
     a = arb(a_star); eps = a/lX
     val = (eps/arb(1).exp())**eps*a.exp()*(1/eps + 1)*(eta/Dd)**2*Sig
-    rho_t1 = (lU/eta/arb(2).sqrt()).erfc()/2
-    return val + rho_t1**2
+    return val + _Phibar(lU/eta)**2
 
 def St_argmin(lU, lV, lX):
     import stbound as SB
@@ -103,7 +129,7 @@ def d4G(u, t, x, L):
     D4m = ((Y2*Y2 - Y1*Y1)/2 - GAM*Dd + K1UP*(Y1 + Y2 - 2*GAM) + 2*K0UP)/(Dd*Dd)
     rem = remainder(A(u), A(t), A(x), L)
     Ss = (-1/lX.exp()).exp() + D4m + rem
-    St = St_rig(lU, lV, lX, St_argmin(float(lU.mid()), float(lV.mid()), float(lX.mid())))
+    St = St_block(lU, lV, lX, St_argmin(float(lU.mid()), float(lV.mid()), float(lX.mid())))
     return D4m + rem + 2*(Ss*St).sqrt() + St + (-1/(A(x)*L).exp()).exp() - (-(L*L)/(A(u)*L).exp()).exp()
 
 # ------------------------- pair coefficient (Lemma A''/C, lemmaD._lp2/_ntil/pair_coef) -------------------------

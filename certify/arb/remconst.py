@@ -98,7 +98,7 @@ def Abound(e1, e2, e12, n=96):
         acc += (z*x1 + z*x2 + z*z + x1*x2)/((1 - x1)*(1 - x2))
     tot += acc
     m = min(float((e12+e1).lower()), float((e12+e2).lower()), float((2*e12).lower()), float((e1+e2).lower()))
-    m = arb(m)                                                # a lower bound for the true minimum
+    m = arb(m) - arb('1e-12')                                 # a lower bound for the true minimum
     P_ = arb(10**6)
     tot += 4.2*P_**(1 - m)/(m - 1)
     return tot.exp()
@@ -130,14 +130,23 @@ def J(sig, lo, hi, w1):
         tot += (E2*sig*sig).exp()*arb(2)/a*(-(E2*a*a)).exp()/(eta*eta*a)
     return 2*tot
 
-def R6(AK, Ax, MZ, MI, n=40000):
+def bx(lo, hi):
+    """arb ball covering the real interval [lo, hi] (arb endpoints)."""
+    return arb((lo + hi)/2, ((hi - lo)/2).upper()) + arb(0, (lo.rad() + hi.rad()).upper())
+
+def R6(AKb, AK2b, MZ, MI, n=40000):
+    """K(v): bound for |K_c(w)| on Re w = -thp (all v) and on the w-connectors |Im w| = W0, -thp <= Re w <= c.
+    First term: the segment Re s = kap of the path P (|Im s| <= T2); second: the two horizontal pieces of P at Im s = +-T2.
+    AKb = sup|A| over e1 = 1-kap, e2 in [1+kap-thp, 1+kap+c], e12 = 1;  AK2b over e1 in [1-kap, 1+cp], e2 in [1-thp-cp, 1+c+kap]."""
     gauss = (-(eta*eta*T2*T2)/2).exp()
+    gauss2 = (-(eta*eta*(T2 - W0)**2)/2).exp()          # |E(w+s)| decay on the connectors of P (|Im(w+s)| >= T2 - W0)
     a_, b_ = kap, kap - thp
-    segc = (eta*eta*((kap - thp)**2 + kap**2)/2).exp()
-    iz = izeta(1 + kap - thp); AKx = AK if AK > Ax else (Ax if Ax > AK else arb(max(fup(AK), fup(Ax))))
+    segc = (eta*eta*((kap + c)**2 + kap**2)/2).exp()     # |E(w+s) E(s)| real-part factor, Re(w+s) <= kap + c
+    iz = izeta(1 + kap - thp)                            # |1/zeta(1+w+s)|, Re in [1+kap-thp, 1+kap+c] (iota decreasing)
     def Kc(v):
         seg = PI*(a_ + b_)/(a_*b_*((a_ + b_)**2 + v*v))
-        return (MZ*AK*MI*iz*seg*segc + MZ*AKx*MI*MI*4*(kap + cp)*gauss/T2**4)/(2*PI)
+        conn = 2*(kap + cp)*segc*gauss*gauss2/(T2**2*(T2 - W0)**2)   # two connectors of length kap + cp
+        return (MZ*AKb*MI*iz*seg*segc + MZ*AK2b*MI*MI*conn)/(2*PI)
     Ew = (eta*eta*thp*thp/2).exp()/(thp*thp)
     h = W0/n; tot = arb(0)
     for i in range(n):
@@ -165,13 +174,30 @@ if __name__ == "__main__":
     out = {}
     t0 = time.time()
     triples = {'A1': (1 + c - th, 1 + c - cp, 1 + c - th - cp), 'Ax': (1 + cp, 1 + c - cp, one),
-               'AV': (1 - b, 1 + c + b, one), 'AU': (1 + b, 1 + c - b, one), 'AK': (1 - kap, 1 + kap - thp, one)}
-    which = sys.argv[1:] or list(triples) + ['rest']
+               'AV': (1 - b, 1 + c + b, one), 'AU': (1 + b, 1 + c - b, one), 'AK': (1 - kap, 1 + kap - thp, one),
+               }
+    def split(lo, hi, k):
+        return [bx(lo + (hi - lo)*j/k, lo + (hi - lo)*(j + 1)/k) for j in range(k)]
+    def boxmax(fun, pieces):
+        return max((fun(*pc) for pc in pieces), key=lambda a: float(a.upper()))
+    # boxes of real parts, parametrised by the real parts of the moving variables (pieces evaluated separately, max taken)
+    boxes = {
+      'A1box': lambda: boxmax(lambda r1: Abound(1 + c + r1, 1 + c - cp, 1 + c + r1 - cp), [(p,) for p in split(-th, s0, 8)]),
+      'AVbox': lambda: boxmax(lambda r: Abound(1 - r, 1 + c + r, one), [(p,) for p in split(-cp, b, 8)]),
+      'AUbox': lambda: boxmax(lambda r: Abound(1 - r, 1 + c + r, one), [(p,) for p in split(-b, -cp, 8)]),
+      'AKbox': lambda: boxmax(lambda rw: Abound(1 - kap, 1 + kap + rw, one), [(p,) for p in split(-thp, c, 4)]),
+      'AK2box': lambda: boxmax(lambda r, rw: Abound(1 - r, 1 + rw + r, one), [(p, q) for p in split(-cp, kap, 8) for q in split(-thp, c, 4)]),
+    }
+    which = sys.argv[1:] or list(triples) + list(boxes) + ['rest']
     try: out = {k: arb(v) for k, v in json.load(open('remconst.json')).items()}
     except Exception: out = {}
     for k, tr in triples.items():
         if k in which:
             out[k] = Abound(*tr); print(k, out[k], 'float code: see remainder.Abound', '%.0fs' % (time.time() - t0), flush=True)
+            json.dump({kk: vv.str(30, radius=True) for kk, vv in out.items()}, open('remconst.json', 'w'), indent=1)
+    for k, fn in boxes.items():
+        if k in which:
+            out[k] = fn(); print(k, out[k], '%.0fs' % (time.time() - t0), flush=True)
             json.dump({kk: vv.str(30, radius=True) for kk, vv in out.items()}, open('remconst.json', 'w'), indent=1)
     if 'rest' in which:
         out['gam_c_w1'] = gam_int(c, True); out['gam_c'] = gam_int(c, False); print('gam', out['gam_c_w1'], out['gam_c'], flush=True)
@@ -179,7 +205,7 @@ if __name__ == "__main__":
         out['J_mcp_0_inf_w1'] = J(-cp, 0.0, math.inf, True)
         out['J_mcp_0_inf'] = J(-cp, 0.0, math.inf, False)
         out['J_s0_T2_inf_w1'] = J(s0, 400.0, math.inf, True); print('J', [str(out[k]) for k in out if k.startswith('J')], flush=True)
-        r6, kcw0 = R6(out['AK'], out['Ax'], MZ, MI); out['R6'] = r6; out['KcW0'] = kcw0; print('R6', r6, kcw0, flush=True)
+        r6, kcw0 = R6(out['AKbox'], out['AK2box'], MZ, MI); out['R6'] = r6; out['KcW0'] = kcw0; print('R6', r6, kcw0, flush=True)
         out['Q0'] = Q0(); print('Q0', out['Q0'], flush=True)
         for nm, s in [('z1c', 1 + c), ('z1c_s0_cp', 1 + c + s0 - cp), ('z2_2c', 2 + 2*c)]: out[nm] = zeta(s)
         for nm, s in [('iz1c_cp', 1 + c - cp), ('iz1c_s0', 1 + c + s0), ('iz1cp', 1 + cp), ('iz1c_b', 1 + c + b), ('iz1b', 1 + b)]:

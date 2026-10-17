@@ -1,4 +1,7 @@
-"""Ball-arithmetic assembly of the enclosures of k1, k0 (Theorem G) from the output of code/lemG/kcert2.py.
+"""Ball-arithmetic assembly (the "far" terms below, from kcert2.py, are upper bounds for the parts
+150 <= |Im s| <= 400 and the horizontal pieces of P; kfar_arb.py certifies that these parts are at most 1e-11 and 1.4e-11,
+far below the values used).
+Ball-arithmetic assembly of the enclosures of k1, k0 (Theorem G) from the output of code/lemG/kcert2.py.
 kcert2.py computes, with acb.integral, the integrals I0, I1 over |t| <= 150 on Re s = 0.38 (primes <= 2000 in the Euler
 product) and upper bounds Q0, Q1 for int |g|; it then adds the Euler-tail and far-range errors in double precision.
 Here those error terms are recomputed in arb.  Q0, Q1 are double-precision upper bounds of sqrt(pi * (rigorous upper bound));

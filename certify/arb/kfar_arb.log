@@ -1,0 +1,4 @@
+far part of k1 integral <= [9.90295224218176492e-12 +/- 2.23e-30]
+far part of H_c'(0) integral <= [1.35537872224892020e-11 +/- 1.87e-29]
+kcert2 used: far = 5.766198206285264e-09 , far*(10 + eta^2 T2) = 5.858457377585828e-08
+OK
