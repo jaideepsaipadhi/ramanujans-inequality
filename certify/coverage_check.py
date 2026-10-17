@@ -4,7 +4,7 @@ iv = []
 for f in sys.argv[1:]:
     for line in open(f):
         p = line.split()
-        if len(p) == 3:
+        if len(p) >= 3:
             try: iv.append((float(p[0]), float(p[1]), float(p[2])))
             except ValueError: pass
 def covered(lo, hi, need_cert):

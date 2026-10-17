@@ -98,12 +98,12 @@ On $[e^{43}, y]$ we use upper Riemann sums in $u = \log t$ with step $h = 0.05$.
 On each cell we use the largest certified bound meeting it, and the inequality $\int_a^b e^u u^{-2}du \le (e^b - e^a)/a^2$.
 For $y$ in a cell $[a, a+h]$ with $a \ge 57$, the numerator is bounded over the whole cell.
 It is compared with the certified lower bounds of Lemma~\ref{lem:epsR} for $\eps_R$ on $[a+1, a+1+h]$ and on $[a, a+h]$; the latter comparison is needed only when $a \ge 58$.
-The script \code{certify/transfer\_check.py} carries this out in $40$-digit arithmetic for every cell of $[57, 3159)$.
+The script \code{certify/arb/transfer\_arb.py} carries this out in ball arithmetic for every cell of $[57, 3159)$.
 The largest value of
 \[
 \frac{\text{bound for } |\pi(y) - \li(y)|}{\min(\eps_R(\log y+1),\,\eps_R(\log y))\cdot y/\log y}
 \]
-that it finds is $0.99383$, attained at $\log y = 877$.
+that it finds is $0.99382$, attained at $\log y = 877$.
 \end{proof}
 
 \begin{remark}

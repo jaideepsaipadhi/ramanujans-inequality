@@ -3,12 +3,12 @@
 \subsection{The scan}
 For each interval $[L_1, L_2]$ we search for kernel parameters $(c, f)$:
 first over the grid $c\in\{40,50,\dots,100\}$, $f\in\{0.5,\dots,0.9\}$, then locally over $c\pm10$ in steps of $5$ and $f\pm0.1$ in steps of $0.05$.
-Given $(c,f)$, we put $\tau_{12} = \eps_R(L_2+1)/(1 + 2/L_1)$ and choose $\eps$ so that the smoothing term of Proposition~\ref{prop:master} equals $f\tau_{12}$.
-This uses three fixed-point steps; the residual excess is bounded rigorously in \code{certify/transfer\_check.py} and is below $10^{-3}$ relative even at $L_1 = 43$.
-We then evaluate the right-hand side of Proposition~\ref{prop:master} with $N^+$ from \S\ref{sec:density}, $\lambda^*$ from Theorem~\ref{thm:H} and $H = 3\cdot10^{12}$.
-The ratio $q$ is this right-hand side divided by $\tau_{12}$; an interval is certified when $q < 1$.
+Given $(c,f)$, we put $\tau_{12} = \eps_R(L_2+1)/(1 + 2/L_1)$ and choose $\eps$ by three fixed-point steps so that the smoothing term of Proposition~\ref{prop:master} is approximately $f\tau_{12}$.
+The search is done in floating point; it only selects $(c, \eps)$.
+We then evaluate the right-hand side of Proposition~\ref{prop:master} in ball arithmetic for the selected $(c,\eps)$, with the actual smoothing term (not $f\tau_{12}$), $N^+$ from \S\ref{sec:density}, $\lambda^*$ from Theorem~\ref{thm:H} and $H = 3\cdot10^{12}$ (\S\ref{sec:ball}).
+The ratio $q$ is the upper end of this right-hand side divided by the lower end of $\tau_{12}$; an interval is certified when $q < 1$.
 
-The scan starts with intervals of width $10$ and bisects any interval that is not certified, down to width $0.5$ (\code{code/interval\_adapt.py}).
+The scan starts with intervals of width $10$ and bisects any interval that is not certified, down to width $0.5$ (\code{certify/arb/scan\_arb.py}; the same cover is produced by the floating-point driver \code{code/interval\_adapt.py}).
 For $[43, 57)$ we only need some bound, since this range enters only through the integral in Lemma~\ref{lem:transfer}; there we use widths $2$ to $0.5$, and $q$ may exceed $1$.
 
 \begin{center}
@@ -16,10 +16,10 @@ For $[43, 57)$ we only need some bound, since this range enters only through the
 \toprule
 range of $L$ & worst $q$ & remark\\
 \midrule
-$[43,57)$ & $3.80$ (at $43$), $\le 0.47$ above $48$ & used only through Lemma~\ref{lem:transfer}\\
-$[57,1000)$ & $0.9947$ at $867$ & $[857,917)$ needed width $5$\\
-$[1000,2000)$ & $0.8919$ at $1000$ & \\
-$[2000,2600)$ & $0.4052$ & \\
+$[43,57)$ & $3.85$ (on $[43,43.5]$), $\le 0.47$ above $53$ & used only through Lemma~\ref{lem:transfer}\\
+$[57,1000)$ & $0.99467$ on $[872,877]$ & $[857,917)$ needed width $5$\\
+$[1000,2000)$ & $0.8919$ on $[1000,1010]$ & \\
+$[2000,2600)$ & $0.4065$ & \\
 $[2600,3159)$ & $0.4003$ & \\
 \bottomrule
 \end{tabular}
@@ -35,34 +35,43 @@ All these programs are in the repository; \code{code/rerun\_all.sh} re-runs the 
 \begin{enumerate}
 \item Lemma~\ref{lem:epsR} ($\eps_R$ on every cell): \code{certify/epsR\_cert.py}.
 \item Lemma~\ref{lem:smooth} (smoothing constant): \code{certify/smoothing\_const.py}.
-\item Proposition~\ref{prop:transfer} (from $\psi$ to $\pi - \li$, both conditions of \eqref{eq:target}): \code{certify/transfer\_check.py}.
-  The worst ratio is $0.99383$, at $\log y = 877$.
+\item Proposition~\ref{prop:transfer} (from $\psi$ to $\pi - \li$, both conditions of \eqref{eq:target}): \code{certify/arb/transfer\_arb.py}.
+  The worst ratio is $0.99382$, at $\log y = 877$.
 \item Lemmas~\ref{lem:W0}--\ref{lem:L12} (constants of \cite{BTY}): in \code{rep/}, the programs \code{consts\_cert.py}, \code{lemma5\_cert.py}, \code{lemma11\_cert.py}, \code{f\_nonneg\_cert.py}, \code{mp\_cert.py} and \code{misc\_cert.py}.
 \item Theorem~\ref{thm:H}: \code{rep/lamcert.py}, with output \code{rep/lamstar2c.json}.
 \item Theorem~\ref{thm:rep}: \code{rep/repcert\_run.py} and \code{rep/min\_fix.py}; output \code{rep/dstar2c\_all.json}.
-\item Theorem~\ref{thm:G}: in \code{lemG/}, the programs \code{box2.py}, \code{kcert2.py}, \code{remainder.py} and \code{stbound.py}.
-\item Theorem~\ref{thm:density}: the tables \code{lemmaD\_tableGH0.01\_*.pkl}, produced by \code{bt4.py}.
-  Every cell's bound is recomputed exactly from its stored parameters when it is used.
-\item The scan: \code{interval\_adapt.py}, with logs in \code{logs/}; \code{certify/coverage\_check.py} checks that the certified intervals cover $[57,3159)$.
+\item Theorem~\ref{thm:G}: in \code{lemG/}, the programs \code{box2.py} and \code{kcert2.py}; the constants of the contour remainder and of $S_t$ in \code{certify/arb/remconst.py}.
+\item Theorem~\ref{thm:density}: the parameters are stored in the tables \code{lemmaD\_tableGH0.01\_*.pkl} (produced by \code{bt4.py}); every cell's bound is re-evaluated from its parameters by \code{certify/arb/cells\_arb.py}, and the two Gamma integrals $I_\Gamma \le 5.922$ and $\le 4.72$ of Lemma~\ref{lem:D} are certified by \code{certify/arb/gammaint\_cert.py}.
+\item The scan: \code{certify/arb/scan\_arb.py}, output \code{certify/arb/scan\_arb\_\{0,1\}.txt}; \code{certify/coverage\_check.py} checks that the certified intervals cover $[57,3159)$.
 \end{enumerate}
 
-\subsection{Rounding in the scan}
-Items 1--7 are certified in ball arithmetic.
-The scan (item~9) and the evaluation of the density bounds from the stored parameters (item~8) run in IEEE double precision, with $\eps_R$ and $-\zeta'/\zeta(1+\eta)$ taken from $60$- and $30$-digit \code{mpmath} computations.
-This is the one place where the argument rests on a floating-point computation rather than on a certificate, so we describe it precisely.
-
-Each value of $q$ is a sum of a few thousand non-negative terms.
-Each term is a product of exponentials and explicit factors, obtained from the parameters by a bounded number (well under $10^4$) of floating-point operations.
-Only two subtractions involve quantities of comparable size.
-The first is $c_1 = e^{-L^2/U} - B_1 - \cdots$; over all table cells $c_1 \ge 0.92$, so there is no cancellation.
-The second is $c_1^2 - c_5$, which is $\ge 0.83$ over all table cells, so it amplifies relative errors by at most a factor of about $1.2$.
-The greedy knapsack value of Lemma~\ref{lem:pair} and the Stieltjes and upper sums of Proposition~\ref{prop:master} are sums of non-negative terms.
-Standard error analysis therefore bounds the relative rounding error of each $q$ by about $10^{-11}$.
-
-As an empirical check, inflating every density bound by a factor $1+10^{-6}$ changes $q$ on the binding interval $[907,912]$ by $5.8\cdot10^{-7}$.
-This is consistent with the scan depending on the density bounds linearly, with coefficient at most $1$.
-The smallest margins are $1-q \ge 5\cdot10^{-3}$ in the scan and about $6\cdot10^{-3}$ in Proposition~\ref{prop:transfer}, some eight orders of magnitude above the rounding error.
-A complete interval-arithmetic re-evaluation of the scan, keeping the floating-point parameters but evaluating each bound in \code{arb}, is straightforward but costly; we have not carried it out.
+\subsection{Ball arithmetic}\label{sec:ball}
+Items 1--9 are certified in ball arithmetic.
+Floating-point arithmetic enters only through discrete or continuous \emph{choices}: the kernel parameters $(c,\eps)$, the table parameters $(u,\tau,w,x)$, the auxiliary parameters $\eta$, $\kappa$ and $a$ in Lemmas~\ref{lem:pair}--\ref{lem:crowd} and Theorem~\ref{thm:G}, and the partition points of the Stieltjes sums.
+Each of these is fixed as an exact binary number before the bound is evaluated, and the bound holds for every admissible choice.
+In detail:
+\begin{itemize}
+\item \emph{Density cells} (\code{cells\_arb.py}). All $3320$ non-empty cells are re-evaluated from their stored parameters.
+  The value $-\zeta'/\zeta(1+\eta)$ is computed exactly from a power series of $\zeta$, so the cruder bound $1/\eta - 0.36$ is not used.
+  The fractional knapsack in Lemma~\ref{lem:pair} is bounded by weak duality, $\lambda M + \sum_i\max(0, b_i - \lambda c_i)$ for any $\lambda\ge0$, instead of by the greedy value.
+  Window counts are floors of certified upper bounds.
+  The window sum in $I'$ receives an explicit tail for $y > 60$.
+  The certified values exceed the floating-point table values by at most $1.3\cdot10^{-11}$ in $\log N^+$.
+\item \emph{Lemma G constants} (\code{remconst.py}). The sup of $|\mathcal A|$ over the $3$-torus for $p \le 100$ is evaluated on the same grid and with the same cell enclosure as before.
+  This uses interval arithmetic on doubles with outward rounding after every operation; the IEEE operations $+,-,\times,/,\sqrt{\ }$ are correctly rounded, and the values of $\cos$ and $\sin$ at the grid angles come from \code{arb}.
+  All other constants (Gamma integrals, Gaussian integrals, $\int|\Gamma|(\mathcal K_c + E)$, $Q_0$, values of $\zeta$) are upper Riemann sums of monotone integrands or closed forms evaluated in \code{arb}.
+\item \emph{Gamma integrals} (\code{gammaint\_cert.py}). On $|t| \le 60$, $\Rp\psi(\sigma+it) > 0$ is certified on $[-\frac12,-0.44]\times[0,60]$ by adaptive boxes, so $|\Gamma(\sigma+it)|$ increases with $\sigma$ and the supremum over $\sigma$ is attained at the right end.
+  The integral there is computed with \code{acb.integral}, and $|t| > 60$ is bounded explicitly.
+  This gives $I_\Gamma \le 5.92164$ and $4.71363$ for the $\mathcal J$-integral.
+\item \emph{Scan} (\code{scan\_arb.py}). For every interval of the cover, $\eps_R(L_2+1)$ comes from the expansion of Lemma~\ref{lem:epsR} (lower end), and the smoothing term uses the actual $\kappa(\eps)$.
+  The Stieltjes sum carries the factor $e^{\eps(c+1)/6}$ of Lemma~\ref{lem:stieltjes}, and its last partition point is rounded up past $\log T_1$.
+  A block is dropped only when $s \ge 1 - \lambda^*(\log t_{i+1})/\log t_{i+1}$ holds in ball arithmetic.
+  The cell indices of Theorem~\ref{thm:density} are computed in exact rational arithmetic, and $s_{\max}$ is rounded up.
+\item \emph{Transfer} (\code{transfer\_arb.py}). This repeats \code{transfer\_check.py} in \code{arb}, with $\eps_R$ enclosed on each cell of width $1/20$ by Lemma~\ref{lem:epsR}.
+\end{itemize}
+On the binding range $[857,917)$ the ball-arithmetic values of $q$ agree with the floating-point ones to about $10^{-9}$.
+At $L = 43$ the ball value is larger by $0.05$; this is the fixed-point residual in the smoothing term, which is now evaluated exactly rather than set to $f\tau_{12}$.
+The whole chain takes about $1.5$ hours on two cores (\code{certify/arb/run\_all.sh}).
 
 \subsection{Adversarial audits}
 Two adversarial audits were carried out by separate instances of the same AI system that assisted with the computations (see the acknowledgements); they are not independent in the human sense.

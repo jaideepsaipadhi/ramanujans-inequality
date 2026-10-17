@@ -86,8 +86,8 @@ Write $L = \log x$.
 \end{enumerate}
 
 \subsection*{Certification}
-The zero-free and repulsion certificates, the constants of \cite{BTY} that we re-derive, the box enclosure of $1/\zeta$, the reduction of \S\ref{sec:reduction} and the smoothing constant are certified with ball arithmetic (\code{python-flint}/Arb \cite{arb}).
-The final scan over $L$, which evaluates explicit upper sums of monotone majorants, runs in double precision; \S\ref{sec:computation} explains why its rounding errors are far below its margin.
+Every numerical step is certified with ball arithmetic (\code{python-flint}/Arb \cite{arb}): the zero-free and repulsion certificates, the constants of \cite{BTY} that we re-derive, the box enclosure of $1/\zeta$, the reduction of \S\ref{sec:reduction}, the smoothing constant, every cell of the density tables and the final scan over $L$.
+Floating-point arithmetic is used only to \emph{choose} parameters (kernel widths, table parameters, auxiliary constants), and any choice gives a valid bound.
 The code, tables and logs are available at \url{https://github.com/jaideepsaipadhi/ramanujans-inequality}.
 Section~\ref{sec:computation} lists the certificate for each lemma.
 

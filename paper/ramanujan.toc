@@ -23,10 +23,10 @@
 \contentsline {section}{\tocsection {}{7}{The computation}}{16}{section.7}%
 \contentsline {subsection}{\tocsubsection {}{7.1}{The scan}}{16}{subsection.7.1}%
 \contentsline {subsection}{\tocsubsection {}{7.2}{Certificates}}{17}{subsection.7.2}%
-\contentsline {subsection}{\tocsubsection {}{7.3}{Rounding in the scan}}{17}{subsection.7.3}%
-\contentsline {subsection}{\tocsubsection {}{7.4}{Adversarial audits}}{17}{subsection.7.4}%
+\contentsline {subsection}{\tocsubsection {}{7.3}{Ball arithmetic}}{17}{subsection.7.3}%
+\contentsline {subsection}{\tocsubsection {}{7.4}{Adversarial audits}}{18}{subsection.7.4}%
 \contentsline {section}{\tocsection {}{8}{Remarks}}{18}{section.8}%
 \contentsline {subsection}{\tocsubsection {}{8.1}{Corrections to inputs}}{18}{subsection.8.1}%
-\contentsline {subsection}{\tocsubsection {}{8.2}{On two recent preprints}}{18}{subsection.8.2}%
+\contentsline {subsection}{\tocsubsection {}{8.2}{On two recent preprints}}{19}{subsection.8.2}%
 \contentsline {subsection}{\tocsubsection {}{}{Acknowledgements}}{19}{section*.8}%
 \contentsline {section}{\tocsection {}{}{References}}{19}{section*.9}%
