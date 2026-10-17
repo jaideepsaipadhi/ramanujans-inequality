@@ -400,6 +400,19 @@ Consequently, there is no such zero as soon as
 - \Big[\eta w_0\Big(\frac{a\kappa}{2}\log t - G - c_{10}\Big) + a_0F(\sigma - 1) + 10^{-10}\eta + 2\cdot10^{-7} + E_2\lambda_0\eta^2 + E_3\eta^3\Big]
 \end{multline}
 is positive.
+
+For the convenience of the reader we recall how \eqref{eq:bty} arises, so that it is clear which parts of \cite{BTY} are used without change.
+Put $s_k = \sigma + ikt$ for $0 \leq k \leq K$.
+The starting point is the identity of \cite[Lemma~6]{BTY}:
+\[
+\sum_n\frac{\Lambda(n)}{n^\sigma}f(\log n)P(t\log n) = \sum_{k=0}^Ka_k\Rp\Big(F(s_k - 1) - \sum_\rho F(s_k - \rho) + \Gamma_k + E_k\Big),
+\]
+where $\Gamma_k$ is the contribution of the archimedean factor and $E_k$ is the error made in replacing $f$ by its main part, together with tail terms.
+The left-hand side is bounded from below by $c_{10}\eta w_0$ in Lemma~\ref{lem:L1011}.
+On the right, the pole term with $k = 0$ is $a_0F(\sigma - 1)$; the pole terms with $k \geq 1$ are at most $10^{-10}\eta$ in total by \cite[Lemma~13]{BTY}.
+In the sum over zeros with $k = 1$ we keep $\rho_0$ and $1 - \bar\rho_0$, which give $-a_1(F(\sigma - 1 + \eta) + F(\sigma - \eta))$; all other zeros are grouped in pairs $\rho$, $1 - \bar\rho$, each pair contributes a non-positive amount by Lemma~\ref{lem:L5}, and $Z$ denotes minus their total.
+The archimedean terms are bounded by Lemma~\ref{lem:L12}, the terms $E_k$ by Lemma~\ref{lem:L89}, and the remaining tails of \cite[Lemma~6]{BTY} by $2\cdot10^{-7}$.
+Thus, from \cite{BTY} we use the definitions of $w$, $\kappa_m$ and $P$, the identity of \cite[Lemma~6]{BTY} and the bound of \cite[Lemma~13]{BTY}; all constants that depend on $(\eta_0, \sigma_0)$ are re-derived below and evaluated in ball arithmetic.
 In \cite{BTY}, the term coming from their Lemma~10 enters the final inequality with $f(0) = \eta w_0$ instead of $\kappa\eta w_0$; see Remark~\ref{rem:btyf0}.
 
 \subsection{The constants}
@@ -596,7 +609,7 @@ In this section we prove Theorem~\ref{thm:density} by revisiting Bellotti's log-
 \subsection{The log-free estimate}
 
 In this section $L = \log T$, and we write $U = T^u$, $V = T^v$ with $v = \tau u$, $W = T^w$ and $X = T^x$.
-Let $\psi_d$ be the Barban--Vehov weights, supported on $d \leq V$, and $\Psi(n) = \sum_{d\mid n}\psi_d$, so that $\Psi(1) = 1$ and $\Psi(n) = 0$ for $1 < n \leq U$.
+Let $\xi_d$ be the Barban--Vehov weights, supported on $d \leq V$, and $\Psi(n) = \sum_{d\mid n}\xi_d$, so that $\Psi(1) = 1$ and $\Psi(n) = 0$ for $1 < n \leq U$.
 Let $\theta_d$ be the Selberg-type weights, supported on $d \leq W$, and $\Theta(n) = \sum_{d\mid n}\theta_d$.
 Let $\alpha = 1 - \delta$.
 We divide the strip into rectangles of height $h = \kappa_0\delta$, choose in each rectangle one zero with $\beta \geq \alpha$ as its representative if there is one, and let $\tilde n$ be an upper bound for the number of zeros with $\beta \geq \alpha$ in a rectangle.
@@ -631,8 +644,8 @@ B_1 = \frac{10.45\cdot0.618\cdot5.922\,L}{2\pi}\,T^{(v+w)/2 + 1/6 + x(1/2 - \alp
 \item[(ii)] $d_5 = 1.0061\big(1 + (1.333 + 4e^{-wL/2})/(wL)\big)$ \cite[Lemma~4.3]{Bellotti}.
 \item[(iii)] $d_4$ is any upper bound for $\sum_n\Psi(n)^2n^{-1}(e^{-n/X} - e^{-nL^2/U})$; we use Theorem~\ref{thm:G}.
 \item[(iv)] $c_5 = \dfrac{d_4d_5}{2\pi}\cdot\dfrac{e^{wL}}{wL}\Big(e^{Lx(3/2 - 2\alpha_k)} + e^{(Lu - 2\log L)(3/2 - 2\alpha_k)}\Big)\cdot4.72\cdot0.618\,e^{L/6}L$.
-\item[(v)] $\mathcal C = 1.0067\big(1 + 2\delta_k\Lambda(\kappa_0\delta_k)\big) + 2\sqrt{2\pi}\cdot2.4\cdot I'$, where $\kappa_0 \geq 1$ is arbitrary, $\Lambda$ is defined in Lemma~\ref{lem:pair} and $I'$ in Lemma~\ref{lem:crowd}.
-\item[(vi)] $\tilde n = \max\{1, \lfloor M(\eta, l)/\mathrm{cost}(h/2)\rfloor\}$ for any $\eta > 0$, where $h = \kappa_0\delta_k$ and $M$ and $\mathrm{cost}$ are defined in \eqref{eq:Mbudget} and \eqref{eq:cost} below.
+\item[(v)] $\mathcal C = 1.0067\big(1 + 2\delta_k\mathcal L(\kappa_0\delta_k)\big) + 2\sqrt{2\pi}\cdot2.4\cdot I'$, where $\kappa_0 \geq 1$ is arbitrary, $\Lambda$ is defined in Lemma~\ref{lem:pair} and $I'$ in Lemma~\ref{lem:crowd}.
+\item[(vi)] $\tilde n = \max\{1, \lfloor M(\epsilon, l)/\mathrm{cost}(h/2)\rfloor\}$ for any $\epsilon > 0$, where $h = \kappa_0\delta_k$ and $M$ and $\mathrm{cost}$ are defined in \eqref{eq:Mbudget} and \eqref{eq:cost} below.
 \end{enumerate}
 \end{lemma}
 
@@ -659,7 +672,7 @@ which we verify in Section~\ref{sec:proof}.
 The last term of $c_1$ is Bellotti's bound for the tail $\sum_{n>U}\Psi(n)\Theta(n)n^{-\rho}e^{-nL^2/U}$ \cite[(3.19)ff.]{Bellotti}.
 
 The last factor in $c_5$ replaces $J_1 + J_2 + J_3 + J_4 \leq 0.241 + 5.921 + 286.077T^{27/164} + 0.241$ in \cite[(4.17)--(4.19)]{Bellotti}.
-For $\delta \leq 0.03$ we have $c := \frac32 - \beta_r - \beta_s \in [-\frac12, -0.44]$.
+For $\delta \leq 0.03$ we have $c := \frac32 - \beta_r - \beta_{r'} \in [-\frac12, -0.44]$.
 For all $|u| \geq 3$ we have $|\zeta(\frac12 + iu)| \leq \max\{1.461, 0.618|u|^{1/6}\log|u|\}$, since for $|u| > e^{105}$ the bound $66.7|u|^{27/164}$ of Patel and Yang \cite{PY} is smaller than the right-hand side.
 Since $|u| \leq T + |t|$, the integral \cite[(4.16)]{Bellotti} is at most
 \[
@@ -678,16 +691,16 @@ The far term $c_4$ is treated by Lemma~\ref{lem:crowd}, and $\tilde n$ replaces 
 
 \subsection{The pair sum}
 
-Let $\mathcal Z(\eta) = -\zeta'(1 + \eta)/\zeta(1 + \eta)$.
-For $s_0 = 1 + \eta + i\gamma_r$ with $\gamma_r \leq T$, the Hadamard product and Stirling's formula give
+Let $\mathcal Z(\epsilon) = -\zeta'(1 + \epsilon)/\zeta(1 + \epsilon)$.
+For $s_0 = 1 + \epsilon + i\gamma_r$ with $\gamma_r \leq T$, the Hadamard product and Stirling's formula give
 \begin{multline}\label{eq:Mbudget}
-\sum_\rho\Rp\frac{1}{s_0 - \rho} \leq M(\eta, L)\\
-:= \min\Big\{\frac12\log\frac T{2\pi} + \mathcal Z(\eta),\ \min_{1/2\leq c\leq2}\Big(\frac12\log\frac T{2\pi} + \frac{c^2 + 1/2}{2c}\mathcal Z(\eta) + \frac{\log(T/\pi)}{8c}\Big)\Big\},
+\sum_\rho\Rp\frac{1}{s_0 - \rho} \leq M(\epsilon, L)\\
+:= \min\Big\{\frac12\log\frac T{2\pi} + \mathcal Z(\epsilon),\ \min_{1/2\leq a\leq2}\Big(\frac12\log\frac T{2\pi} + \frac{a^2 + 1/2}{2a}\mathcal Z(\epsilon) + \frac{\log(T/\pi)}{8a}\Big)\Big\},
 \end{multline}
 where the second expression comes from the non-negativity of $(c + \cos\varphi)^2$.
 Every term in the sum is positive, and a zero with $\beta \geq 1 - \delta$ at vertical distance $d$ from $s_0$ contributes at least
 \begin{equation}\label{eq:cost}
-\mathrm{cost}(d) := \min\Big\{\frac{\eta}{\eta^2 + d^2},\ \frac{\eta + \delta}{(\eta + \delta)^2 + d^2}\Big\},
+\mathrm{cost}(d) := \min\Big\{\frac{\epsilon}{\epsilon^2 + d^2},\ \frac{\epsilon + \delta}{(\epsilon + \delta)^2 + d^2}\Big\},
 \end{equation}
 since $a \mapsto a/(a^2 + d^2)$ is unimodal.
 
@@ -701,9 +714,9 @@ b_j = \frac{g(m_j)}{m_j}, \qquad m_j = \max\{2\delta, (j-1)h, d^*\}, \qquad g(d)
 Rectangles with $(j+1)h \leq d^*$ contain no representative.
 Then
 \[
-\sum_{\substack{s\neq r\\ |\gamma_s - \gamma_r|\leq1}}|\Gamma(2 - \rho_r - \bar\rho_s)|X^{2-\beta_r-\beta_s} \leq \frac{1.0067\,X^{2\delta}}{2\delta}\cdot2\delta\Lambda(h),
+\sum_{\substack{r'\neq r\\ |\gamma_{r'} - \gamma_r|\leq1}}|\Gamma(2 - \rho_r - \bar\rho_{r'})|X^{2-\beta_r-\beta_{r'}} \leq \frac{1.0067\,X^{2\delta}}{2\delta}\cdot2\delta\mathcal L(h),
 \]
-where $\Lambda(h)$ is the maximum of $\sum_jb_jy_j$ over $0 \leq y_j \leq 1$ (two variables for each $j$) subject to $\sum_j\mathrm{cost}((j+1)h)y_j \leq M(\eta, L) - \mathrm{cost}(0)$, for any $\eta > 0$.
+where $\mathcal L(h)$ is the maximum of $\sum_jb_jy_j$ over $0 \leq y_j \leq 1$ (two variables for each $j$) subject to $\sum_j\mathrm{cost}((j+1)h)y_j \leq M(\epsilon, L) - \mathrm{cost}(0)$, for any $\epsilon > 0$.
 \end{lemma}
 
 \begin{proof}
@@ -713,17 +726,17 @@ We have $|\Gamma(z)| = |\Gamma(1 + z)|/|z|$, and for $0 \leq \Rp z = s \leq 2\de
 \]
 since $\prod_n(1 + d^2/(1 + s + n)^2)^{-1}$ is increasing in $s$, and $\Gamma(1 + s) \leq 1$ for $0 \leq s \leq 1$.
 Moreover, $X^y/y$ is increasing for $y \geq 1/\log X$, hence on $[2\nu, 2\delta]$ by the condition $2\nu xL \geq 1$; this gives the factor $1/m_j$, relative to the diagonal term $1.0067X^{2\delta}/(2\delta)$.
-Applying \eqref{eq:Mbudget} at $s_0 = 1 + \eta + i\gamma_r$ bounds the total cost of the representatives near $\gamma_r$, and the zero $r$ itself costs at least $\mathrm{cost}(0)$.
+Applying \eqref{eq:Mbudget} at $s_0 = 1 + \epsilon + i\gamma_r$ bounds the total cost of the representatives near $\gamma_r$, and the zero $r$ itself costs at least $\mathrm{cost}(0)$.
 Theorem~\ref{thm:rep} applies, since all representatives counted in the cell $(k, l)$ satisfy $1 - \beta \leq \delta_k$ and have height at most $e^l$; for half-integral $l$ we use the integer $\lceil l\rceil$.
 \end{proof}
 
-In the computation, $\Lambda(h)$ is bounded from above by the dual value $\mu(M(\eta, L) - \mathrm{cost}(0)) + \sum_j\max\{0, b_j - \mu\,\mathrm{cost}((j+1)h)\}$, which is valid for every $\mu \geq 0$.
+In the computation, $\mathcal L(h)$ is bounded from above by the dual value $\mu(M(\epsilon, L) - \mathrm{cost}(0)) + \sum_j\max\{0, b_j - \mu\,\mathrm{cost}((j+1)h)\}$, which is valid for every $\mu \geq 0$.
 
 \begin{lemma}\label{lem:crowd}
-Let $\omega > 0$, $\eta > 0$ and $t \leq T$.
+Let $\omega > 0$, $\epsilon > 0$ and $t \leq T$.
 Then a window of height $\omega$ centred at $t$ contains at most
 \[
-n(\omega) = \min\Big\{\Big\lfloor\frac{\frac12\log\frac T{2\pi} + \mathcal Z(\eta)}{\min\{f_\omega(\eta), f_\omega(\eta + \delta)\}}\Big\rfloor,\ \Big\lceil\frac\omega\delta\Big\rceil + 1\Big\}, \qquad f_\omega(a) = \frac{a}{a^2 + \omega^2/4},
+n(\omega) = \min\Big\{\Big\lfloor\frac{\frac12\log\frac T{2\pi} + \mathcal Z(\epsilon)}{\min\{f_\omega(\epsilon), f_\omega(\epsilon + \delta)\}}\Big\rfloor,\ \Big\lceil\frac\omega\delta\Big\rceil + 1\Big\}, \qquad f_\omega(a) = \frac{a}{a^2 + \omega^2/4},
 \]
 representatives.
 Consequently, Bellotti's constant $c_4$ \cite[(4.13)--(4.14)]{Bellotti} may be computed with
@@ -734,7 +747,7 @@ in place of $I = \int_1^Tg_\alpha(y)\,dy$.
 \end{lemma}
 
 \begin{proof}
-The first claim follows from \eqref{eq:Mbudget} applied at $s = 1 + \eta + it$, as above.
+The first claim follows from \eqref{eq:Mbudget} applied at $s = 1 + \epsilon + it$, as above.
 For $y \geq 1$ the logarithmic derivative of $g_\alpha$ is $\frac16 + (\frac32 - 2\alpha)/y - \frac\pi2 < 0$, so $g_\alpha$ is decreasing and its maximum on the window $[1 + i\omega, 1 + (i+1)\omega]$ is attained at the left endpoint.
 \end{proof}
 
@@ -746,21 +759,21 @@ Let $\Delta = \log(V/U)$, $Y_1 = \log(X/V)$ and $Y_2 = \log(X/U)$, and let $\gam
 Let $\log U \geq 40$, $X > V$, $\tau \in [1.3, 2.5]$ and $\log X/\log V \in [1.1, 2.6]$.
 Then
 \[
-\sum_n\frac{\Psi(n)^2}ne^{-n/X} \leq e^{-1/X} + D_4 + \mathrm{REM} + 2\sqrt{S_sS_t} + S_t,
+\sum_n\frac{\Psi(n)^2}ne^{-n/X} \leq e^{-1/X} + D_4 + \mathrm{REM} + 2\sqrt{S^\flat S^\sharp} + S^\sharp,
 \]
 where
 \[
 D_4 = \frac{1}{\Delta^2}\Big[\frac{Y_2^2 - Y_1^2}2 - \gamma_E\Delta + k_1(Y_1 + Y_2 - 2\gamma_E) + 2k_0\Big], \qquad k_1 \leq -0.5853, \quad k_0 \leq 0.4214,
 \]
-$\mathrm{REM}$ is the explicit sum of contour remainders given in Lemma~\ref{lem:A-rem}, $S_t$ is the explicit bound of Lemma~\ref{lem:A-St} for the mean square of the non-smooth part of the weights, and $S_s = e^{-1/X} + D_4 + \mathrm{REM}$.
+$\mathrm{REM}$ is the explicit sum of contour remainders given in Lemma~\ref{lem:A-rem}, $S^\sharp$ is the explicit bound of Lemma~\ref{lem:A-St} for the mean square of the non-smooth part of the weights, and $S^\flat = e^{-1/X} + D_4 + \mathrm{REM}$.
 \end{theorem}
 
 The proof is given in Appendix~\ref{app:G}.
 In Lemma~\ref{lem:D} we take $d_4$ to be the right-hand side of Theorem~\ref{thm:G} minus $e^{-L^2/U}$; this is admissible since $\sum_n\Psi(n)^2n^{-1}e^{-nL^2/U} \geq e^{-L^2/U}$, the term $n = 1$ being $e^{-L^2/U}$.
-The idea is to replace the weights by a Gaussian smoothing in $\log d$, whose Mellin transform decays like $e^{-\eta^2t^2/2}$; this allows us to close all contours inside a fixed box of height $400$, in which $1/\zeta$ is bounded by a rigorous computation, and the main term $e^{-1/X} + D_4$ arises from the residues at $s = 0$, $s = -w$ and $w = 0$.
+The idea is to replace the weights by a Gaussian smoothing in $\log d$, whose Mellin transform decays like $e^{-\epsilon^2t^2/2}$; this allows us to close all contours inside a fixed box of height $400$, in which $1/\zeta$ is bounded by a rigorous computation, and the main term $e^{-1/X} + D_4$ arises from the residues at $s = 0$, $s = -w$ and $w = 0$.
 
 
-For example, for the cell $(k, l) = (80, 30)$ of Theorem~\ref{thm:density}, at its parameters, $\mathrm{REM} \leq 0.016$, $S_t \leq 6.7\cdot10^{-5}$ and Theorem~\ref{thm:G} gives $d_4 \leq 1.62$.
+For example, for the cell $(k, l) = (80, 30)$ of Theorem~\ref{thm:density}, at its parameters, $\mathrm{REM} \leq 0.016$, $S^\sharp \leq 6.7\cdot10^{-5}$ and Theorem~\ref{thm:G} gives $d_4 \leq 1.62$.
 Since $\log N^+$ depends on $d_4$ with elasticity about $1$, this is the most important improvement in the density estimate.
 In the final tables, all cells have $\tau \in [1.54, 1.78]$, $\log X/\log V \in [1.42, 1.55]$ and $\log U \in [56.6, 78.6]$, and all of them use Theorem~\ref{thm:G}.
 
@@ -802,7 +815,7 @@ On the interval $[900, 910]$ the best kernel gives about $1.002$ (roughly $0.40$
 
 \subsection*{Verification}
 All computations are performed in ball arithmetic with the Arb library \cite{arb} via \code{python-flint}.
-Floating-point arithmetic enters only through the choice of parameters: the kernel parameters $(c, \eps)$, the parameters $(u, \tau, w, x)$ of Lemma~\ref{lem:D}, the auxiliary parameters $\eta$, $\kappa_0$ and $\mu$ in Lemmas~\ref{lem:pair} and~\ref{lem:crowd} and in Theorem~\ref{thm:G}, and the points of the partitions.
+Floating-point arithmetic enters only through the choice of parameters: the kernel parameters $(c, \eps)$, the parameters $(u, \tau, w, x)$ of Lemma~\ref{lem:D}, the auxiliary parameters $\epsilon$, $\kappa_0$ and $\mu$ in Lemmas~\ref{lem:pair} and~\ref{lem:crowd} and in Theorem~\ref{thm:G}, and the points of the partitions.
 Each of them is fixed as an exact binary number before the bound is evaluated.
 In detail, the computation consists of the following parts.
 \begin{enumerate}
@@ -810,7 +823,7 @@ In detail, the computation consists of the following parts.
 \item The constants of Section~\ref{sec:zfr}, the iteration in the proof of Theorem~\ref{thm:H}, and the cells of Theorem~\ref{thm:rep}.
 \item The inputs of Theorem~\ref{thm:G}; in particular, the supremum of $|\mathcal A|$ over the torus of phases for $p \leq 100$ is evaluated on a grid with explicit cell enclosures, using interval arithmetic on double precision numbers with outward rounding after every operation.
 \item The $3320$ non-empty cells of Theorem~\ref{thm:density}, evaluated from their stored parameters.
-Here $\mathcal Z(\eta)$ is computed from the Taylor series of $\zeta$ at $1 + \eta$, $\Lambda(h)$ is bounded by its dual value, and $\tilde n$ and $n(\omega)$ are floors of verified upper bounds.
+Here $\mathcal Z(\epsilon)$ is computed from the Taylor series of $\zeta$ at $1 + \epsilon$, $\mathcal L(h)$ is bounded by its dual value, and $\tilde n$ and $n(\omega)$ are floors of verified upper bounds.
 \item The two integrals in the proof of Lemma~\ref{lem:D}.
 On $[-\frac12, -0.44] \times [0, 60]$ we verify $\Rp\frac{\Gamma'}{\Gamma}(\sigma + it) > 0$ on boxes, so that $|\Gamma(\sigma + it)|$ is increasing in $\sigma$ there; the integrals at the right endpoints are computed by rigorous numerical integration, and $|t| > 60$ is estimated explicitly.
 This gives $I_\Gamma \leq 5.92164$ and $4.71363$ for the second integral.
@@ -886,11 +899,11 @@ All computations can be reproduced from the code in the repository mentioned in 
 Throughout this appendix the notation is local.
 We fix the numerical parameters
 \begin{gather*}
-\eta = 0.02, \qquad T_2 = 400, \qquad W_0 = 40, \qquad c = 0.02, \qquad c' = 0.01,\\
+\varsigma = 0.02, \qquad T_2 = 400, \qquad W_0 = 40, \qquad c = 0.02, \qquad c' = 0.01,\\
 \sigma_1 = 0.01, \qquad \theta_1 = 0.40, \qquad \theta_2 = 0.30, \qquad b = 0.38, \qquad \kappa_1 = 0.38,
 \end{gather*}
-where $\eta$ is the width of a Gaussian smoothing (not related to the $\eta$ of Sections~\ref{sec:zfr} and~\ref{sec:density}).
-We write $U = e^{\ell_U}$, $V = e^{\ell_V}$ and $X = e^{\ell_X}$, so that $\Delta = \ell_V - \ell_U$, $Y_1 = \ell_X - \ell_V$ and $Y_2 = \ell_X - \ell_U$, and $E(s) = e^{\eta^2s^2/2}$.
+where $\varsigma$ is the width of a Gaussian smoothing.
+We write $U = e^{\ell_U}$, $V = e^{\ell_V}$ and $X = e^{\ell_X}$, so that $\Delta = \ell_V - \ell_U$, $Y_1 = \ell_X - \ell_V$ and $Y_2 = \ell_X - \ell_U$, and $E(s) = e^{\varsigma^2s^2/2}$.
 We use the following explicit inputs.
 \begin{enumerate}
 \item[(B1)] In the box $\mathcal B = \{0.6 \leq \sigma \leq 1.3,\ |t| \leq 450\}$ we have $|1/\zeta(s)| \leq M_I := 14.57$, and $|\zeta(s)| \leq M_Z := 11.89$ if moreover $|s - 1| \geq 0.1$.
@@ -903,20 +916,20 @@ For $0 < \sigma < 1$ and all $t$, $|\zeta(\sigma + it)| \leq (1/\sigma + 1/(1 - 
 
 \subsection{Mellin representation}
 
-Let $\rho(d) = 1$ for $d \leq U$, $\rho(d) = \log(V/d)/\Delta$ for $U < d \leq V$ and $\rho(d) = 0$ for $d > V$, so that $\psi_d = \mu(d)\rho(d)$ and $\Psi(n) = \sum_{d\mid n}\mu(d)\rho(d)$.
+Let $\chi(d) = 1$ for $d \leq U$, $\chi(d) = \log(V/d)/\Delta$ for $U < d \leq V$ and $\chi(d) = 0$ for $d > V$, so that $\xi_d = \mu(d)\chi(d)$ and $\Psi(n) = \sum_{d\mid n}\mu(d)\chi(d)$.
 Since $\frac{1}{2\pi i}\int_{(\sigma)}z^sd^{-s}s^{-2}\,ds = \log^+(z/d)$ for $\sigma > 0$, we have
 \[
-\rho(d) = \frac1{2\pi i}\int_{(\sigma)}\hat\rho(s)d^{-s}\,ds, \qquad \hat\rho(s) = \frac{V^s - U^s}{\Delta s^2}.
+\chi(d) = \frac1{2\pi i}\int_{(\sigma)}\hat\chi(s)d^{-s}\,ds, \qquad \hat\chi(s) = \frac{V^s - U^s}{\Delta s^2}.
 \]
-Let $Z$ be a standard normal random variable, and put $\rho_s(d) = \mathbb E[\rho(de^{-\eta Z})]$ and $\rho_t = \rho - \rho_s$.
-Since $\mathbb E[e^{\eta Zs}] = E(s)$, the function $\rho_s$ has the Mellin transform $\hat\rho_s(s) = \hat\rho(s)E(s)$, which decays like a Gaussian on vertical lines: $|E(\sigma + it)| = e^{\eta^2(\sigma^2 - t^2)/2}$.
-Let $\Psi_s(n) = \sum_{d\mid n}\mu(d)\rho_s(d)$, $\Psi_t = \Psi - \Psi_s$, and
+Let $Z$ be a standard normal random variable, and put $\chi^\flat(d) = \mathbb E[\chi(de^{-\varsigma Z})]$ and $\chi^\sharp = \chi - \chi^\flat$.
+Since $\mathbb E[e^{\varsigma Zs}] = E(s)$, the function $\chi^\flat$ has the Mellin transform $\hat\chi^\flat(s) = \hat\chi(s)E(s)$, which decays like a Gaussian on vertical lines: $|E(\sigma + it)| = e^{\varsigma^2(\sigma^2 - t^2)/2}$.
+Let $\Psi^\flat(n) = \sum_{d\mid n}\mu(d)\chi^\flat(d)$, $\Psi^\sharp = \Psi - \Psi^\flat$, and
 \[
-S_s = \sum_n\frac{\Psi_s(n)^2}ne^{-n/X}, \qquad S_t' = \sum_n\frac{\Psi_t(n)^2}ne^{-n/X}.
+S^\flat = \sum_n\frac{\Psi^\flat(n)^2}ne^{-n/X}, \qquad \widetilde S^\sharp = \sum_n\frac{\Psi^\sharp(n)^2}ne^{-n/X}.
 \]
 By Minkowski's inequality in $\ell^2(e^{-n/X}/n)$,
 \begin{equation}\label{eq:mink}
-\sum_n\frac{\Psi(n)^2}ne^{-n/X} \leq \big(\sqrt{S_s} + \sqrt{S_t'}\big)^2 = S_s + 2\sqrt{S_sS_t'} + S_t'.
+\sum_n\frac{\Psi(n)^2}ne^{-n/X} \leq \big(\sqrt{S^\flat} + \sqrt{\widetilde S^\sharp}\big)^2 = S^\flat + 2\sqrt{S^\flat\widetilde S^\sharp} + \widetilde S^\sharp.
 \end{equation}
 
 \begin{lemma}\label{lem:A-euler}
@@ -939,9 +952,9 @@ For $s_1 = 0$ we have $x_1 = q$ and $z = x_2$, so $\mathcal A_p = 1$, and simila
 The terms of $\mathcal A_p - 1$ are of order $p^{-2-\cdots}$, which gives absolute convergence.
 \end{proof}
 
-Since $\rho_s(d)$ decays faster than any power of $d$ as $d \to \infty$, Mellin inversion in $w$ (with $e^{-y} = \frac1{2\pi i}\int_{(c)}\Gamma(w)y^{-w}\,dw$) and in $s_1$, $s_2$ gives
+Since $\chi^\flat(d)$ decays faster than any power of $d$ as $d \to \infty$, Mellin inversion in $w$ (with $e^{-y} = \frac1{2\pi i}\int_{(c)}\Gamma(w)y^{-w}\,dw$) and in $s_1$, $s_2$ gives
 \begin{equation}\label{eq:triple}
-S_s = \frac1{(2\pi i)^3}\int_{(c)}\int_{(\sigma_1)}\int_{(\sigma_1)}\Gamma(w)X^w\hat\rho_s(s_1)\hat\rho_s(s_2)\,G(w, s_1, s_2)\,ds_2\,ds_1\,dw,
+S^\flat = \frac1{(2\pi i)^3}\int_{(c)}\int_{(\sigma_1)}\int_{(\sigma_1)}\Gamma(w)X^w\hat\chi^\flat(s_1)\hat\chi^\flat(s_2)\,G(w, s_1, s_2)\,ds_2\,ds_1\,dw,
 \end{equation}
 where $G$ is the right-hand side of Lemma~\ref{lem:A-euler}; all integrals converge absolutely.
 
@@ -955,43 +968,43 @@ H_c(w) = \frac1{2\pi i}\int_{\mathcal P}\frac{\mathcal A(w; -w-s, s)\,E(w + s)E(
 and $\mathcal P$ is the path $-c' - iT_2 \to \kappa_1 - iT_2 \to \kappa_1 + iT_2 \to -c' + iT_2$.
 Then $H_c$ is analytic for $-\theta_2 \leq \Rp w \leq c$, $|\Ip w| \leq W_0$, and with $k_1 = H_c(0)$ and $k_0 = H_c'(0) + \gamma_EH_c(0)$ we have
 \[
-S_s \leq e^{-1/X} + D_4 + \mathrm{REM},
+S^\flat \leq e^{-1/X} + D_4 + \mathrm{REM},
 \]
 where $D_4$ is as in Theorem~\ref{thm:G} and $\mathrm{REM}$ is the sum of the eight terms in Lemma~\ref{lem:A-rem}.
 \end{proposition}
 
 \begin{proof}
-We write \eqref{eq:triple} as $S_s = \frac1{2\pi i}\int_{(c)}\Gamma(w)X^wF_s(w)\,dw$ with $F_s(w) = \sum_n\Psi_s(n)^2n^{-1-w}$, and split the $w$-integral into $|\Ip w| \leq W_0$ and $|\Ip w| > W_0$.
+We write \eqref{eq:triple} as $S^\flat = \frac1{2\pi i}\int_{(c)}\Gamma(w)X^wF_s(w)\,dw$ with $F_s(w) = \sum_n\Psi^\flat(n)^2n^{-1-w}$, and split the $w$-integral into $|\Ip w| \leq W_0$ and $|\Ip w| > W_0$.
 On the first part we move the contours in four steps.
 
 \emph{Step 1.}
 We move $s_2$ to $\Rp s_2 = -c'$.
-The only pole crossed is $s_2 = 0$, where $\hat\rho_s$ has a simple pole with residue $1$; since $G(w, s_1, 0) = 1$ and $\frac1{2\pi i}\int\hat\rho_s(s_1)\,ds_1 = \rho_s(1)$, the residue contributes $\rho_s(1)\cdot\frac1{2\pi i}\int_{|\Ip w|\leq W_0}\Gamma(w)X^w\,dw$.
-Adding the part $|\Ip w| > W_0$ of $S_s$, we obtain
+The only pole crossed is $s_2 = 0$, where $\hat\chi^\flat$ has a simple pole with residue $1$; since $G(w, s_1, 0) = 1$ and $\frac1{2\pi i}\int\hat\chi^\flat(s_1)\,ds_1 = \chi^\flat(1)$, the residue contributes $\chi^\flat(1)\cdot\frac1{2\pi i}\int_{|\Ip w|\leq W_0}\Gamma(w)X^w\,dw$.
+Adding the part $|\Ip w| > W_0$ of $S^\flat$, we obtain
 \[
-\rho_s(1)e^{-1/X} + \frac1{2\pi i}\int_{|\Ip w| > W_0}\Gamma(w)X^w\big(F_s(w) - \rho_s(1)\big)\,dw.
+\chi^\flat(1)e^{-1/X} + \frac1{2\pi i}\int_{|\Ip w| > W_0}\Gamma(w)X^w\big(F_s(w) - \chi^\flat(1)\big)\,dw.
 \]
-Since $\Psi_s(1) = \rho_s(1) \in [0, 1]$ and $|\Psi_s(n)| \leq \tau(n)$, we have $|F_s(w) - \rho_s(1)| \leq \frac14 + \sum_{n\geq2}\tau(n)^2n^{-1-c} \leq \zeta(1+c)^4/\zeta(2 + 2c)$, so the second term is at most the first term of $R_8$ in Lemma~\ref{lem:A-rem}.
+Since $\Psi^\flat(1) = \chi^\flat(1) \in [0, 1]$ and $|\Psi^\flat(n)| \leq \tau(n)$, we have $|F_s(w) - \chi^\flat(1)| \leq \frac14 + \sum_{n\geq2}\tau(n)^2n^{-1-c} \leq \zeta(1+c)^4/\zeta(2 + 2c)$, so the second term is at most the first term of $R_8$ in Lemma~\ref{lem:A-rem}.
 The pole of $\zeta(1 + w + s_1 + s_2)$ at $s_2 = -w - s_1$ has real part $-c - \sigma_1 < -c'$ and is not crossed.
 
 \emph{Step 2.}
 For $|\Ip s_1| \leq T_2$ we move $s_1$ to $\Rp s_1 = -\theta_1$, joining the moved segment to the original line $\Rp s_1 = \sigma_1$ by horizontal connectors at $\Ip s_1 = \pm T_2$.
 In the region swept, $1 + w + s_1 \in \mathcal B$, so $1/\zeta(1 + w + s_1)$ is analytic.
-At $s_1 = 0$ the function $\hat\rho_s$ has a simple pole with residue $1$ and $G(w, 0, s_2) = 1$, so this residue equals
+At $s_1 = 0$ the function $\hat\chi^\flat$ has a simple pole with residue $1$ and $G(w, 0, s_2) = 1$, so this residue equals
 \[
-\frac{1}{2\pi i}\int_{(-c')}\hat\rho_s(s_2)\,ds_2\cdot\frac1{2\pi i}\int_{|\Ip w|\leq W_0}\Gamma(w)X^w\,dw = (\rho_s(1) - 1)\big(e^{-1/X} - \vartheta\big),
+\frac{1}{2\pi i}\int_{(-c')}\hat\chi^\flat(s_2)\,ds_2\cdot\frac1{2\pi i}\int_{|\Ip w|\leq W_0}\Gamma(w)X^w\,dw = (\chi^\flat(1) - 1)\big(e^{-1/X} - \vartheta\big),
 \]
-where $|\vartheta|$ is at most the first term of $R_8$; since $\rho_s(1) \leq 1$ and $e^{-1/X} - \vartheta > 0$, this residue is non-positive and may be omitted.
+where $|\vartheta|$ is at most the first term of $R_8$; since $\chi^\flat(1) \leq 1$ and $e^{-1/X} - \vartheta > 0$, this residue is non-positive and may be omitted.
 The pole at $s_1 = -w - s_2$, which is crossed when $|\Ip(w + s_2)| \leq T_2$, gives
 \[
-R_x = \frac1{(2\pi i)^2}\iint\Gamma(w)X^w\hat\rho_s(-w-s_2)\hat\rho_s(s_2)\,\frac{\zeta(1+w)\,\mathcal A(w; -w-s_2, s_2)}{\zeta(1 - s_2)\zeta(1 + w + s_2)}\,ds_2\,dw.
+R_x = \frac1{(2\pi i)^2}\iint\Gamma(w)X^w\hat\chi^\flat(-w-s_2)\hat\chi^\flat(s_2)\,\frac{\zeta(1+w)\,\mathcal A(w; -w-s_2, s_2)}{\zeta(1 - s_2)\zeta(1 + w + s_2)}\,ds_2\,dw.
 \]
 The integral over the moved segment is $R_1$, the integrals over the connectors and over the remaining parts of $\Rp s_1 = \sigma_1$ make up $R_2$, and extending $R_x$ to all $s_2$ costs $R_3$; the integrand of $R_2$ has an integrable singularity at $s_1 = -w - s_2$, and Fubini's theorem applies.
 
 \emph{Step 3.}
 We expand
 \[
-\Delta^2\hat\rho_s(-w-s_2)\hat\rho_s(s_2)(w + s_2)^2s_2^2 = \Big(V^{-w} - V^{-w}\Big(\frac UV\Big)^{s_2} - U^{-w}\Big(\frac VU\Big)^{s_2} + U^{-w}\Big)E(w + s_2)E(s_2),
+\Delta^2\hat\chi^\flat(-w-s_2)\hat\chi^\flat(s_2)(w + s_2)^2s_2^2 = \Big(V^{-w} - V^{-w}\Big(\frac UV\Big)^{s_2} - U^{-w}\Big(\frac VU\Big)^{s_2} + U^{-w}\Big)E(w + s_2)E(s_2),
 \]
 and denote by $\Phi(s_2)$ the remaining factor of the integrand.
 Then $\Phi$ has a simple pole at $s_2 = 0$ with residue $-E(w)/w^2$ (from the zero of $1/\zeta(1 - s_2)$) and a simple pole at $s_2 = -w$ with residue $E(w)/w^2$ (from the zero of $1/\zeta(1 + w + s_2)$), since $\mathcal A(w; -w, 0) = \mathcal A(w; 0, -w) = 1$.
@@ -1011,8 +1024,8 @@ where $O^*(R)$ denotes a quantity of absolute value at most $R$.
 \emph{Step 4.}
 Finally we move $w$ to $\Rp w = -\theta_2$ for $|\Ip w| \leq W_0$.
 The integrand has a pole only at $w = 0$, since $X^wV^{-w} = e^{Y_1w}$ and $X^wU^{-w} = e^{Y_2w}$.
-Write $\Gamma(w)e^{Yw} = w^{-1} + (Y - \gamma_E) + (\frac{Y^2}2 - \gamma_EY + \frac{\gamma_E^2}2 + \frac{\pi^2}{12})w + O(w^2)$, $K_c(w) = k_1w^{-1} + k_0 + O(w)$ and $E(w)/w^2 = w^{-2} + \eta^2/2 + O(w^2)$.
-The residue of $\Gamma(w)e^{Yw}K_c(w)$ is $k_1(Y - \gamma_E) + k_0$, and that of $\Gamma(w)e^{Yw}E(w)/w^2$ is $\frac{Y^2}2 - \gamma_EY + \frac{\gamma_E^2}2 + \frac{\pi^2}{12} + \frac{\eta^2}2$.
+Write $\Gamma(w)e^{Yw} = w^{-1} + (Y - \gamma_E) + (\frac{Y^2}2 - \gamma_EY + \frac{\gamma_E^2}2 + \frac{\pi^2}{12})w + O(w^2)$, $K_c(w) = k_1w^{-1} + k_0 + O(w)$ and $E(w)/w^2 = w^{-2} + \varsigma^2/2 + O(w^2)$.
+The residue of $\Gamma(w)e^{Yw}K_c(w)$ is $k_1(Y - \gamma_E) + k_0$, and that of $\Gamma(w)e^{Yw}E(w)/w^2$ is $\frac{Y^2}2 - \gamma_EY + \frac{\gamma_E^2}2 + \frac{\pi^2}{12} + \frac{\varsigma^2}2$.
 Hence the residues at $w = 0$ sum to
 \[
 \frac{1}{\Delta^2}\Big[\frac{Y_2^2 - Y_1^2}2 - \gamma_E(Y_2 - Y_1) + k_1(Y_1 + Y_2 - 2\gamma_E) + 2k_0\Big] = D_4,
@@ -1025,12 +1038,12 @@ The integral over $\Rp w = -\theta_2$ is $R_7$, and the connectors at $|\Ip w| =
 
 For a real number $\sigma$ and $0 \leq t_0 < t_1 \leq \infty$ put
 \[
-\mathcal J_\nu(\sigma; t_0, t_1) = 2\int_{t_0}^{t_1}e^{\eta^2(\sigma^2 - t^2)/2}\frac{(1 + t)^\nu}{\sigma^2 + t^2}\,dt, \qquad h(\sigma) = \frac{V^\sigma + U^\sigma}{\Delta},
+\mathcal J_\nu(\sigma; t_0, t_1) = 2\int_{t_0}^{t_1}e^{\varsigma^2(\sigma^2 - t^2)/2}\frac{(1 + t)^\nu}{\sigma^2 + t^2}\,dt, \qquad h(\sigma) = \frac{V^\sigma + U^\sigma}{\Delta},
 \]
-so that $\int_{t_0\leq|t|\leq t_1}|\hat\rho_s(\sigma + it)|(1 + |t|)^\nu\,dt \leq h(\sigma)\mathcal J_\nu(\sigma; t_0, t_1)$.
+so that $\int_{t_0\leq|t|\leq t_1}|\hat\chi^\flat(\sigma + it)|(1 + |t|)^\nu\,dt \leq h(\sigma)\mathcal J_\nu(\sigma; t_0, t_1)$.
 Let $\mathcal G_\nu = \int_{|v|\leq W_0}|\Gamma(c + iv)|(1 + |v|)^\nu\,dv$.
 For sets $I_1, I_2, I_3$ of real numbers let $\mathcal A^*(I_1, I_2, I_3)$ denote an upper bound for $|\mathcal A(w, s_1, s_2)|$ whenever the real parts of $1 + w + s_1$, $1 + w + s_2$ and $1 + w + s_1 + s_2$ lie in $I_1$, $I_2$ and $I_3$ (a single number stands for a one-point set).
-Let $Z_b = \max\{M_Z, 1/\sigma_2 + 1/(1 - \sigma_2)\}$ with $\sigma_2 = 1 + c - \theta_1 - c'$, $\epsilon_T = e^{-\eta^2T_2^2/2}$, $\epsilon_T' = e^{-\eta^2(T_2 - W_0)^2/2}$, $\zeta_1 = \zeta(1 + c)$ and $\iota(\sigma) = \zeta(\sigma)/\zeta(2\sigma)$.
+Let $Z_b = \max\{M_Z, 1/\sigma_2 + 1/(1 - \sigma_2)\}$ with $\sigma_2 = 1 + c - \theta_1 - c'$, $\epsilon_T = e^{-\varsigma^2T_2^2/2}$, $\epsilon_T' = e^{-\varsigma^2(T_2 - W_0)^2/2}$, $\zeta_1 = \zeta(1 + c)$ and $\iota(\sigma) = \zeta(\sigma)/\zeta(2\sigma)$.
 
 \begin{lemma}\label{lem:A-rem}
 Let $\mathcal A_1 = \mathcal A^*(1 + c - \theta_1, 1 + c - c', \sigma_2)$, $\mathcal A_1^\square = \mathcal A^*([1 + c - \theta_1, 1 + c + \sigma_1], 1 + c - c', [\sigma_2, 1 + c + \sigma_1 - c'])$, $\mathcal A_x = \mathcal A^*(1 + c', 1 + c - c', 1)$, $\mathcal A_V = \mathcal A^*(1 - b, 1 + c + b, 1)$ and $\mathcal A_U = \mathcal A^*(1 + b, 1 + c - b, 1)$.
@@ -1039,8 +1052,8 @@ Then the remainders in the proof of Proposition~\ref{prop:A-main} satisfy
 R_1 &\leq \frac{\mathcal G_1e^{c\ell_X}\zeta_1Z_bM_I\,\iota(1 + c - c')\mathcal A_1}{(2\pi)^3}\,h(-\theta_1)\mathcal J_1(-\theta_1; 0, T_2)\,h(-c')\mathcal J_1(-c'; 0, \infty),\\
 R_2 &\leq \frac{\zeta_1\iota(1 + c - c')\mathcal A_1^\square}{(2\pi)^3}\Big[2\mathcal G_0e^{c\ell_X}M_I\,\hbar\,\mathcal Z\\
 &\qquad + \mathcal G_1e^{c\ell_X}h(\sigma_1)\mathcal J_1(\sigma_1; T_2, \infty)\,\zeta(1 + c + \sigma_1 - c')\,\iota(1 + c + \sigma_1)\,h(-c')\mathcal J_1(-c'; 0, \infty)\Big],\\
-R_3 &\leq \frac{\mathcal G_0e^{c\ell_X}\zeta_1\mathcal A_x\iota(1 + c')\iota(1 + c - c')}{(2\pi)^2}\cdot\frac{(U^{-(c-c')} + V^{-(c-c')})e^{\eta^2(c-c')^2/2}\epsilon_T}{\Delta T_2^2}\,h(-c')\mathcal J_0(-c'; 0, \infty),\\
-R_4 &\leq \frac{4\mathcal G_0e^{cY_2}\zeta_1\mathcal A_x\iota(1 + c')\iota(1 + c - c')}{(2\pi)^2\Delta^2}\cdot\frac{2e^{\eta^2((c-c')^2 + c'^2)/2}\epsilon_T}{3(T_2 - W_0)^3},\\
+R_3 &\leq \frac{\mathcal G_0e^{c\ell_X}\zeta_1\mathcal A_x\iota(1 + c')\iota(1 + c - c')}{(2\pi)^2}\cdot\frac{(U^{-(c-c')} + V^{-(c-c')})e^{\varsigma^2(c-c')^2/2}\epsilon_T}{\Delta T_2^2}\,h(-c')\mathcal J_0(-c'; 0, \infty),\\
+R_4 &\leq \frac{4\mathcal G_0e^{cY_2}\zeta_1\mathcal A_x\iota(1 + c')\iota(1 + c - c')}{(2\pi)^2\Delta^2}\cdot\frac{2e^{\varsigma^2((c-c')^2 + c'^2)/2}\epsilon_T}{3(T_2 - W_0)^3},\\
 R_5 &\leq \frac{\mathcal G_0e^{cY_1}}{\Delta^2}\big(r_V + r_V'\big), \qquad
 R_6 \leq \frac{\mathcal G_0e^{cY_2}}{\Delta^2}\big(r_U + r_U'\big), \qquad
 R_7 \leq \frac{(e^{-\theta_2Y_1} + e^{-\theta_2Y_2})\,\mathcal R}{2\pi\Delta^2},\\
@@ -1050,22 +1063,22 @@ R_8 &\leq \frac{\gamma_0e^{c\ell_X}\zeta_1^4}{2\pi\zeta(2 + 2c)}\\
 \end{align*}
 where
 \begin{align*}
-r_V &= \frac{e^{-\Delta b}\zeta_1\mathcal A_VM_I\iota(1 + c + b)}{2\pi}\cdot\frac{\pi e^{\eta^2((c+b)^2 + b^2)/2}}{b^2(b + c)},\\
-r_U &= \frac{e^{-\Delta b}\zeta_1\mathcal A_UM_I\iota(1 + b)}{2\pi}\cdot\frac{\pi e^{\eta^2((c-b)^2 + b^2)/2}}{b^2(b - c)},\\
-r_V' &= \frac{2(b + c')e^{c'\Delta}e^{\eta^2((c+b)^2 + b^2)/2}\epsilon_T\epsilon_T'}{2\pi T_2^2(T_2 - W_0)^2}\\
+r_V &= \frac{e^{-\Delta b}\zeta_1\mathcal A_VM_I\iota(1 + c + b)}{2\pi}\cdot\frac{\pi e^{\varsigma^2((c+b)^2 + b^2)/2}}{b^2(b + c)},\\
+r_U &= \frac{e^{-\Delta b}\zeta_1\mathcal A_UM_I\iota(1 + b)}{2\pi}\cdot\frac{\pi e^{\varsigma^2((c-b)^2 + b^2)/2}}{b^2(b - c)},\\
+r_V' &= \frac{2(b + c')e^{c'\Delta}e^{\varsigma^2((c+b)^2 + b^2)/2}\epsilon_T\epsilon_T'}{2\pi T_2^2(T_2 - W_0)^2}\\
 &\qquad\times\zeta_1\,\mathcal A^*([1 - b, 1 + c'], [1 + c - c', 1 + c + b], 1)\,M_I\,\iota(1 + c - c'),\\
-r_U' &= \frac{2(b - c')e^{\eta^2b^2}\epsilon_T\epsilon_T'}{2\pi T_2^2(T_2 - W_0)^2}\\
+r_U' &= \frac{2(b - c')e^{\varsigma^2b^2}\epsilon_T\epsilon_T'}{2\pi T_2^2(T_2 - W_0)^2}\\
 &\qquad\times\zeta_1\,\mathcal A^*([1 + c', 1 + b], [1 + c - b, 1 + c - c'], 1)\,\iota(1 + c')\,M_I.
 \end{align*}
-Here $\hbar = (V^{\sigma_1} + U^{\sigma_1})e^{\eta^2(\theta_1^2 - T_2^2)/2}/(\Delta T_2^2)$ bounds $|\hat\rho_s|$ on the connectors of Step~2,
+Here $\hbar = (V^{\sigma_1} + U^{\sigma_1})e^{\varsigma^2(\theta_1^2 - T_2^2)/2}/(\Delta T_2^2)$ bounds $|\hat\chi^\flat|$ on the connectors of Step~2,
 \begin{multline*}
 \mathcal Z = (\theta_1 + \sigma_1)\Big(\Big(2 + \frac{2 + W_0 + T_2}{\sigma_2}\Big)h(-c')\mathcal J_0(-c'; 0, \infty) + \frac{h(-c')\mathcal J_1(-c'; 0, \infty)}{\sigma_2}\Big)\\
-+ 2\pi\sqrt{(\theta_1 + \sigma_1)^2 + 1}\,\frac{(V^{-c'} + U^{-c'})e^{\eta^2c'^2/2}}{\Delta c'^2},
++ 2\pi\sqrt{(\theta_1 + \sigma_1)^2 + 1}\,\frac{(V^{-c'} + U^{-c'})e^{\varsigma^2c'^2/2}}{\Delta c'^2},
 \end{multline*}
-$\mathcal R = 2\int_0^{W_0}|\Gamma(-\theta_2 + iv)|\big(\mathcal K(v) + e^{\eta^2\theta_2^2/2}\theta_2^{-2}\big)\,dv$, $\mathcal K = \mathcal K(W_0) + e^{\eta^2\theta_2^2/2}W_0^{-2}$, and
+$\mathcal R = 2\int_0^{W_0}|\Gamma(-\theta_2 + iv)|\big(\mathcal K(v) + e^{\varsigma^2\theta_2^2/2}\theta_2^{-2}\big)\,dv$, $\mathcal K = \mathcal K(W_0) + e^{\varsigma^2\theta_2^2/2}W_0^{-2}$, and
 \begin{multline*}
-\mathcal K(v) = \frac{M_Z}{2\pi}\Big(\mathcal A^*(1 - \kappa_1, [1 + \kappa_1 - \theta_2, 1 + \kappa_1 + c], 1)M_I\,\iota(1 + \kappa_1 - \theta_2)\frac{\pi(2\kappa_1 - \theta_2)e^{\eta^2((\kappa_1 + c)^2 + \kappa_1^2)/2}}{\kappa_1(\kappa_1 - \theta_2)((2\kappa_1 - \theta_2)^2 + v^2)}\\
-+ \mathcal A^*([1 - \kappa_1, 1 + c'], [1 - \theta_2 - c', 1 + c + \kappa_1], 1)M_I^2\,\frac{2(\kappa_1 + c')e^{\eta^2((\kappa_1 + c)^2 + \kappa_1^2)/2}\epsilon_T\epsilon_T'}{T_2^2(T_2 - W_0)^2}\Big).
+\mathcal K(v) = \frac{M_Z}{2\pi}\Big(\mathcal A^*(1 - \kappa_1, [1 + \kappa_1 - \theta_2, 1 + \kappa_1 + c], 1)M_I\,\iota(1 + \kappa_1 - \theta_2)\frac{\pi(2\kappa_1 - \theta_2)e^{\varsigma^2((\kappa_1 + c)^2 + \kappa_1^2)/2}}{\kappa_1(\kappa_1 - \theta_2)((2\kappa_1 - \theta_2)^2 + v^2)}\\
++ \mathcal A^*([1 - \kappa_1, 1 + c'], [1 - \theta_2 - c', 1 + c + \kappa_1], 1)M_I^2\,\frac{2(\kappa_1 + c')e^{\varsigma^2((\kappa_1 + c)^2 + \kappa_1^2)/2}\epsilon_T\epsilon_T'}{T_2^2(T_2 - W_0)^2}\Big).
 \end{multline*}
 The function $\mathcal K(v)$ bounds $|K_c(w)|$ for $\Rp w = -\theta_2$ and $|\Ip w| = v$, and also for $-\theta_2 \leq \Rp w \leq c$ and $|\Ip w| = W_0$.
 \end{lemma}
@@ -1073,14 +1086,14 @@ The function $\mathcal K(v)$ bounds $|K_c(w)|$ for $\Rp w = -\theta_2$ and $|\Ip
 \begin{proof}
 Each term is the integral of the absolute value of the integrand over the corresponding piece of contour, bounded factor by factor; several of the resulting bounds are weaker than necessary by small constant factors.
 The factor $\Gamma(w)X^w$ gives $\mathcal G_\nu e^{c\ell_X}$, or $\mathcal G_\nu e^{cY_j}$ after $V^{-w}$ or $U^{-w}$ has been absorbed; in $R_4$, all four coefficients are at most $e^{cY_2}$, since $e^{cY_1 + c'\Delta} \leq e^{cY_2}$.
-The factors $\hat\rho_s$ give $h(\sigma)\mathcal J_\nu(\sigma; \cdot, \cdot)$.
+The factors $\hat\chi^\flat$ give $h(\sigma)\mathcal J_\nu(\sigma; \cdot, \cdot)$.
 The zeta factors are bounded by (B1) when the argument lies in $\mathcal B$, and by (B2) otherwise; for real parts in $[1.3, 1.4]$ we use $\iota(1.3) < M_I$.
 In $R_1$ we use $|\zeta(1 + w + s_1 + s_2)| \leq Z_b(1 + |\Ip w|)(1 + |\Ip s_1|)(1 + |\Ip s_2|)$ on $\Rp(1 + w + s_1 + s_2) = \sigma_2$, which follows from (B1) for heights at most $450$ and from (B2) beyond; the three factors $1 + |\Ip|$ are absorbed into $\mathcal G_1$ and $\mathcal J_1$.
 In $R_2$, on the connectors, the pole of $\zeta(1 + u)$ with $u = w + s_1 + s_2$ is handled by $|\zeta(1 + u)| \leq 1/|u| + 1 + |1 + u|/\Rp(1 + u)$, integrating $1/|u|$ over a disc of radius $\sqrt{(\theta_1 + \sigma_1)^2 + 1}$ and using $1/|u| \leq 1$ elsewhere.
 Whenever a contour runs at height at least $T_2$, the factor $|E(s)|$ gives $\epsilon_T$ and, where it is present, $|E(w + s)|$ gives $\epsilon_T'$, while $|s| \geq T_2$ and $|w + s| \geq T_2 - W_0$.
 The identity $\int_{\mathbb R}dt/((t^2 + a^2)((t + v)^2 + a'^2)) = \pi(a + a')/(aa'((a + a')^2 + v^2))$ gives the factors in $r_U$, $r_V$ and $\mathcal K(v)$.
 In $\mathcal K(v)$, $|\zeta(1 + w)| \leq M_Z$ holds since $|w| \geq \theta_2$ on $\Rp w = -\theta_2$ and $|w| \geq W_0$ on the connectors.
-In $R_8$ we use the bound for $|F_s(w) - \rho_s(1)|$ from Step~1 and, for $v \geq W_0$ and $-\theta_2 \leq \sigma \leq c$,
+In $R_8$ we use the bound for $|F_s(w) - \chi^\flat(1)|$ from Step~1 and, for $v \geq W_0$ and $-\theta_2 \leq \sigma \leq c$,
 \begin{multline*}
 |\Gamma(\sigma + iv)| = \frac{|\Gamma(\sigma + 1 + iv)|}{|\sigma + iv|} \leq \Gamma(\sigma + 1)\frac{|\Gamma(2 + iv)|}{v}\\
 = \Gamma(\sigma + 1)\frac{\sqrt{1 + v^2}}{v}\sqrt{\frac{\pi v}{\sinh\pi v}} \leq 3.4\,v^{1/2}e^{-\pi v/2},
@@ -1098,58 +1111,58 @@ For example, $\mathcal A_1 \leq 1202.27$ and $\mathcal A_x \leq 14.56$.
 \subsection{The non-smooth part}
 
 \begin{lemma}\label{lem:A-bsum}
-Let $\varpi(y) = \phi(|y|) - |y|\bar\Phi(|y|)$, where $\phi$ and $\bar\Phi$ are the standard normal density and tail, and $\Psi_1(y) = \int_y^\infty\varpi$.
-For real $A$ put $b(A) = \sum_{r\geq1}\varpi((\log r - A)/\eta)/r$.
+Let $\varpi(y) = \phi(|y|) - |y|\bar\Phi(|y|)$, where $\phi$ and $\bar\Phi$ are the standard normal density and tail, and $\Phi_1(y) = \int_y^\infty\varpi$.
+For real $A$ put $\Omega(A) = \sum_{r\geq1}\varpi((\log r - A)/\varsigma)/r$.
 Then
 \[
-b(A) \leq \eta\Big(\frac12 - \Psi_1\Big(\frac A\eta\Big)\Big) + 0.8\,e^{\eta^2/2}e^{-A} \quad (A \geq 0), \qquad b(A) \leq \eta\Psi_1\Big(\frac{|A|}\eta\Big) + 2\varpi\Big(\frac{|A|}\eta\Big) \quad (A < 0).
+\Omega(A) \leq \varsigma\Big(\frac12 - \Phi_1\Big(\frac A\varsigma\Big)\Big) + 0.8\,e^{\varsigma^2/2}e^{-A} \quad (A \geq 0), \qquad \Omega(A) \leq \varsigma\Phi_1\Big(\frac{|A|}\varsigma\Big) + 2\varpi\Big(\frac{|A|}\varsigma\Big) \quad (A < 0).
 \]
-In particular $b(A) \leq \eta/2 + 0.8e^{\eta^2/2}$ for all $A$, and $b(A) \leq \eta/2 + 0.8e^{\eta^2/2}e^{-A}$ for $A \geq 0$.
+In particular $\Omega(A) \leq \varsigma/2 + 0.8e^{\varsigma^2/2}$ for all $A$, and $\Omega(A) \leq \varsigma/2 + 0.8e^{\varsigma^2/2}e^{-A}$ for $A \geq 0$.
 \end{lemma}
 
 \begin{proof}
 The function $\varpi$ is even and log-concave, since $\varpi(y) = \int_{|y|}^\infty\bar\Phi$ for $y \geq 0$ and $\bar\Phi$ is log-concave.
-Hence $u \mapsto \varpi((u - A)/\eta)e^{-u}$ is log-concave, and $g(t) = \varpi((\log t - A)/\eta)/t$ is unimodal on $[1, \infty)$.
+Hence $u \mapsto \varpi((u - A)/\varsigma)e^{-u}$ is log-concave, and $g(t) = \varpi((\log t - A)/\varsigma)/t$ is unimodal on $[1, \infty)$.
 For a unimodal function, $\sum_{r\geq1}g(r) \leq \int_1^\infty g + 2\max g$.
-Here $\int_1^\infty g(t)\,dt = \eta\int_{-A/\eta}^\infty\varpi = \eta\Psi_1(-A/\eta)$, and $\Psi_1(-y) = \frac12 - \Psi_1(y)$ since $\int_{\mathbb R}\varpi = \frac12$.
-Since $\varpi \leq \phi$ and $\phi(y)e^{-\eta y} = \phi(y + \eta)e^{\eta^2/2}$, we have $\max g \leq e^{-A}\phi(0)e^{\eta^2/2} \leq 0.4e^{\eta^2/2}e^{-A}$.
-For $A < 0$ the function $g$ is decreasing on $[1, \infty)$, so $\sum_rg(r) \leq g(1) + \int_1^\infty g = \varpi(|A|/\eta) + \eta\Psi_1(|A|/\eta)$.
+Here $\int_1^\infty g(t)\,dt = \varsigma\int_{-A/\varsigma}^\infty\varpi = \varsigma\Phi_1(-A/\varsigma)$, and $\Phi_1(-y) = \frac12 - \Phi_1(y)$ since $\int_{\mathbb R}\varpi = \frac12$.
+Since $\varpi \leq \phi$ and $\phi(y)e^{-\varsigma y} = \phi(y + \varsigma)e^{\varsigma^2/2}$, we have $\max g \leq e^{-A}\phi(0)e^{\varsigma^2/2} \leq 0.4e^{\varsigma^2/2}e^{-A}$.
+For $A < 0$ the function $g$ is decreasing on $[1, \infty)$, so $\sum_rg(r) \leq g(1) + \int_1^\infty g = \varpi(|A|/\varsigma) + \varsigma\Phi_1(|A|/\varsigma)$.
 \end{proof}
 
 \begin{lemma}\label{lem:A-St}
-We have $|\rho_t(d)| \leq \frac\eta\Delta[\varpi(\frac{\log d - \ell_U}\eta) + \varpi(\frac{\log d - \ell_V}\eta)]$ for every $d \geq 1$.
-Let $\beta(m) = b(\ell_U - \log m) + b(\ell_V - \log m)$, and let $\Sigma$ be an upper bound for $\sum_m\mu^2(m)\varphi(m)^{-1}\beta(m)^2$.
+We have $|\chi^\sharp(d)| \leq \frac\varsigma\Delta[\varpi(\frac{\log d - \ell_U}\varsigma) + \varpi(\frac{\log d - \ell_V}\varsigma)]$ for every $d \geq 1$.
+Let $\beta(m) = \Omega(\ell_U - \log m) + \Omega(\ell_V - \log m)$, and let $\Sigma$ be an upper bound for $\sum_m\mu^2(m)\varphi(m)^{-1}\beta(m)^2$.
 Then, for every $\epsilon > 0$,
 \[
-S_t' \leq S_t := \Big(\frac\epsilon e\Big)^\epsilon X^\epsilon\Big(\frac1\epsilon + 1\Big)\Big(\frac\eta\Delta\Big)^2\Sigma + \bar\Phi(\ell_U/\eta)^2,
+\widetilde S^\sharp \leq S^\sharp := \Big(\frac\epsilon e\Big)^\epsilon X^\epsilon\Big(\frac1\epsilon + 1\Big)\Big(\frac\varsigma\Delta\Big)^2\Sigma + \bar\Phi(\ell_U/\varsigma)^2,
 \]
 and an admissible value of $\Sigma$ is
 \[
-\Sigma = \beta_0^2\Big(\log10^6 + 1.3326 + \frac4{1000}\Big) + \sum_j\beta_j^2\Big(\delta_u + 8e^{-u_j/2}\Big) + \frac{36(\eta + 2)^2e^{-y_0^2}}{2\pi}\Big(1 + \frac{\eta}{2y_0}\Big),
+\Sigma = \beta_0^2\Big(\log10^6 + 1.3326 + \frac4{1000}\Big) + \sum_j\beta_j^2\Big(\delta_u + 8e^{-u_j/2}\Big) + \frac{36(\varsigma + 2)^2e^{-y_0^2}}{2\pi}\Big(1 + \frac{\varsigma}{2y_0}\Big),
 \]
-where $\beta_0 = \eta + 0.8e^{\eta^2/2}(e^{-(\ell_U - \log10^6)} + e^{-(\ell_V - \log10^6)})$, the $u_j = \log10^6 + j\delta_u$ with $\delta_u = 0.02$ run over $[\log10^6, \ell_V + 60\eta)$, $\beta_j$ is the upper bound for $\beta(m)$ on $\log m \in [u_j, u_j + \delta_u]$ given by Lemma~\ref{lem:A-bsum} (using the monotonicity of the bounds in $A$), and $y_0 = 60$.
+where $\beta_0 = \varsigma + 0.8e^{\varsigma^2/2}(e^{-(\ell_U - \log10^6)} + e^{-(\ell_V - \log10^6)})$, the $u_j = \log10^6 + j\delta_u$ with $\delta_u = 0.02$ run over $[\log10^6, \ell_V + 60\varsigma)$, $\beta_j$ is the upper bound for $\beta(m)$ on $\log m \in [u_j, u_j + \delta_u]$ given by Lemma~\ref{lem:A-bsum} (using the monotonicity of the bounds in $A$), and $y_0 = 60$.
 \end{lemma}
 
 \begin{proof}
-As a function of $y = \log d$, $\rho$ is piecewise linear with a change of slope of $-1/\Delta$ at $\ell_U$ and of $+1/\Delta$ at $\ell_V$.
-Since $\mathbb E[(y - \eta Z)^+] - y^+ = \eta\varpi(y/\eta)$, this gives the bound for $\rho_t$.
+As a function of $y = \log d$, $\chi$ is piecewise linear with a change of slope of $-1/\Delta$ at $\ell_U$ and of $+1/\Delta$ at $\ell_V$.
+Since $\mathbb E[(y - \varsigma Z)^+] - y^+ = \varsigma\varpi(y/\varsigma)$, this gives the bound for $\chi^\sharp$.
 Next, $e^{-y} \leq (\epsilon/e)^\epsilon y^{-\epsilon}$ for $y > 0$, and for any $f$,
 \[
 \sum_n\frac1{n^{1+\epsilon}}\Big(\sum_{d\mid n}\mu(d)f(d)\Big)^2 = \zeta(1 + \epsilon)\sum_m\frac{\mu^2(m)}{m^{1+\epsilon}}\prod_{p\mid m}\Big(1 - \frac1{p^{1+\epsilon}}\Big)\Big(\sum_r\frac{\mu(r)f(mr)}{r^{1+\epsilon}}\Big)^2,
 \]
 which follows from $\gcd(d_1, d_2)^{1+\epsilon} = \sum_{m\mid\gcd(d_1,d_2)}m^{1+\epsilon}\prod_{p\mid m}(1 - p^{-1-\epsilon})$.
-Since $p^{-1-\epsilon}(1 - p^{-1-\epsilon}) \leq 1/(p - 1)$ and $\zeta(1 + \epsilon) \leq 1/\epsilon + 1$, and $\sum_r|\rho_t(mr)|/r \leq \frac\eta\Delta\beta(m)$, we obtain the bound for $S_t'$; the term $\bar\Phi(\ell_U/\eta)^2$ is not needed but is kept, as in the computation.
+Since $p^{-1-\epsilon}(1 - p^{-1-\epsilon}) \leq 1/(p - 1)$ and $\zeta(1 + \epsilon) \leq 1/\epsilon + 1$, and $\sum_r|\chi^\sharp(mr)|/r \leq \frac\varsigma\Delta\beta(m)$, we obtain the bound for $\widetilde S^\sharp$; the term $\bar\Phi(\ell_U/\varsigma)^2$ is not needed but is kept, as in the computation.
 For $\Sigma$ we split the sum over $m$.
 For $m \leq 10^6$ we have $\ell_K - \log m \geq 26$ for $K \in \{U, V\}$, so $\beta(m) \leq \beta_0$ by Lemma~\ref{lem:A-bsum}, and $\sum_{m\leq y}\mu^2(m)/\varphi(m) = \log y + c_0 + O^*(4/\sqrt y)$ with $c_0 = 1.33258\ldots < 1.3326$ \cite{RamareAkhilesh}.
 For $\log m \in [u_j, u_j + \delta_u]$ the same estimate shows that the total mass of $\mu^2(m)/\varphi(m)$ is at most $\delta_u + 8e^{-u_j/2}$.
-For $\log m \geq \ell_V + 60\eta$ both arguments of $b$ are at most $-60\eta$, so $\beta(m) \leq 2(\eta + 2)\phi((\log m - \ell_V)/\eta)$, and the mass on intervals of length $1$ is at most $9$; comparing the sum over such intervals with an integral of the decreasing majorant gives the last term.
+For $\log m \geq \ell_V + 60\varsigma$ both arguments of $b$ are at most $-60\varsigma$, so $\beta(m) \leq 2(\varsigma + 2)\phi((\log m - \ell_V)/\varsigma)$, and the mass on intervals of length $1$ is at most $9$; comparing the sum over such intervals with an integral of the decreasing majorant gives the last term.
 \end{proof}
 
 \subsection{Proof of Theorem~\ref{thm:G}}
 
-By \eqref{eq:mink}, Proposition~\ref{prop:A-main} and Lemma~\ref{lem:A-St}, the sum in Theorem~\ref{thm:G} is at most $S_s + 2\sqrt{S_sS_t} + S_t$ with $S_s \leq e^{-1/X} + D_4 + \mathrm{REM}$.
+By \eqref{eq:mink}, Proposition~\ref{prop:A-main} and Lemma~\ref{lem:A-St}, the sum in Theorem~\ref{thm:G} is at most $S^\flat + 2\sqrt{S^\flat S^\sharp} + S^\sharp$ with $S^\flat \leq e^{-1/X} + D_4 + \mathrm{REM}$.
 It remains to bound $k_1 = H_c(0)$ and $k_0 = H_c'(0) + \gamma_EH_c(0)$.
-At $w = 0$ the integrand of $H_c$ is $g(s) = \mathcal A(0; -s, s)e^{\eta^2s^2}/(\zeta(1 - s)\zeta(1 + s)s^4)$, and differentiation with respect to $w$ multiplies it by $D(s) = \frac{\partial}{\partial w}\log\mathcal A + \eta^2s - \frac{\zeta'}{\zeta}(1 + s) - \frac2s$.
+At $w = 0$ the integrand of $H_c$ is $g(s) = \mathcal A(0; -s, s)e^{\varsigma^2s^2}/(\zeta(1 - s)\zeta(1 + s)s^4)$, and differentiation with respect to $w$ multiplies it by $D(s) = \frac{\partial}{\partial w}\log\mathcal A + \varsigma^2s - \frac{\zeta'}{\zeta}(1 + s) - \frac2s$.
 On the segment $\Rp s = \kappa_1$, $|\Ip s| \leq 150$, we compute $\frac1{2\pi i}\int g$ and $\frac1{2\pi i}\int gD$ by rigorous numerical integration, with the Euler product truncated at $p \leq 2000$.
 The error from the truncation is at most $(e^\tau - 1)\int|g|$, with $\tau$ obtained from $|\mathcal A_p - 1| \leq 5.2p^{-m}$ ($m = 2 - \kappa_1$) and the bound $\pi(t) \leq 1.26t/\log t$ of Rosser and Schoenfeld \cite{RS62}, and similarly for $D$; here $\int|g| \leq (\pi\int|g|^2(1 + t^2)\,dt)^{1/2}$ by the Cauchy--Schwarz inequality.
 On the parts $150 < |\Ip s| \leq T_2$ and on the two horizontal pieces of $\mathcal P$ we bound $|g|$ and $|gD|$ in ball arithmetic on pieces of length $0.02$, using the truncated product and the tail bounds $|\mathcal A/\mathcal A_P - 1| \leq e^{\tau'} - 1$ with $\tau' = 4.4P^{1-m'}/(m' - 1)$ and $m' = 1.62$.
